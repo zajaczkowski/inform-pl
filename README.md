@@ -22,7 +22,7 @@ Kompilacja przykładowej gry (wersja Windows)
 - Przykład będzie dotyczyć kompilacji gry, której plik źródłowy znajduje się w katalogu *Games*. Tutaj konkretnie będzie to *alice.inf*.
 - Uruchom wiersz polecenia i przejdź do katalogu głównego *Inform*, a następnie wpisz następujące polecenie:
 
-**inform-631.exe -s +include_path=".\Lib\Base,.\Games" ".\Games\Ruins_PL.inf"**
+**inform-631.exe -s +include_path=".\Lib\Base,.\Games" ".\Games\alice.inf"**
 
 - Parametr **s** powoduje wyświetlenie podsumowania po zakończeniu kompilacji. **include_path** mówi kompilatorowi gdzie powinien szukać plików biblioteki.
 
@@ -31,5 +31,5 @@ Kompilacja przykładowej gry (wersja Windows)
 Uruchomienie skompilowanej gry
 ==============================
 
-- Skompilowana według powyższych wskazówek gra znajduje się w katalogu głównym *Inform*. Plik w tym konkretnym przypadku nosi nazwę: *Ruins_PL.z5* i można go uruchomić za pomocą odpowiedniego tzw. interpretera.
+- Skompilowana według powyższych wskazówek gra znajduje się w katalogu głównym *Inform*. Plik w tym konkretnym przypadku nosi nazwę: *alice.z5* i można go uruchomić za pomocą odpowiedniego tzw. interpretera.
 - Najlepszym interpreterem dla Windows jest obecnie Frotz http://mirror.ifarchive.org/if-archive/infocom/interpreters/frotz/WindowsFrotzInstaller.exe.

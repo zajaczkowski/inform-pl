@@ -6,7 +6,7 @@
 ! Version 3
 
 Constant Story "NA DRUG¡ STRONÊ LUSTRA";
-Constant Headline "^Interaktywny przyk³ad^Opracowa³: Gareth Rees. Polska edycja: Bartosz Zaj±czkowski.^";
+Constant Headline "^Interaktywny przyk³ad^Opracowa³: Gareth Rees. Dostosowanie do polskiej wersji jêzykowej: Bartosz Zaj±czkowski.^";
 Constant DEBUG;
 
 Serial "141115";
@@ -33,8 +33,7 @@ Include "grammar";
     StartDaemon(white_kitten);
     StartDaemon(black_kitten);
     print "^^^^^Na zewn±trz panuje sroga zima, ale w domu po drugiej stronie lustra
-        jest lato. Wszystko co musisz zrobiæ, to znale¼æ jaki¶ sposób przedostania siê 
-        na drug± stronê...^^";
+        jest lato. Musisz tylko wymy¶liæ w jaki sposób dostaæ siê na drug± stronê...^^";
 ];
 
 
@@ -83,18 +82,18 @@ Verb 'poglaszcz' = 'potrzyj';
 Object Drawing_Room "Salon"
  has    light
 
- with   name 'snieg',
+ with   name     'snieg',
         name_dop 'sniegu',
-        name_cel'sniegowi',
+        name_cel 'sniegowi',
         name_bie 'snieg',
         name_nar 'sniegiem',
         name_mie 'sniegu',
 
         description 
             "Delikatne uderzenia ¶niegu o szybê przypominaj±, ¿e na dworze jest 
-            bardzo zimno i jak bardzo cieszy ciê fakt przebywania w przytulnym pokoju,
-            z kominkiem daj±cym przyjemne ciep³o, miêciutkim dywanikiem oraz fotelem, na którym 
-            nic tylko zwin±æ siê w k³êbek i zasn±æ. Ca³e pomieszczenie odbija siê w ogromnym 
+            bardzo zimno. Tym bardziej cieszysz siê przebywaj±c w tym przytulnym pokoju,
+            z kominkiem daj±cym przyjemne ciep³o, miêkkim dywanem oraz wygodnym fotelem, na którym 
+            a¿ chcia³oby siê skuliæ i zasn±æ. Ca³e pomieszczenie odbija siê w ogromnym 
             zwierciadle zawieszonym nad szerok± pó³k± ponad kominkiem.",
 
         before [;
@@ -105,17 +104,17 @@ Object Drawing_Room "Salon"
             Examine,Enter,ThrowAt,ThrownAt,Reflect: ;
             default:
                 if (inp1 ~= 1 && noun ~= 0 && Inside(noun,mantelpiece) == 0)
-                    "Nie jeste¶ w stanie dosiêgn±æ ", (dop) noun, " z tego miejsca.";
+                    "Nie mo¿esz dosiêgn±æ ", (dop) noun, " z tego miejsca.";
                 if (inp2 ~= 1 && second ~= 0 && Inside(second,mantelpiece) == 0)
-                    "Nie jeste¶ w stanie dosiêgn±æ  ", (dop) second, "z tego miejsca.";
+                    "Nie mo¿esz dosiêgn±æ  ", (dop) second, " z tego miejsca.";
         ];
 
 Object  red_queen "czerwona królowa"
  has    female
 
- with   name 'czerwona' 'krolowa',
+ with   name     'czerwona' 'krolowa',
         name_dop 'czerwonej' 'krolowej',
-        name_cel'czerwonej' 'krolowej',
+        name_cel 'czerwonej' 'krolowej',
         name_bie 'czerwona' 'krolowa',
         name_nar 'czerwona' 'krolowa',
         name_mie 'czerwonej' 'krolowej',
@@ -132,7 +131,7 @@ Object  red_queen "czerwona królowa"
                 rtrue;
         ],
         
-        description "Niedu¿a, acz gro¼nie wygl±daj±ca figura szachowa.",
+        description "Niedu¿a, acz gro¼na figura szachowa.",
         
         after [;
             Take:
@@ -148,9 +147,9 @@ Object  red_queen "czerwona królowa"
 Object  chess_board "szachownica" Drawing_Room
  has    supporter female
 
- with   name 'szachy' 'plansza' 'szachownica',
+ with   name     'szachy' 'plansza' 'szachownica',
         name_dop 'szachow' 'planszy' 'szachownicy',
-        name_cel'szachom' 'planszy' 'szachownicy',
+        name_cel 'szachom' 'planszy' 'szachownicy',
         name_bie 'szachy' 'plansze' 'szachownice',
         name_nar 'szachami' 'plansza' 'szachownica',
         name_mie 'szachach' 'planszy' 'szachownicy',
@@ -163,16 +162,16 @@ Object  chess_board "szachownica" Drawing_Room
         
         initial "Na pod³odze le¿y porzucona szachownica.",
         
-        description "Zosta³a tu po niedawno zakoñczonej grze, ale  
-            wszystkie figury siê pogubi³y. Kociaki chcia³y, aby siê nimi trochê pobawiæ.";
+        description "Szachownica zosta³a tu po niedawno zakoñczonej grze. Niestety, wszystkie   
+            figury siê pogubi³y. Kociaki chcia³y siê nimi trochê pobawiæ.";
 
 
 Object  hearth "kominek" Drawing_Room
  has    scenery
 
- with   name 'kominek' 'ogien',
+ with   name     'kominek' 'ogien',
         name_dop 'kominka' 'ognia',
-        name_cel'kominkowi' 'ogniowi',
+        name_cel 'kominkowi' 'ogniowi',
         name_bie 'kominek' 'ogien',
         name_nar 'kominkiem' 'ogniem',
         name_mie 'kominku' 'ogniu',
@@ -188,35 +187,37 @@ Object  rug "dywan" Drawing_Room
  has    concealed static supporter enterable
         ! z ustawionym atrybutem general kiedy gracz znajdzie pod nim figurê królowej
 
- with   name 'dywan' 'dywanik' 'indyjski' 'arabski' 'miekki' 'wspanialy',
+ with   name     'dywan' 'dywanik' 'indyjski' 'arabski' 'miekki' 'wspanialy',
         name_dop 'dywanu' 'dywanika' 'indyjskiego' 'arabskiego' 'miekkiego' 'wspanialego',
-        name_cel'dywanowi' 'dywanikowi' 'indyjskiemu' 'arabskiemu' 'miekkiemu' 'wspanialemu',
+        name_cel 'dywanowi' 'dywanikowi' 'indyjskiemu' 'arabskiemu' 'miekkiemu' 'wspanialemu',
         name_bie 'dywan' 'dywanik' 'indyjski' 'arabski' 'miekki' 'wspanialy',
         name_nar 'dywanem' 'dywanikiem' 'indyjskim' 'arabskim' 'miekkim' 'wspanialym',
         name_mie 'dywanie' 'dywaniku' 'indyjskim' 'arabskim' 'miekkim' 'wspanialym',
 
-        desc_dop "dywanika",
-        desc_cel "dywanikowi",
-        desc_bie "dywanik",
-        desc_nar "dywanikiem",
-        desc_mie "dywaniku",
+        desc_dop "dywanu",
+        desc_cel "dywanowi",
+        desc_bie "dywan",
+        desc_nar "dywanem",
+        desc_mie "dywanie",
         
-        description "Wspania³y miêciutki dywan. Przywieziony z jakiego¶ dalekiego 
-            kraju, mo¿e Indii lub Arabii, gdziekolwiek to jest.",
+        description "Wspania³y miêkki dywan przywieziony z jakiego¶ odleg³ego 
+            kraju. Mo¿e z Indii lub Arabii, gdziekolwiek by to nie by³o.",
         
         before [;
-            Take: "Jest o wiele za du¿y i zdecydowanie za ciê¿ki, aby mog³a go podnie¶æ ma³a dziewczynka. Mo¿esz co najwy¿ej pod niego zajrzeæ.";
-            Push,Pull: "Dywanik pod kominek, powinien znajdowaæ siê przy kominku.";
+            Take: "Jest zdecydowanie za ciê¿ki i o wiele za du¿y, aby mog³a go unie¶æ ma³a dziewczynka. 
+                Mo¿esz co najwy¿ej pod niego zajrzeæ.";
+            Push,Pull: 
+                "Miejsce dywanu jest przy kominku.";
             LookUnder:
                 if (player in mantelpiece || player in armchair)
-                    "Z miejsca w którym jeste¶ nie dasz rady dosiêgn±æ dywanu.";
+                    "Nie dosiêgniesz dywanu z miejsca, w którym siê znajdujesz.";
                 if (player in self)
                     "Próbujesz podnie¶æ róg dywanu, ale Ci siê nie udaje. Dopiero po chwili
                     orientujesz siê, ¿e to dlatego, ¿e na nim stoisz! No co¶ takiego!";
                 if (self hasnt general) {
                     give self general;
                     move red_queen to player;
-                    "Zagl±dasz pod spód unosz±c naro¿nik dywanu i odkrywaj±c zagubion± figurê szachow±. Bierzesz czerwon± królow±.";
+                    "Zagl±dasz pod dywan unosz±c naro¿nik i odkrywasz zagubion± figurê szachow±. Bierzesz czerwon± królow±.";
                 }  
         ];
 
@@ -238,10 +239,10 @@ Object  armchair "fotel" Drawing_Room
         desc_mie "fotelu",
 
         description [;
-            print "Wielki fotel, stanowi±cy doskona³e miejsce dla kotka lub ma³ej 
-                dziewczynki, aby zwin±æ siê w k³êbek i zdrzemn±æ. Stoi przysuniêty do ";
-            if (self has general) "kominka.";
-            "okna.";
+            print "Wielki fotel. Wymarzone miejsce na drzemkê dla kotka lub ma³ej 
+                dziewczynki. Stoi przy ";
+            if (self has general) "kominku.";
+            "oknie.";
         ],
 
         before [ i;
@@ -253,12 +254,12 @@ Object  armchair "fotel" Drawing_Room
                 if (white_kitten.state == CHAIR_STATE) i = white_kitten;
                 else if (black_kitten.state == CHAIR_STATE) i = black_kitten;
                 if (i ~= 0)
-                    "Ju¿ ju¿ mia³a¶ przesuwaæ fotel, kiedy zauwa¿y³a¶, ¿e
+                    "Ju¿ ju¿ mia³a¶ przesuwaæ fotel kiedy zauwa¿y³a¶, ¿e
                     na jego drodze znajduje siê ", (name) i, ". Ca³e szczê¶cie,
-                    bo mog³aby¶ niechc±cy przygnie¶æ to biedne zwierz±tko.";
+                    bo mog³aby¶ niechc±cy skrzywdziæ to niewinne zwierz±tko.";
                 if (self has general) {
                     give self ~general;
-                    "Odsuwasz fotel od kominka.";
+                    "Odsuwasz fotel dalej od kominka.";
                 }
                 give self general;
                 "Przysuwasz fotel bli¿ej kominka.";
@@ -369,15 +370,15 @@ Object  worsted "k³êbek w³óczki" Drawing_Room
 
         description [;
             if (self has general)
-                "Co za okropny ko³tun. Pomy¶leæ ile czasu zajê³o Ci nawijanie w³óczki, 
-                a teraz wszystko posz³o na marne!";
-            "Starannie zawiniêty k³êbek b³êkitnej w³óczki.";
+                "Co za okropny ko³tun! Pomy¶leæ tylko ile czasu zajê³o Ci zwijanie w³óczki. 
+                Wszystko posz³o na marne!";
+            "Starannie zwiniêty k³êbek b³êkitnej w³óczki.";
         ],
 
         before [;
             Untangle: 
                 give self ~general;
-                "Tak szybko, ¿e szybciej siê chyba nie da, nawijasz na nowo k³êbek b³êkitnej w³óczki.";
+                "Tak szybko, ¿e szybciej siê chyba nie da, zwijasz na nowo k³êbek b³êkitnej w³óczki.";
         ],
 
         after [;
@@ -439,19 +440,44 @@ Class   Kitten
             do {
                 ok = 0;
                 w = NextWord();
-                if (w == 'kotki' or 'koty' or 'kociaki') {
+
+                ! procedura parse_name musi sprawdziæ ca³± deklinacjê 
+                if (
+                    ! wszystkie potencjalne formy liczby mnogiej...
+                    w == 'kotki' or 'koty' or 'kociaki'         ! mianownik
+                        or 'kotków' or 'kotów' or 'kociaków'    ! dope³niacz
+                        or 'kotkom' or 'kotom' or 'kociakom'    ! celownik
+                        or 'kotki' or 'koty' or 'kociaki'       ! biernik
+                        or 'kotkami' or 'kotami' or 'kociakami' ! narzêdnik
+                        or 'kotkach' or 'kotach' or 'kociakach' ! miejscownik
+                ) {
                     ok = 1; n++; parser_action=##PluralFound;
                 }
-                if (w == 'kotek' or 'kot' or 'kociak' ||
-                    w == ((self.&name)-->0)) {
+
+                if (
+                    ! wszystkie potencjalne formy liczby pojedynczej...
+                    w == 'kotek' or 'kot' or 'kociak'           ! mianownik
+                        or 'kotka' or 'kota' or 'kociaka'       ! dope³niacz
+                        or 'kotkowi' or 'kotu' or 'kociakowi'   ! celownik
+                        or 'kotka' or 'kota' or 'kociaka'       ! biernik
+                        or 'kotkiem' or 'kotem' or 'kociakiem'  ! narzêdnik
+                        or 'kotku' or 'kocie' or 'kociaku'      ! miejscownik
+                    
+                    ! ...oraz dodatkowo sprawdzenie deklinacji nazw dla ka¿dego obiektu nale¿±cego
+                    ! do zdefiniowanej tutaj klasy.
+                    || w == ((self.&name)-->0)
+                    || w == ((self.&name_dop)-->0)
+                    || w == ((self.&name_cel)-->0)
+                    || w == ((self.&name_bie)-->0)
+                    || w == ((self.&name_nar)-->0)
+                    || w == ((self.&name_mie)-->0)
+
+                    ) {
                     ok = 1; n++;
                 }
             } until (ok == 0);
             return n;
         ],
-        name_cel 'kotkowi' 'kociakowi' 'kotu',
-        name_bie 'kotka' 'kociaka' 'kota',
-        plural_cel 'kotkom' 'kociakom' 'kotom',
 
 
         state CHAIR_STATE,
@@ -461,7 +487,7 @@ Class   Kitten
                 QUEEN_STATE:
                     print (Cname) self, " bawi siê czerwon± królow±.";
                 WOOL_STATE:
-                    print (Cname) self, " bawi siê k³êbkiem we³ny.";
+                    print (Cname) self, " bawi siê k³êbkiem w³óczki.";
                 CHAIR_STATE:
                     if (self has general) rtrue;
                     if ((self.other_kitten).state == 3) {
@@ -475,8 +501,7 @@ Class   Kitten
         ],
 
         description [;
-            print_ret(Cname) self, " jest taki milutki! Nic dziwnego, ¿e jest twoim ulubieñcem.
-            Poza tym jest o wiele ³adniejszy od tego niegrzecznego ",
+            print_ret(Cname) self, " jest twoim ulubieñcem! Jest taki milutki i o wiele ³adniejszy od tego niegrzecznego ",
             (dop) self.other_kitten, ".";
         ],
 
@@ -499,11 +524,11 @@ Class   Kitten
                     else print (Cname) self;
                     " przygl±da siê siê ", (cel) noun, " nie rozumiej±c o co chodzi.";
                 }
-                print "Rzucasz ", (name) noun, " na pod³ogê. ", (Cname) self, " natychmiast";
-                if (self in player) print " wyrywa Ci siê z r±k i";
+                print "Rzucasz ", (name) noun, " na pod³ogê, a ", (name) self, " natychmiast";
+                if (self in player) print " wyrywa ci siê z r±k i";
                 move noun to Drawing_Room;
                 move self to Drawing_Room;
-                print " rusza w po¶cig";
+                print " rusza za nim w po¶cig";
             
                 if (noun == worsted) {
                     give worsted general;
@@ -546,19 +571,19 @@ Class   Kitten
                     switch(random(5)) {
                         1: " miauczy ¿a³o¶nie.";
                         2: " cicho mruczy.";
-                        3: " mruczy z zadowoleniem.";
-                        4: " ociera siê o Ciebie.";
+                        3: " pomrukuje z zadowoleniem.";
+                        4: " ociera siê o ciebie.";
                         5: move self to Drawing_Room;
                         self.state = CHAIR_STATE;
-                        " wyrywa siê z Twoich r±k i ucieka.";
+                        " wyrywa ci siê z r±k i ucieka.";
                         }
                 QUEEN_STATE:
                     switch (random(5)) {
-                        1: " drapie czerwon± królow± ostrym pazurkiem.";
+                        1: " zaczepia czerwon± królow± ostrym pazurkiem.";
                         2: " przestaje siê bawiæ i przysiada grzecznie udaj±c niewinne koci±tko bez jakichkolwiek
                             niecnych zamiarów.";
                         3: " wyrzuca czerwon± królow± daleko od siebie i zaczyna j± goniæ.";
-                        4: " zatrzymuje siê i czy¶ci futerko.";
+                        4: " zatrzymuje siê nagle i zaczyna czy¶ciæ futerko.";
                         5: " atakuje czerwon± królow± ostrymi z±bkami i potrz±saj±c na lewo i
                             prawo sprawdza czy na pewno jest martwa.";
                         }
@@ -568,15 +593,15 @@ Class   Kitten
                             1: " drapie k³êbek w³óczki swoimi ostrymi pazurkami.";
                             2: " turla k³êbek w³óczki po pod³odze i próbuje go dogoniæ.";
                             3: " dzielnie mocuje siê z k³êbkiem w³óczki.";
-                            4: " wskakuje na k³êbek w³óczki i natychmiast zapl±tuje siê w g±szczu nici.";
-                            5: " przerywa na chwilê zabawê i drapie siê za uchem.";
+                            4: " wskakuje na k³êbek w³óczki i od razu zapl±tuje siê w g±szczu nici.";
+                            5: " przerywa na chwilê zabawê k³êbkiem, aby podrapaæ siê za uchem.";
                         }
                 CHAIR_STATE:
                     if ((self.other_kitten).state == CHAIR_STATE && random(2) == 1) {
                         i = random(5);
                         switch (i) {    
                             1: print " z zapa³em goni ";
-                            2: print " wskakuje na ";
+                            2: print " rzuca siê na ";
                             3: print " czy¶ci ";
                             4: print " ¶ciga ";
                             5: print " drapie ";
@@ -584,29 +609,29 @@ Class   Kitten
                         print (dop) self.other_kitten;
                         switch (i) {
                             1,3: ".";
-                            2: " i razem turlaj± siê po pod³odze.";
+                            2: " i razem weso³o turlaj± siê po pod³odze.";
                             4: " wokó³ fotela.";
-                            5: " swoimi ostrymi pazurkami.";
+                            5: " ostrymi pazurkami.";
                         }
                     }
                 switch (random(5)) {
-                    1: " usi³uje z³apaæ drobinkê kurzu.";
+                    1: " usi³uje schwytaæ drobinkê kurzu.";
                     2: " turla siê po pod³odze.";
                     3: " przysiada i czy¶ci swój ogonek.";
-                    4: " ociera siê o fotel pomrukuj±c.";
-                    5: " krêci siê w kó³ko próbuj± z³apaæ swój ogonek.";
+                    4: " ociera siê o fotel pomrukuj±c z zadowoleniem.";
+                    5: " biega w kó³ko próbuj± z³apaæ swój ogonek.";
                 }
             }
         ];
 
 Kitten  white_kitten "bia³y kotek" Drawing_Room
 
- with   name 'bialy' 'kociak' 'kotek' 'kot',
-        name_dop 'bialego' 'kociaka' 'kotka' 'kota',
-        name_cel'bialemu' 'kociakowi' 'kotkowi' 'kotu',
-        name_bie 'bialego' 'kociaka' 'kotka' 'kota',
-        name_nar 'bialym' 'kociakiem' 'kotkiem' 'kotem',
-        name_mie 'bialym' 'kociaku' 'kotku' 'kocie',
+ with   name     'bialy',
+        name_dop 'bialego',
+        name_cel 'bialemu',
+        name_bie 'bialego',
+        name_nar 'bialym',
+        name_mie 'bialym',
 
         desc_dop "bia³ego kotka",
         desc_cel "bia³emu kotkowi",
@@ -619,12 +644,12 @@ Kitten  white_kitten "bia³y kotek" Drawing_Room
 
 Kitten  black_kitten "czarny kotek" Drawing_Room
 
- with   name 'czarny' 'kociak' 'kotek' 'kot',
-        name_dop 'czarnego' 'kociaka' 'kotka' 'kota',
-        name_cel'czarnemu' 'kociakowi' 'kotkowi' 'kotu',
-        name_bie 'czarnego' 'kociaka' 'kotka' 'kota',
-        name_nar 'czarnym' 'kociakiem' 'kotkiem' 'kotem',
-        name_mie 'czarnym' 'kociaku' 'kotku' 'kocie',
+ with   name     'czarny',
+        name_dop 'czarnego',
+        name_cel 'czarnemu',
+        name_bie 'czarnego',
+        name_nar 'czarnym',
+        name_mie 'czarnym',
 
         desc_dop "czarnego kotka",
         desc_cel "czarnemu kotkowi",

@@ -5,6 +5,8 @@ Polska wersja biblioteki **Inform 6** do pisania przygodowych gier tekstowych na
 
 Poniżej znajduje się opisana krok po kroku procedura instalacji kompilatora i biblioteki, a także kompilacji przykładowej gry.
 
+W przykładową skompilowaną grę można pograć tutaj: http://z-ski.pl/if/?story=alice.z5
+
 Instalacja kompilatora i biblioteki
 ===================================
 

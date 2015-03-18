@@ -46,16 +46,16 @@ Object Compass "kompas" has concealed;
 #Ifndef WITHOUT_DIRECTIONS;
 
 CompassDirection -> n_obj "pó³noc",
-                    with door_dir n_to, name 'pn//' 'pó³noc', has female;
+                    with door_dir n_to, name 'pn//' 'polnoc', has female;
                     
 CompassDirection -> s_obj "po³udnie"
-                    with door_dir s_to, name 'pd//' 'po³udnie', has neuter;
+                    with door_dir s_to, name 'pd//' 'poludnie', has neuter;
                     
 CompassDirection -> e_obj "wschód"
-                    with door_dir e_to, name 'w//' 'wschód';
+                    with door_dir e_to, name 'w//' 'wschod';
                     
 CompassDirection -> w_obj "zachód"
-                    with door_dir w_to, name 'z//' 'zachód';
+                    with door_dir w_to, name 'z//' 'zachod';
                     
 CompassDirection -> ne_obj "pó³nocny-wschód"
                     with door_dir ne_to, name 'pnw';
@@ -70,18 +70,19 @@ CompassDirection -> sw_obj "po³udniowy-zachód"
                     with door_dir sw_to, name 'pdz';
 
 CompassDirection -> u_obj "góra"
-                    with door_dir u_to, name 'g//' 'góra' 'sufit' 'niebo';
+                    with door_dir u_to, name 'g//' 'gora' 'gore' 'sufit' 'niebo';
 
 CompassDirection -> d_obj "dó³"
-                    with door_dir d_to, name 'd//' 'dó³' 'pod³oga' 'ziemia' 'spód';
+                    with door_dir d_to, name 'd//' 'dol' 'podloga' 'ziemia' 'spod';
 
 #endif; ! WITHOUT_DIRECTIONS
 
 CompassDirection -> in_obj "¶rodek"
                     with door_dir in_to, 
-                    name '¶rodek' 'wnêtrze' '¶rodka' 'wnêtrza';
+                    name 'srodek' 'wnetrze' 'srodka' 'wnetrza';
+
 CompassDirection -> out_obj "zewn±trz"
-                    with door_dir out_to, name 'zewn±trz';
+                    with door_dir out_to, name 'zewnatrz';
 
 
 
@@ -257,6 +258,7 @@ Array LanguageNumbers table
   
     if (word == 'pó³nocny-zachód' && buffer->(at+8) =='-' && buffer->(at+9) == 'z')
       { 
+
       for (y=at:y<at+15:y++) {buffer->(y) = ' ';};
   
       buffer->(at+0) = 'p';
@@ -391,7 +393,7 @@ Array LanguageNumbers table
     if (obj.desc_nar) PrintOrRun(obj, desc_nar, 1); else print (name) obj;
 ];
 
-[ msc obj;
+[ mie obj;
     if (obj.desc_mie) PrintOrRun(obj, desc_mie, 1); else print (name) obj;
 ];
 
@@ -1375,7 +1377,7 @@ Array name_buffer->64;
         5: "[Command replay complete.]";
         #Endif; ! TARGET_
     }
-  Consult:  "Nie znajdujesz w ", (msc) x1, " niczego interesuj±cego.";
+  Consult:  "Nie znajdujesz w ", (mie) x1, " niczego interesuj±cego.";
   Cut:      "Przeciêcie ", (dop) x1, " do niczego nie doprowadzi.";
   Dig:      "Kopaniem nic tu nie osi±gniesz.";
   Disrobe: switch (n) {
@@ -1404,7 +1406,7 @@ Array name_buffer->64;
   Enter: switch (n) {
         1:  print "Przecie¿ jeste¶ ju¿ ";
             if (x1 has supporter) print "na "; else print "w ";
-            print_ret (msc) x1, ".";
+            print_ret (mie) x1, ".";
         2:  if (x1 has pluralname) print "They're"; else print "That's";
             print " not something you can ";
             switch (verb_word) {
@@ -1427,7 +1429,7 @@ Array name_buffer->64;
     }
   Examine: switch (n) {
         1:  "Ciemno¶æ, rzeczownik. Oznacza brak ¶wiat³a...";
-        2:  "Nie widzisz w ", (msc) x1, " nic specjalnego.";
+        2:  "Nie widzisz w ", (mie) x1, " nic specjalnego.";
         3:  print "Obecnie ", (name) x1, " ", (JestLubSa) x1, " ";
             if (x1 has on) print (JestWlaczony) x1,"."; else print (JestWylaczony) x1, ".^";
     }
@@ -1438,7 +1440,7 @@ Array name_buffer->64;
             print_ret (dop) x1, ".";
         4:  print "Przecie¿ nie jeste¶ ";
             if (x1 has supporter) print "na "; else print "w ";
-            print_ret (msc) x1, ".";
+            print_ret (mie) x1, ".";
     }
   Fill:     "Ale tu nie ma wody do nape³nienia.";
   FullScore: switch (n) {
@@ -1449,7 +1451,7 @@ Array name_buffer->64;
         4:  print "     ³±cznie: ";
         5:  print " (z maksymalnie ", MAX_SCORE, (LiczPunkty) MAX_SCORE, ").";
     }
-  GetOff:   "Nie jeste¶ w tym/na ", (msc) x1, ".";
+  GetOff:   "Nie jeste¶ w tym/na ", (mie) x1, ".";
   Give: switch (n) {
         1:  "Nie posiadasz ", (dop) x1, ".";
         2:  "You juggle ", (the) x1, " for a while, but don't achieve much.";
@@ -1476,7 +1478,7 @@ Array name_buffer->64;
         4:  "Musisz najpierw ", (itorthem) x1, " zdj±æ.";
         5:  "Nie mo¿esz w³o¿yæ czego¶ do ¶rodka siebie samego.";
         6:  "(najpierw zdejmujesz ", (bie) x1, ")^";
-        7:  "W ", (msc) x1, " nie ma ju¿ miejsca.";
+        7:  "W ", (mie) x1, " nie ma ju¿ miejsca.";
         8:  "Zrobione.";
         9:  print "Wk³adasz ", (bie) x1, " do ", (dop) second, ".^";
     }
@@ -1530,20 +1532,20 @@ Array name_buffer->64;
         3:  "(zamykajac ", (bie) x1, ")";
         4:  print (Cname) x1, " nie "; if (x1 has pluralname) print "pasuj± "; else print "pasuje ";
             "do zamka.";
-        5:  "Zamykasz zamek w ", (msc) x1, " za pomoc± ", (dop) second, ".";
+        5:  "Zamykasz zamek w ", (mie) x1, " za pomoc± ", (dop) second, ".";
     }
   Look: switch (n) {
-        1:  print " (na ", (msc) x1, ")";
-        2:  print " (w ", (msc) x1, ")";
+        1:  print " (na ", (mie) x1, ")";
+        2:  print " (w ", (mie) x1, ")";
         3:  print " (jako ", (object) x1, ")";
-        4:  print "^Na ", (msc) x1;
+        4:  print "^Na ", (mie) x1;
             WriteListFrom(child(x1),
               ENGLISH_BIT+RECURSE_BIT+PARTINV_BIT+TERSE_BIT+CONCEAL_BIT+ISARE_BIT);
             ".";
         5,6:
             if (x1 ~= location) {
                 if (x1 has supporter) print "^Na "; else print "^W ";
-                print (msc) x1, " widzisz ";
+                print (mie) x1, " widzisz ";
             }
             else print "^Widzisz ";
             if (x1 == location) {print "tutaj ";};
@@ -1654,7 +1656,7 @@ Array name_buffer->64;
         6:  print "   (", (name) x1, ")";
         7:  print "   (", (the) x1, ")";
         8:  print "   (w ", (cel) x1, ")";
-        9:  print "   (na ", (msc) x1, ")";
+        9:  print "   (na ", (mie) x1, ")";
         10: print "   (", (JestZagubiony) x1,")";
     }
   Open: switch (n) {
@@ -1702,7 +1704,7 @@ Array name_buffer->64;
         5:  "(najpierw zdejmujesz ", (bie) x1, ")^";
         6:  "There is no more room on ", (the) x1, ".";
         7:  "Zrobione.";
-        8:  "Odk³adasz ", (bie) x1, " na ", (msc) second, ".";
+        8:  "Odk³adasz ", (bie) x1, " na ", (mie) second, ".";
     }
   Quit: switch (n) {
         1:  print "Odpowiedz ~tak~ lub ~nie~.";
@@ -1746,14 +1748,14 @@ Array name_buffer->64;
     }
   Search: switch (n) {
         1:  "Przecie¿ jest ciemno.";
-        2:  "Na ", (msc) x1, " nic nie ma.";
-        3:  print "Na ", (msc) x1;
+        2:  "Na ", (mie) x1, " nic nie ma.";
+        3:  print "Na ", (mie) x1;
             WriteListFrom(child(x1), ENGLISH_BIT+TERSE_BIT+CONCEAL_BIT+ISARE_BIT);
             ".";
         4:  "You find nothing of interest.";
         5:  "Nie mo¿esz zobaczyæ co jest w ¶rodku, poniewa¿ ", (name) x1, " ", (JestLubSa) x1, " ", (JestZamkniety) x1, ".";
         6:  print_ret "Stwierdzasz, ¿e ", (name) x1, " ", (JestPusty) x1, ".";
-        7:  print "W ", (msc) x1;
+        7:  print "W ", (mie) x1;
             WriteListFrom(child(x1), ENGLISH_BIT+TERSE_BIT+CONCEAL_BIT+ISARE_BIT);
             ".";
     }

@@ -6,7 +6,7 @@
 ! Version 3
 
 Constant Story "NA DRUG¡ STRONÊ LUSTRA";
-Constant Headline "^Interaktywny przyk³ad^Opracowa³: Gareth Rees. Dostosowanie do polskiej wersji jêzykowej: Bartosz Zaj±czkowski.^";
+Constant Headline "^Interaktywny samouczek^Opracowanie: Gareth Rees, Bartosz Zaj±czkowski.^";
 Constant DEBUG;
 
 Serial "141115";
@@ -33,7 +33,7 @@ Include "grammar";
     StartDaemon(white_kitten);
     StartDaemon(black_kitten);
     print "^^^^^Na zewn±trz panuje sroga zima, ale w domu po drugiej stronie lustra
-        jest lato. Musisz tylko wymy¶liæ w jaki sposób dostaæ siê na drug± stronê...^^";
+        jest pe³nia lata. Musisz tylko wymy¶liæ w jaki sposób przedostaæ siê na drug± stronê...^^";
 ];
 
 
@@ -51,7 +51,7 @@ Include "grammar";
     if (second ~= mirror) "Có¿ za dziwny pomys³!";
     if (noun == hearth or mirror || (player notin mantelpiece && 
         player notin armchair))
-        "Z miejsca w którym stoisz w ¿aden sposób nie uda Ci siê zobaczyæ odbicia ", (dop) noun ,".";
+        "Z miejsca w którym stoisz w ¿aden sposób nie uda ci siê zobaczyæ odbicia ", (dop) noun ,".";
     print "Lustrzane odbicie ";
     if (noun == player) print "Alicji";
     else print (dop) noun;
@@ -169,23 +169,30 @@ Object  chess_board "szachownica" Drawing_Room
 Object  hearth "kominek" Drawing_Room
  has    scenery
 
- with   name     'kominek' 'ogien',
-        name_dop 'kominka' 'ognia',
-        name_cel 'kominkowi' 'ogniowi',
-        name_bie 'kominek' 'ogien',
-        name_nar 'kominkiem' 'ogniem',
-        name_mie 'kominku' 'ogniu',
+ with   name     'kominek' 'ogien' 'plomien' 'plomienie',
+        name_dop 'kominka' 'ognia' 'plomienia' 'plomieni',
+        name_cel 'kominkowi' 'ogniowi' 'plomieniowi' 'plomieniom',
+        name_bie 'kominek' 'ogien' 'plomien' 'plomienie',
+        name_nar 'kominkiem' 'ogniem' 'plomieniem' 'plomieniami',
+        name_mie 'kominku' 'ogniu' 'plomieniu' 'plomieniach',
 
         desc_dop "kominka",
         desc_cel "kominkowi",
         desc_bie "kominek",
         desc_nar "kominkiem",
-        desc_mie "kominku";
+        desc_mie "kominku",
+
+        description "Przygl±daj±c siê p³omieniom zastanawiasz siê czy 
+            po drugiej stronie lustra te¿ p³onie ogieñ. W zwierciadle 
+            tego nie widaæ, ale gdy z kominka wydostanie siê przypadkiem 
+            k³±b dymu, to w domu po drugiej stronie lustra te¿ widaæ 
+            dym. Chyba, ¿e to dla niepoznaki. Tak aby zdawa³o siê, 
+            ¿e tam te¿ rozpalono ogieñ.";
 
 
 Object  rug "dywan" Drawing_Room
  has    concealed static supporter enterable
-        ! z ustawionym atrybutem general kiedy gracz znajdzie pod nim figurê królowej
+        ! z ustawionym atrybutem general gdy Alicja znajdzie ju¿pod nim figurê królowej
 
  with   name     'dywan' 'dywanik' 'indyjski' 'arabski' 'miekki' 'wspanialy',
         name_dop 'dywanu' 'dywanika' 'indyjskiego' 'arabskiego' 'miekkiego' 'wspanialego',
@@ -204,7 +211,7 @@ Object  rug "dywan" Drawing_Room
             kraju. Mo¿e z Indii lub Arabii, gdziekolwiek by to nie by³o.",
         
         before [;
-            Take: "Jest zdecydowanie za ciê¿ki i o wiele za du¿y, aby mog³a go unie¶æ ma³a dziewczynka. 
+            Take: "Jest za ciê¿ki i o wiele za du¿y, aby mog³a go unie¶æ ma³a dziewczynka. 
                 Mo¿esz co najwy¿ej pod niego zajrzeæ.";
             Push,Pull: 
                 "Miejsce dywanu jest przy kominku.";
@@ -212,7 +219,7 @@ Object  rug "dywan" Drawing_Room
                 if (player in mantelpiece || player in armchair)
                     "Nie dosiêgniesz dywanu z miejsca, w którym siê znajdujesz.";
                 if (player in self)
-                    "Próbujesz podnie¶æ róg dywanu, ale Ci siê nie udaje. Dopiero po chwili
+                    "Próbujesz podnie¶æ róg dywanu, ale ci siê to nie udaje. Dopiero po chwili
                     orientujesz siê, ¿e to dlatego, ¿e na nim stoisz! No co¶ takiego!";
                 if (self hasnt general) {
                     give self general;
@@ -224,6 +231,7 @@ Object  rug "dywan" Drawing_Room
 Object  armchair "fotel" Drawing_Room
  has    static concealed supporter enterable
         ! z ustawionym atrybutem general je¶li zosta³ przysuniety do kominka
+
 
  with   name 'fotel',
         name_dop 'fotela',
@@ -285,15 +293,15 @@ Object  mantelpiece "pó³ka nad kominkiem" Drawing_Room
         desc_nar "pó³k± nad kominkiem",
         desc_mie "pó³ce nad kominkiem",
         
-        description "Jest powieszona wysoko nad pod³og±, ale wygl±da na wystarczaj±co
-            szerok± i solidn±, aby utrzymaæ Twój ciê¿ar.",
+        description "Jest zawieszona wysoko nad pod³og±. Wygl±da na wystarczaj±co
+            szerok± i solidn±, aby utrzymaæ ciê¿ar ma³ej dziewczynki.",
         
         before [;
             Enter,Climb:
                 if (player notin armchair)
                     "Pó³ka nad kominkiem znajduje siê o wiele za wysoko aby ma³a dziewczynka mog³a siê na ni± po prostu wdrapaæ.";
                 if (armchair hasnt general)
-                    "Fotel stoi za daleko! St±d nie uda Ci siê dosiêgn±æ pó³ki.";
+                    "Fotel stoi za daleko! St±d nie uda ci siê dosiêgn±æ pó³ki.";
                 if (children(player) > 0)
                     "Do tego musisz mieæ wolne rêce.";
                 move player to mantelpiece;
@@ -350,7 +358,7 @@ Object  worsted "k³êbek w³óczki" Drawing_Room
 
  with   name 'klebek' 'wloczki' 'wloczka' 'welny' 'blekitny' 'blekitnej' 'koltun',
         name_dop 'klebka' 'wloczki' 'welny' 'blekitnego' 'blekitnej' 'koltuna',
-        name_cel'klebkowi' 'wloczki' 'wloczce' 'welny' 'blekitnemu' 'blekitnej' 'koltunowi',
+        name_cel 'klebkowi' 'wloczki' 'wloczce' 'welny' 'blekitnemu' 'blekitnej' 'koltunowi',
         name_bie 'klebek' 'wloczki' 'wloczke' 'welny' 'blekitny' 'blekitnej' 'koltun',
         name_nar 'klebkiem' 'wloczki' 'wloczka' 'welny' 'blekitnym' 'blekitnej' 'koltunem',
         name_mie 'klebku' 'wloczki' 'wloczce' 'welny' 'blekitnym' 'blekitnej' 'koltunie',
@@ -370,7 +378,7 @@ Object  worsted "k³êbek w³óczki" Drawing_Room
 
         description [;
             if (self has general)
-                "Co za okropny ko³tun! Pomy¶leæ tylko ile czasu zajê³o Ci zwijanie w³óczki. 
+                "Co za okropny ko³tun! Pomy¶leæ tylko ile czasu zajê³o ci zwijanie w³óczki. 
                 Wszystko posz³o na marne!";
             "Starannie zwiniêty k³êbek b³êkitnej w³óczki.";
         ],
@@ -485,9 +493,9 @@ Class   Kitten
         describe [ i;
             switch (self.state) {
                 QUEEN_STATE:
-                    print (Cname) self, " bawi siê czerwon± królow±.";
+                    "^", (Cname) self, " bawi siê czerwon± królow±.";
                 WOOL_STATE:
-                    print (Cname) self, " bawi siê k³êbkiem w³óczki.";
+                    "^", (Cname) self, " bawi siê k³êbkiem w³óczki.";
                 CHAIR_STATE:
                     if (self has general) rtrue;
                     if ((self.other_kitten).state == 3) {
@@ -495,7 +503,7 @@ Class   Kitten
                         give i general;
                         "^Dwa ma³e kotki, bia³y i czarny, bawi± siê ze sob± przy fotelu.";
                 }
-                print (Cname) self, " bawi siê przy fotelu.";
+                "^", (Cname) self, " bawi siê przy fotelu.";
              default: rtrue;
             }
         ],
@@ -507,7 +515,7 @@ Class   Kitten
 
         life [;
             Ask,Answer,Order:
-                print_ret (Cname) self, " porusza kilka razy w±sami i patrzy na Ciebie swoim 
+                print_ret (Cname) self, " porusza kilka razy w±sami i patrzy na ciebie swoim 
                     inteligentnym spojrzeniem. Nie masz najmniejszej w±tpliwo¶ci, ¿e 
                     rozumie ka¿de Twoje s³owo.";
             Kiss: 
@@ -524,16 +532,16 @@ Class   Kitten
                     else print (Cname) self;
                     " przygl±da siê siê ", (cel) noun, " nie rozumiej±c o co chodzi.";
                 }
-                print "Rzucasz ", (name) noun, " na pod³ogê, a ", (name) self, " natychmiast";
+                print "Gdy tylko wypuszczasz z d³oni ", (bie) noun, ", ", (name) self, " natychmiast";
                 if (self in player) print " wyrywa ci siê z r±k i";
                 move noun to Drawing_Room;
                 move self to Drawing_Room;
-                print " rusza za nim w po¶cig";
+                print " rusza za ", (NimLubNia) noun, " w po¶cig";
             
                 if (noun == worsted) {
                     give worsted general;
                     self.state = WOOL_STATE;
-                    print ". W mgnieniu oka starannie zwiniêta w³óczka zmienia siê w zapl±tany ko³tun";
+                    print ". Chwilê pó¼niej starannie zwiniêta w³óczka zmienia siê w zapl±tany ko³tun";
                 }
                 else self.state = QUEEN_STATE;
                 ".";
@@ -545,19 +553,19 @@ Class   Kitten
                 self.state = HELD_STATE;
                 move self to player;
                 "Ostro¿nie podnosisz ", (bie) self, ". Jaki on uroczy!";
-            Touch, Rub: print_ret (Cname) self, " ociera siê o Ciebie pomrukuj±c z zadowoleniem.";
+            Touch, Rub: print_ret (Cname) self, " ociera siê o ciebie pomrukuj±c z zadowoleniem.";
         ],
 
         after [;
             Drop:
                 self.state = CHAIR_STATE;
                 move self to Drawing_Room;
-                print_ret (Cname) self, " wyrywa Ci sie z r±k i ucieka.";
+                print_ret (Cname) self, " wyrywa ci sie z r±k i ucieka.";
             Transfer,PutOn,Insert:
                 self.state = CHAIR_STATE;
                 print "Niezadowolony ", (name) self, " natychmiast zeskakuje z ", (dop) parent(self);
                 move self to Drawing_Room;
-                " l±duj±c z gracj± na pod³odze.";
+                " z gracj± l±duj±c na pod³odze.";
         ],
 
         daemon [ i;
@@ -591,7 +599,7 @@ Class   Kitten
                     give worsted general;
                         switch (random(5)) {
                             1: " drapie k³êbek w³óczki swoimi ostrymi pazurkami.";
-                            2: " turla k³êbek w³óczki po pod³odze i próbuje go dogoniæ.";
+                            2: " toczy k³êbek w³óczki po pod³odze i próbuje go dogoniæ.";
                             3: " dzielnie mocuje siê z k³êbkiem w³óczki.";
                             4: " wskakuje na k³êbek w³óczki i od razu zapl±tuje siê w g±szczu nici.";
                             5: " przerywa na chwilê zabawê k³êbkiem, aby podrapaæ siê za uchem.";

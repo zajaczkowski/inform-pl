@@ -1301,6 +1301,17 @@ Array name_buffer->64;
     print "To";
 ];
 
+[ NimLubNia obj;     ! Used in the nominative
+    if (obj == player)            { print "tob±"; return; }
+    if (obj has pluralname)       { print "nimi"; return; }
+
+    if (obj has female)           { print "ni±"; return; }
+    if (obj hasnt neuter)         { print "nim"; return; }
+  
+    print "tym";
+];
+
+
 [ CTheyreorThats obj;
     if (obj == player)             { print "Ty"; return; }
     if (obj has pluralname)        { print "Te"; return; }

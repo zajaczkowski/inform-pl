@@ -1,0 +1,1355 @@
+!% -C2~S
+! Kodowanie: ISO-8859-2 (Central European)
+! ---------------------------------------------------------------------------- !
+!   Znacznik -C2 mówi kompilatorowi, ¿e tekst zosta³ napisany w ISO-8859-2. 
+!   Pierwsza linia jak powy¿ej MUSI znale¼æ siê na pocz±tku ka¿dego pliku 
+!   w którym u¿ywane s± polskie znaki ISO Central European.
+! ---------------------------------------------------------------------------- !
+
+Constant Story "RUINY";
+Constant Headline "^Interaktywny Przyk³ad^
+                    Copyright (c) 1999 by Angela M. Horns.^
+                    Copyright (c) 2011-2015 by Bartosz Zaj±czkowski.^^";
+
+Release 1;
+Serial "150318";
+
+! ---------------------------------------------------------------------------- !
+!       Wersja polska na podstawie wersji Rogera Firtha stworzonej w maju 2001, 
+!       poprzez prosty (ale bardzo czasoch³onny) proces sk³adania szeregu fragmentów
+!       przyk³adowej gry "Ruins" pochodz±cej z czwartej edycji Inform Designer's Manual.
+!       
+!                       GRACZ
+!                             lampa, s³ownik, mapa
+!                      PLAC ZGROMADZEÑ
+!                           | grzyb, skrzynia, aparat, gazeta, schody
+!                           |
+!                           |
+!                   KWADRATOWA KOMNATA -------------------- GNIAZDO
+!                           | inskrypcje, ¶wiat³o s³oñca, (klucz) kokon
+!                           |
+!                           |
+!                       NISKI KORYTARZ
+!                           | statuetka, drzwi
+!                           |
+!                           |
+!   GÓRNY KANION        SANKTUARIUM
+!       | kula           /     \ malowid³a, o³tarz, maska (kap³an)
+!       |     ----------         ----------
+!       |   /                               \
+!   XIBALBÁ                                 PRZEDSIONEK
+!       | stela                                 | klatka, szkielety, (guziec)
+!       |                                       |
+!       |                                       |
+!   DOLNY KANION                            KOMNATA GROBOWA
+!       | przepa¶æ                                   plaster miodu
+!       |
+!       |
+!   PUMEKSOWA PÓ£KA
+!         ko¶æ
+!
+! ---------------------------------------------------------------------------- !
+
+Constant MAX_CARRIED = 7;       ! Defined in DM4 §22
+Constant MAX_SCORE = 30;        ! Defined in DM4 §22
+
+
+
+Include "Parser";
+Include "VerbLib";
+
+! ---------------------------------------------------------------------------- !
+!       Definicja klasy TREASURE.
+!
+!       Defined in DM4 §5, modified in §23
+
+Class   Treasure
+  with  before [;
+            Take, Remove, Push, Pull:
+                if (self in packing_case)
+                    "Z rozpakowywaniem bezcennych archeologicznych znalezisk lepiej 
+                    wstrzymaæ siê a¿ do powrotu do muzeum Carnegie Institution 
+                    for Science w Waszyngtonie.";
+                if (self.photographed_in_situ == false)
+                    "¯yjemy w cywilizowanych latach trzydziestych 
+                    dwudziestego wieku! Naruszenie artefaktu bez wcze¶niejszego 
+                    zrobienia odpowiedniej dokumentacji fotograficznej niczym 
+                    nie ró¿ni siê od zwyk³ej grabie¿y.";
+            Photograph:
+                if (self has moved) "Naprawdê chcesz sfabrykowaæ dokumentacjê 
+                    archeologiczn±? Artefakty nale¿y fotografowaæ w miejscu, 
+                    w którym zosta³y odnalezione!";
+                if (self.photographed_in_situ) "Jedno zdjêcie wystarczy.";
+            ],
+
+        after [;
+            Insert:
+                if (second == packing_case) {
+                    score = score + self.cultural_value;
+                    if (score == MAX_SCORE) {
+                        deadflag = 2;
+                        print_ret "Kiedy ostro¿nie zapakowujesz ",
+                                !(bie) noun,
+                                (the) noun,
+                                " do skrzyni, ze szczytów drzew zlatuje kolorowa
+                                papuga o czerwonym ogonie. Jej pióra s± ciê¿kie od 
+                                deszczu, a szum skrzyde³ og³uszaj±cyniczym ³omot wal±cych siê kamieni....
+                                Kiedy niebo siê przeczyszcza, nad spokojn± meksykañsk± 
+                                d¿ungl± wschodzi pó³ksiê¿yc. Jest koniec marca 
+                                1938 roku i czas wracaæ do domu...";
+
+                        }
+                    "Ostro¿nie pakujesz ", (the) noun," do skrzyni.";
+                   ! "Ostro¿nie pakujesz ", (bie) noun," do skrzyni.";
+                    }
+            Photograph:
+                self.photographed_in_situ = true;
+            ],
+        
+        cultural_value 5,
+        photographed_in_situ false;
+
+! ---------------------------------------------------------------------------- !
+!       Przygoda rozpoczyna siê na PLACU ZGROMADZEÑ.
+!
+!       Defined in DM4 §4, modified in §8, §9 and §23
+
+Object  Forest "~Plac Zgromadzeñ~"
+
+  with  description
+            "W ka¿dym razie tak nazywa siê to miejsce wed³ug twoich notatek. 
+            Niestety d¿ungla upomnia³a siê o wiêksz± cze¶æ tej niegdy¶ rozleg³ej 
+            przestrzeni. Powietrze jest duszne i wilgotne. Nad placem unosi siê mg³a, 
+            pozosta³o¶æ po niedawnym deszczu. Zewsz±d dochodz±
+            odg³osy tropikalnego lasu. ~Stanowisko archeologiczne nr 10~ to szumna nazwa 
+            sterty kamieni, wygl±daj±cej na pozosta³o¶æ dawno zapomnianego grobowca. 
+            Z czego¶ co kiedy¶ musia³o byæ imponuj±c± piramid±, przetrwa³y do dzi¶ jedynie 
+            wiod±ce w dó³ kamienne schody.",
+        
+        d_to steps,
+        in_to steps,
+        u_to
+            "Drzewa s± cierniste. Próbuj±c siê na nie wspi±æ 
+            jedynie pokaleczy³by¶ sobie rêce.",
+        cant_go
+            "D¿ungla jest gêsta. Nie po to spêdzi³e¶ tyle dni na 
+            przedzieraniu siê przez ni±, aby teraz tak ³atwo zrezygnowaæ ze 
+            swojego odkrycia. Powiniene¶ znale¼æ przynajmniej kilka artefaktów, aby móc 
+            usprawiedliwiæ porzucenie stanowiska i swój powrót do cywilizacji.",
+        
+        before
+        	[; 
+            Listen: "S³ychaæ bzyczenie owadów, zawodzenie ma³p, odg³osy 
+            przelatuj±cych ptaków i nietoperzy.";
+            ],
+
+  has   light pluralname;
+
+
+!       Defined in DM4 §4, modified in Exercise 1 and §23
+
+Object  -> mushroom "cêtkowany grzyb"
+
+  with  name 'cetkowany' 'nakrapiany' 'grzyb' 'muchomor' 'kapelusz',
+        name_dop 'cetkowanego' 'nakrapianego' 'grzyba' 'muchomora' 'kapelusza',
+        name_cel 'cetkowanemu' 'nakrapianemu' 'grzybowi' 'muchomorowi' 'kapeluszowi',
+        name_bie 'cetkowany' 'nakrapiany' 'grzyb' 'muchomor' 'kapelusz',
+        name_nar 'cetkowanym' 'nakrapianym' 'grzybem' 'muchomorem' 'kapeluszem',
+        name_mie 'cetkowanym' 'nakrapianym' 'grzybie' 'muchomorze' 'kapeluszu',
+        
+        desc_dop "cêtkowanego grzyba",
+        desc_cel "cêtkowanemu grzybowi",
+        desc_bie "cêtkowany grzyb",
+        desc_nar "cêtkowanym grzybem",
+        desc_mie "cêtkowanym grzybie",
+        
+        initial
+            "Cêtkowany grzyb na d³ugiej nodze wystaje z wilgotnego le¶nego poszycia.",
+        description
+            "Wygl±da jak muchomor. Kapelusz pokrywaj± nieregularne plamki. 
+            Nie masz pewno¶ci czy nadaje siê do zjedzenia.",
+        after [;
+            Take:
+                if (self.mushroom_picked)
+                    "Zabierasz lekko poturbowany cêtkowany grzyb.";
+                self.mushroom_picked = true;
+                "Ostro¿nie wyrywasz grzyb z poszycia chwytaj±c za cienk± nó¿kê.";
+            Drop:
+                "Grzyb l±duje na ziemi nieco siê uszkadzaj±c.";
+            Eat:
+                steps.rubble_filled = false;
+                "Pomimo obaw nadgryzasz krawêd¼ cêtkowanego kapelusza. 
+                Jeszcze zanim udaje ci siê ustaliæ jaki ma smak, ¶wiat wokó³ eksploduje 
+                o¶lepiaj±cym ¶wiat³em. Z blasku wy³ania siê olbrzymia papuga.   
+                L¶ni±ce pióra mieni± siê tysi±cem barw. Szum skrzyde³ jest 
+                og³uszaj±cy niczym ³omot wal±cych siê kamieni.";
+            ],
+        mushroom_picked false,
+  has   edible container open;
+
+
+!       Defined in DM4 §12
+Object  -> packing_case "drewniana skrzynia"
+  with  name 'drewniana' 'skrzynia' 'krata' 'pudlo',
+        name_dop 'drewnianej' 'skrzyni' 'kraty' 'pudla',
+        name_cel 'drewnianej' 'skrzyni' 'kracie' 'pudlu',
+        name_bie 'drewniana' 'skrzynie' 'krate' 'pudlo',
+        name_nar'drewniana' 'skrzynia' 'krata' 'pudlem',
+        name_mie 'drewnianej' 'skrzyni' 'kracie' 'pudle',
+
+        desc_dop "drewnianej skrzyni",
+        desc_cel "drewnianej skrzyni",
+        desc_bie "drewnian± skrzyniê",
+        desc_nar "drewnian± skrzyni±",
+        desc_mie "drewnianej skrzyni",
+
+        initial
+            "W pobli¿u czeka drewniana skrzynia, gotowa na przyjêcie ewentualnych 
+            archeologicznych znalezisk, celem przewiezienia ich do cywilizacji.",
+        before [;
+            Take, Remove, PushDir:
+                "Skrzynia jest stanowczo zbyt ciê¿ka, aby zawracaæ sobie 
+                g³owê jej przenoszeniem przed zakoñczeniem ekspedycji.";
+            ],
+  has   static container open openable female;
+
+
+!       Defined in DM4 §6
+Object  -> -> camera "aparat fotograficzny"
+  with  name 'kolodionowy' 'aparat' 'fotograficzny',
+        name_dop 'kolodionowego' 'aparatu' ' fotograficznego',
+        name_cel ' kolodionowemu' 'aparatowi' 'fotograficznemu',
+        name_bie 'kolodionowy' 'aparat' 'fotograficzny',
+        name_nar 'kolodionowym' 'aparatem' 'fotograficznym',
+        name_mie ' kolodionowym' 'aparacie' 'fotograficznym',
+
+        desc_dop "aparatu fotograficznego",
+        desc_cel "aparatowi fotograficznemu",      
+        desc_bie "aparat fotograficzny",
+        desc_nar "aparatem fotograficznym",
+        desc_mie "aparacie fotograficznym",
+        description
+            "Nieporêczny, niewygodny i skomplikowany w obs³udze kolodionowy aparat fotograficzny 
+            umieszczony w solidnej drewnianej obudowie. Wiêkszo¶æ archeologów 
+            jednocze¶nie kocha i nienawidzi swoje aparaty fotograficzne. Ty równie¿.";
+
+
+!       Defined in DM4 §23
+Object  -> -> newspaper "stara gazeta"
+  with  name 'Times' 'gazeta' 'kilkutygodniowa' 'stara',
+        name_dop 'Timesa' 'gazety' 'kilkutygodniowej' 'starej',
+        name_cel 	'Timesowi' 'gazecie' 'kilkutygodniowej' 'starej',
+        name_bie 	'Timesa' 'gazete' 'kilkutygodniow±' 'stara',
+        name_nar	'Timesem' 'gazete' 'kilkutygodniow±' 'stara',
+        name_mie 'Timesie' 'gazecie' 'kilkutygodniowej' 'starej',  
+
+        desc_dop "starej gazety",
+        desc_cel "starej gazecie",
+        desc_bie"star± gazetê",
+        desc_nar"star± gazet±",
+        desc_mie"starej gazecie",        
+        description
+            "~The Times~ z 26 lutego 1938. Po miesi±cu w tutejszym klimacie papier zrobi³ 
+            siê wilgotny i delikatny. Zreszt± Ty sam czujesz siê bardzo podobnie.
+            Londyn pewnie znowu we mgle. A mo¿e spadaj± ju¿ bomby.",
+        before [; 
+        	! w jêzyku polskim czasem lubimy "otworzyæ gazetê". Nie ma sensu definiowaæ takiego u¿ycia 
+        	! czasownika "otwórz" w g³ównym s³owniku. Zbyt rzadko jest wykorzystywane.
+        	Open: <<Examine self>>;
+        	],	    has female;
+        
+
+!       Defined in DM4 §4, modified in §5 and §23
+Object  -> steps "kamienne schody"
+  with  name 'schody' 'kamienne' 'stopnie' 'piramida' 'zapomniany' 'grobowiec' 'stanowisko' 'dziesiate' 'archeologiczne' 'kamienie' 'sterta' 'kamieni' 'glazy' 'glazow',
+        name_dop 'schodow' 'kamiennych' 'stopni' 'piramidy' 'zapomnianego' 'grobowca' 'stanowiska' 'dziesiatego' 'archeologicznego' 'kamieni' 'sterty' 'glazow', 
+        name_cel 'schodom' 'kamiennym' 'stopniom' 'piramidzie' 'zapomnianemu' 'grobowcowi' 'stanowisku' 'dziesiatemu' 'archeologicznemu' 'kamieniom' 'stercie' 'kamieni' 'glazom',
+        name_bie 'schody' 'kamienne' 'stopnie' 'piramide' 'zapomniany' 'grobowiec' 'stanowisko' 'dziesiate' 'archeologiczne' 'kamienie' 'sterte' 'kamieni' 'glazy' 'glazow',
+        name_nar'schodami' 'kamiennymi' 'stopniami' 'piramida' 'zapomnianym' 'grobowcem' 'stanowiskiem' 'dziesiatym' 'archeologicznym' 'kamieniami' 'sterta' 'kamieni' 'glazami' 'glazow',
+        name_mie 'schodach' 'kamiennych' 'stopniach' 'piramidzie' 'zapomnianym' 'grobowcu' 'stanowisku' 'dziesiatym' 'archeologicznym' 'kamieniach' 'stercie' 'kamieni' 'glazach' 'glazow',
+        
+        desc_dop "kamiennych schodów",
+        desc_cel "kamiennym schodom",
+        desc_bie "kamienne schody",
+        desc_nar "kamiennymi schodami",
+        desc_mie "kamiennych schodach",
+        description [;
+            if (self.rubble_filled)
+                "Po kilku stopniach drogê w dó³ blokuje sterta g³azów.";
+            print "Zniszczone spêkane schody prowadz± w dó³ do zacienionej komnaty. ";
+            if (Square_Chamber hasnt visited)
+                print "Bêdziesz pierwsz± osob± od co najmniej kilkuset lat,
+                która z nich skorzysta. ";
+            else
+                print "Poza tob± nikt nie przechodzi³ têdy od co najmniej kilkuset lat. ";
+            "Na najwy¿szym stopniu widaæ wykuty symbol Q1.";
+            ],
+        door_to [;
+            if (self.rubble_filled)
+                "Po kilku stopniach drogê w dó³ blokuje sterta g³azów.";
+            return Square_Chamber;
+            ],
+        door_dir d_to,
+        rubble_filled true,
+  has   scenery door open pluralname;
+
+
+! ---------------------------------------------------------------------------- !
+!       KWADRATOWA KOMNATA.
+!
+!       Defined in DM4 Exercise 2, modified in $8 and $9
+
+Object  Square_Chamber "Kwadratowa komnata"
+  with  name 'wschod' 'poludnie' 'wyjscia',
+        description
+            "Ponure, wykute w skale pomieszczenie ma mniej wiêcej trzy metry szeroko¶ci.
+            Wpadaj±cy z góry snop ostrego ¶wiat³a s³onecznego przecina mrok. Rozproszone 
+            na drobinach kurzu i odbite od pod³ogi promienie tylko nieznacznie rozja¶niaj± panuj±ce ciemno¶ci. 
+            W pó³mroku majacz± przej¶cia na wschód i na po³udnie prowadz±ce do dalszych, okrytych mrokiem czê¶ci staro¿ytnej ¶wi±tyni.",
+        u_to Forest,
+        e_to Wormcast,
+        s_to Corridor,
+        before [;
+            Insert:
+                if (noun == eggsac && second == sunlight) {
+                    remove eggsac;
+                    move stone_key to self;
+                    "Wrzucasz lepki bia³y kokon w snop dziennego ¶wiat³a. Z groz± obserwujesz jak 
+                    zaczyna siê nadymaæ i pêcznieæ. Na powierzchni wykwitaj± b±ble gêstego ¶luzu. 
+                    Nagle wybucha, a setka insektów do tej pory bezpiecznie ukrytych w ¶rodku, teraz 
+                    w panice rozbiega siê na wszystkie strony rozpaczliwie szukaj±c schronienia w ciemno¶ci.
+                    Po kokonie pozostaj± jedynie nieprzyjemne wspomnienie oraz ¿ó³ty kamienny klucz.";
+                    }
+            ],
+  has   light;
+
+!       Defined in DM4 §8
+Object  -> carved_inscriptions "wykute inskrypcje"
+  with  name 'wykute' 'inskrypcje' 'napisy' 'glify' 'znaki' 'symbole',
+        name_dop 'wykutych' 'inskrypcji' 'napisow' 'glifow' 'znakow' 'symboli',
+        name_cel 'wykutym' 'inskrypcjom' 'napisom' 'glifom' 'znakom' 'symbolom',
+        name_bie 'wykute' 'inskrypcje' 'napisy' 'glify' 'znaki' 'symbole',
+        name_nar 'wykutymi' 'inskrypcjami' 'napisami' 'glifami' 'znakami' 'symbolami',
+        name_mie 'wykutych' 'inskrypcjach' 'napisach' 'glifach' 'znakach' 'symbolach',
+
+        desc_dop "wykutych inskrypcji",
+        desc_cel "wykutym inskrypcjom",
+        desc_bie "wykute inskrypcje",
+        desc_nar "wykutymi inskrypcjami",
+        desc_mie "wykutych inskrypcjach",
+        initial
+            "¦ciany, pod³ogê oraz sufit pokrywaj± wykute w kamieniu inskrypcje.",
+        description
+            "Kiedy uwa¿nie przygl±dasz siê napisom z bliska pozostaj± w bezruchu. 
+            Nie mo¿esz jednak pozbyæ siê nieprzyjemnego wra¿enia, ¿e gdy tylko 
+            odwrócisz wzrok uciekaj± i przemieszczaj± siê z miejsca na miejsce.
+            Wiêkszo¶æ symboli jest ju¿ nieczytelna, ale uda³o ci siê rozpoznaæ dwa glify: Strza³a oraz Kr±g.",
+  has   static pluralname;
+
+!       Defined in DM4 §8
+Object  -> sunlight "snop ¶wiat³a s³onecznego"
+  with  name 'snop' 'kolumna' 'swiatla' 'ostrego' 'slonecznego' 'slonce' 'swiatlo' 'promien' 'promienie' 'slonca' 'blask' 'kurz',
+        name_dop 'snopu' 'kolumny' 'ostrego' 'swiatla' 'slonecznego' 'slonca' 'swiatla' 'promienia' 'promieni' 'slonca' 'blask' 'kurzu',
+        name_cel 'snopowi' 'kolumnie' 'ostrego' 'swiatla' 'slonecznego' 'sloncu' 'swiatlu' 'promieniowi' 'promieniom' 's³oñca' 'blaskowi' 'kurzowi',
+        name_bie 'snop' 'kolumnê' 'ostrego' 'swiatla' 'slonecznego' 'slonce' 'swiatlo' 'promien' 'promienie' 'slonca' 'blask' 'kurz',
+        name_nar 'snopem' 'kolumn±' 'ostrego' 'swiatla' 'slonecznego' 'sloncem' 'swiatlem' 'promieniem' 'promieniami' 'slonca' 'blaskiem' 'kurzem',
+        name_mie 'snopie' 'kolumnie' 'ostrego' 'swiatla' 'slonecznego' 'sloncu' 'swietle' 'promieniu' 'promieniach' 'slonca' 'blasku' 'kurzu',
+
+        desc_dop "snopu ¶wiat³a s³onecznego",
+        desc_cel "snopowi ¶wiat³a s³onecznego",
+        desc_bie "snop ¶wiat³a s³onecznego",
+        desc_nar "snopem ¶wiat³a s³onecznego",
+        desc_mie "snopie ¶wiat³a s³onecznego",
+        description
+            "Patrz±c jak drobiny kurzu bezw³adnie unosz± siê w blasku promieni s³onecznych masz wra¿enie, ¿e kolumna 
+            ¶wiat³a jest prawie materialna.",
+        before [;
+            Examine, Search:
+                ;
+            default:
+                "Patrzysz jak cz±stki kurzu unosz± siê niemrawo w kolumnie wpadaj±cego z góry ostrego ¶wiat³a s³onecznego.";
+            ],
+  has   scenery;
+
+!       Defined in DM4 §5
+
+! ---------------------------------------------------------------------------- !
+!       The STOOPED CORRIDOR.
+!
+!       Defined in DM4 §13
+Object  Corridor "Niski korytarz"
+  with  description
+            "Niski kwadratowy korytarz prowadzi z pó³nocy na po³udnie.",
+        n_to Square_Chamber,
+        s_to StoneDoor;
+
+Treasure -> statuette "figurka kar³owatego ducha majów"
+  with  name 'waz' 'karzel' 'duch' 'bezcenna' 'statuetka' 'figurka' 'posazek',
+        name_dop 'weza' 'karla' 'ducha' 'bezcennej' 'statuetki' 'figurki' 'posazka',
+        name_cel 'wezowi' 'karlowi' 'duchowi' 'bezcennej' 'statuetce' 'figurce' 'pos±azkowi',
+        name_bie 'weza' 'karla' 'ducha' 'bezcenna' 'statuetke' 'figurke' 'posazek',
+        name_nar 'wezem' 'karlem' 'duchem' 'bezcenna' 'statuetka' 'figurka' 'posazkiem',
+        name_mie 'wezu' 'karle' 'duchu' 'bezcennej' 'statuetce' 'figurce' 'posazku',
+
+        desc_dop "figurki kar³owatego ducha majów",
+        desc_cel "figurce kar³owatego ducha majów",
+        desc_bie "figurkê kar³owatego ducha majów",
+        desc_nar "figurk± kar³owatego ducha majów",
+        desc_mie "figurce kar³owatego ducha majów",
+        initial
+            "Widzisz bezcenn± statuetkê ducha majów.",
+        description
+            "Figurka przedstawiaj±ca postaæ kar³owatego ducha z wê¿em oplecionym wokó³ szyi. 
+            Wygl±da gro¼nie, choæ przypomina trochê postaæ z kreskówki. 
+            ",
+  has female;
+
+!       Defined in DM4 §13
+Object  -> StoneDoor "kamienne drzwi"
+  with  name 'drzwi' 'masywne' 'wielkie' 'kamienne' 'ciezkie' 'zolte',
+        name_dop 'drzwi' 'masywnych' 'wielkich' 'ciezkich' 'zoltych',
+        name_cel 'drzwiom' 'masywnym' 'wielkim' 'ciezkim' 'zoltym',
+        name_bie 'drzwi' 'masywne' 'wielkie' 'kamienne' 'ciezkie' 'zolte',
+        name_nar 'drzwiami' 'masywnymi' 'wielkimi' 'kamiennymi' 'ciezkimi' 'zoltymi',
+        name_mie 'drzwiach' 'masywnych' 'wielkich' 'kamiennych' 'ciezkich' 'zoltych',
+
+        desc_dop "kamiennych drzwi",
+        desc_cel "kamiennym drzwiom",
+        desc_bie "kamienne drzwi",
+        desc_nar "kamiennymi drzwiami",
+        desc_mie "kamiennych drzwiach",
+        description
+            "To tylko wielkie ciê¿kie kamienne drzwi.",
+        when_closed
+            "Dalsz± drogê blokuj± masywne drzwi z ¿ó³tego kamienia.",
+        when_open
+            "Wielkie kamienne drzwi s± otwarte.",
+        door_to [; if (self in Corridor) return Shrine; return Corridor; ],
+        door_dir [; if (self in Shrine) return n_to; return s_to; ],
+        with_key stone_key,
+        found_in Corridor Shrine,
+  has   static door openable lockable locked neuter pluralname;
+
+! ---------------------------------------------------------------------------- !
+!       SANKTUARIUM.
+!
+!       Defined in DM4 §23
+Object  Shrine "Sanktuarium"
+  with  description
+            "To wspania³e sanktuarium zosta³o wbudowane w zastany labirynt naturalnych jaskiñ. 
+            Widaæ to szczególnie po zachodnim z dwóch w±skich przesmyków prowadz±cych na po³udnie.",
+        n_to StoneDoor,
+        se_to Antechamber,
+        sw_to
+            "Wapienne okapy schodz± siê w w±sk± szczelinê, która zapewne pozwala³aby prowadzi gdzie¶ dalej, ale 
+            przej¶cie blokuje lodowa zmarzlina i sople. Warstwa lodu nie jest jednak 
+            wystarczaj±co gruba, aby ukryæ wykuty w skale symbol pó³ksiê¿yca.";
+
+
+!       Defined in DM4 §23
+Object  -> paintings "malowid³a"
+  with  name 'malowidlo' 'malowidla' 'rysunek' 'rysunki' 'obraz' 'obrazy' 'wladca' 'wladcy' 'jeniec' 'jenca',
+        name_dop 'malowidel' 'malowidla' 'rysunkow' 'rysunku' 'obrazow' 'obrazu' 'wladcy' 'jenca',
+        name_cel 'malowidlom' 'malowidlu' 'rysunkowi' 'rysunkom' 'obrazowi' 'obrazom' 'wladcy' 'jenca',
+        name_bie 'malowidlo' 'malowidla' 'rysunek' 'rysunki' 'obraz' 'obrazy' 'wladca' 'wladcy' 'jeniec' 'jenca',
+        name_nar 'malowidlami' 'malowidlem' 'rysunkami' 'rysunkiem' 'obrazami' 'obrazem' 'wladcy' 'jenca',
+        name_mie 'malowidlach' 'malowidle' 'rysunkach' 'rysunku' 'obrazach' 'obrazie' 'wladcy' 'jenca',
+
+        desc_dop "malowide³",
+        desc_cel "malowi³u",
+        desc_bie"malowid³o",
+        desc_nar"malowid³em",
+        desc_mie"malowidle",
+        initial
+            "¦ciany sanktuarium pokryte s± niezwykle barwnymi malowid³ami przedstawiaj±cymi 
+            uzbrojonego w³adcê znêcaj±cego si nad schwytanymi niewolnikami.",
+        description
+            "Cia³a ofiar maj± kolor krwistej czerwieni. Znaki z Kalendarza Majów datuj±
+            to wydarzenie na 10 baktun 4 katun 0 tun 0 uinal 0 kin. Jest to swego rodzaju rocznica
+            dnia w którym w³adca ostatecznie postanowi³ ¶ci±æ g³owê schwytanego rywala.
+            Po wielu latach rytualnych tortur.",
+  has   static pluralname;
+
+!       Defined in DM4 §12 and §15
+Object  -> stone_table "kamienny o³tarz"
+  with  name 'kamienny' 'stol' 'oltarz' 'wielki',
+        name_dop 'kamiennego' 'stolu' 'oltarza' 'wielkiego',
+        name_cel 'kamiennemu' 'stolowi' 'oltarzowi' 'wielkiemu',
+        name_bie 'kamienny' 'stol' 'oltarz' 'wielki',
+        name_nar 'kamiennym' 'stolem' 'oltarzem' 'wielkim',
+        name_mie 'kamiennym' 'stole' 'oltarzu' 'wielkim',
+
+        desc_dop "kamiennego o³tarza",
+        desc_cel "kamiennemu o³tarzowi",
+        desc_bie "kamienny o³tarz",
+        desc_nar "kamiennym o³tarzem",
+        desc_mie "kamiennym o³tarzu",
+        initial
+            "Centralny punkt sanktuarium stanowi wielki kamienny o³tarz.",
+  has   enterable supporter static;
+
+!       Defined in DM4 §11
+Treasure -> -> mask "jadeitowa maska"
+  with  name 'jadeitowa' 'obsydianowa' 'maska' 'twarz',
+        name_dop 'jadeitowej' 'obsydianowej' 'maski' 'twarzy',
+        name_cel 'jadeitowej' 'obsydianowej' 'masce' 'twarzy',
+        name_bie 'jadeitowa' 'obsydianowa' 'maskê' 'twarz',
+        name_nar 'jadeitowa' 'obsydianowa' 'maska' 'twarza',
+        name_mie 'jadeitowej' 'obsydianowej' 'masce' 'twarzy',
+
+        desc_dop "jadeitowej maski",
+        desc_cel "jadeitowej masce",
+        desc_bie "jadeitow± maskê",
+        desc_nar "jadeitow± mask±",
+        desc_mie "jadeitowej masce",
+        initial
+            "Na o³tarzu le¿y jadeitowa maska.",
+        description
+            "Jak¿e wspaniale bêdzie prezentowaæ siê w muzeum.",
+        after [;
+            Wear:
+                move priest to Shrine;
+                if (location == Shrine)
+                    "Spogl±daj±c przez obsydianowe oczy maski, dostrzegasz stoj±c± przy o³tarzu 
+                    zmumifikowan± wysuszon± sylwetkê. Stary, pomarszczony kap³an majów obserwuje Ciê w milczeniu.";
+
+            Disrobe:
+                remove priest;
+            ],
+        cultural_value 10,
+  has   clothing female;
+
+! ---------------------------------------------------------------------------- !
+!       GÓRNA, PÓ£NOCNA CZÊ¦Æ KANIONU.
+!
+!       Defined in DM4 §23
+Object  Canyon_N "Górna czê¶æ kanionu"
+  with  description
+            "Pó³nocny, wy¿ej po³o¿ony i zdecydowanie szerszy kraniec kanionu
+            koñczy siê nierówn± ¶cian± pochodzenia wulkanicznego.",
+        s_to Junction,
+        d_to Junction,
+  has   light;
+
+!       Defined in DM4 §15, modified in Exercise 24 and §23
+Object  -> huge_ball "wielka pumeksowa kula"
+  with  name 'wielka' 'pumeksowa' 'kamienna' 'kula' 'pumeks' 'kamieñ',
+        name_dop 'wielkiej' 'pumeksowej' 'kamiennej' 'kuli' 'pumeksu' 'kamienia',
+        name_cel 'wielkiej' 'pumeksowej' 'kamiennej' 'kuli' 'pumeksowi' 'kamieniowi',
+        name_bie 'wielka' 'pumeksowa' 'kamienna' 'kule' 'pumeks' 'kamieñ',
+        name_nar 'wielka' 'pumeksowa' 'kamienna' 'kula' 'pumeksem' 'kamieniem',
+        name_mie 'wielkiej' 'pumeksowej' 'kamiennej' 'kuli' 'pumeksie' 'kamieniu',
+
+        desc_dop "wielkiej pumeksowej kuli",
+        desc_cel "wielkiej pumeksowej kuli",
+        desc_bie "wielk± pumeksow± kulê",
+        desc_nar "wielk± pumeksow± kul±",
+        desc_mie "wielkiej pumeksowej kuli",
+        initial
+            "Wielka kula pumeksu o prawie trzech metrach ¶rednicy.",
+        description
+            "Choæ ma prawie trzy metry ¶rednicy, jest ca³kiem lekka.",
+        before [;
+            PushDir:
+                if (location == Junction && second == ne_obj)
+                    "Przej¶cie do sanktuarium jest na to o wiele za w±skie.";
+                AllowPushDir();
+                rtrue;
+            Pull, Push, Turn:
+                "Wygl±da na to, ¿e da siê j± ³atwo przetoczyæ z miejsca na miejsce.";
+            Take, Remove:
+                "Chocia¿ to powulkaniczny pumeks, to w kuli o ¶rednicy trzech metrów mie¶ci siê jednak ca³kiem sporo ska³y.";
+            ],
+        after [;
+            PushDir:
+                if (second == n_obj) "Wysi³kiem wszystkich swoich miê¶ni, wtaczasz kulê pod górê.";
+                if (second == u_obj) <<PushDir self n_obj>>;
+                if (second == s_obj) "Raz puszczona z dó³ kula z trudem daje siê zatrzymaæ.";
+                if (second == d_obj) <<PushDir self s_obj>>;
+            ],
+  has   static female;
+
+! ---------------------------------------------------------------------------- !
+!       XIBALBÁ.
+
+!       Defined in DM4 §23
+Object  Junction "Xibalb@'a"
+  with  description
+        "Piêædziesi±t metrów poni¿ej poziomu d¿ungli. Zewsz±d dociera do ciebie 
+        szum p³yn±cej wody. Te wydr±¿one g³êboko w wapiennych ska³ach jaskinie ci±gn± siê 
+        we wszystkich kierunkach niczym korzenie. Na pó³nocnym wschodzie po¶ród masywnych 
+        pokrytych lodem ska³ wije siê w±ska ¶cie¿ka prowadz±ca z powrotem do sanktuarium. 
+        Dno tego swego rodzaju kanionu ci±gnie siê w górê na pó³noc i w dó³ na po³udnie. 
+        W docieraj±cym z góry rozproszonym sodowym ¶wietle ostre ska³y wydaj± siê blado 
+        bia³e jak zêby rekina.",
+        ne_to Shrine,
+        n_to Canyon_N,
+        u_to Canyon_N,
+        s_to Canyon_S,
+        d_to Canyon_S,
+ has    light;
+
+!       Defined in DM4 §23
+Treasure -> stela "stela"
+  with  name 'stela' 'kamien' 'graniczny',
+        name_dop 'steli' 'kamienia' 'granicznego',
+        name_cel 'steli' 'kamieniowi' 'granicznemu',
+        name_bie 'stele' 'kamien' 'graniczny',
+        name_nar 'stela' 'kamieniem' 'granicznym',
+        name_mie 'steli' 'kamieniu' 'granicznym',
+
+        desc_dop "steli",
+        desc_cel "steli",
+        desc_bie"stelê",
+        desc_nar"stel±",
+        desc_mie"steli",
+        
+        initial
+            "¦redniej wielko¶ci stela, a mo¿e kamieñ graniczny, spoczywa na pó³ce na wysoko¶ci g³owy.",
+        description
+            "Inskrypcje ostrzegaj±, ¿e granica Xibalb@'y,
+             ¦wi±tyni Strachu, jest ju¿ blisko. Na ¶rodku wykuto du¿y glif przedstawiaj±cy Ptaka.",
+    has female;
+
+! ---------------------------------------------------------------------------- !
+!       PO£UDNIOWA, DOLNA CZÊ¦Æ KANIONU.
+!
+!       Defined in DM4 §23
+Object  Canyon_S "Dolna czê¶æ kanionu"
+  with  description
+            "Dolna, du¿o wê¿sza czê¶æ kanionu koñczy siê nagle czarn± jak noc bezdenn± przepa¶ci±.",
+        n_to Junction,
+        u_to Junction,
+        s_to "Do przepa¶ci?",
+        d_to nothing,
+  has   light;
+
+!       Defined in DM4 §12, modified in §21 and §23
+Object  -> chasm "przera¿aj±ca otch³añ"
+  with  name 'ciemnosc' 'przepasc' 'dziura' 'przerazajaca' 'bezdenna' 'otchlan',
+        name_dop 'ciemnosci' 'przepasci' 'dziury' 'przerazajacej' 'bezdennej' 'otchlani',
+        name_cel 'ciemnosci' 'przepasci' 'dziurze' 'przerazajacej' 'bezdennej' 'otchlani',
+        name_bie 'ciemnosc' 'przepasc' 'dziure' 'przerazajaca' 'bezdenna' 'otchlan',
+        name_nar 'ciemnoscia' 'przepascia' 'dziura' 'przerazajaca' 'bezdenna' 'otchlania',
+        name_mie 'ciemnosci' 'przepasci' 'dziurze' 'przerazajacej' 'bezdennej' 'otchlani',
+
+        desc_dop "przera¿aj±cej otch³ani",
+        desc_cel "przera¿aj±cej otch³ani",
+        desc_bie "przera¿aj±c± otch³añ",
+        desc_nar "przera¿aj±c± otch³ani±",
+        desc_mie "przera¿aj±cej otch³ani",
+        before [;
+            Enter:
+                deadflag = 3;
+                "Spadaj±c w milcz±c± ciemn± pustkê, rozbijasz sobie g³owê 
+                o wystaj±cy ze ¶ciany kamieñ. Poprzez ból i wszechobecn± czerwieñ, 
+                wydaje Ci siê, ¿e dostrzegasz zbli¿aj±c± siê postaæ w sowiej masce...";
+            JumpOver:
+                "Przepa¶æ jest o wiele za szeroka.";
+            ],
+        after [;
+            Receive:
+                remove noun;
+                print_ret "Patrzysz jak ", (name) noun,
+                          " spada w ciemn± otch³añ.";
+            Search:
+                "Przepa¶æ jest g³êboka i mroczna.";
+            ],
+        react_before [;
+            Jump:
+                <<Enter self>>;
+            Go:
+                if (noun == d_obj) <<Enter self>>;
+            ],
+        each_turn [;
+            if (huge_ball in parent(self)) {
+                remove huge_ball;
+                Canyon_S.s_to = On_Ball;
+                Canyon_S.description =
+                    "Po³ódniowy koniec kanionu teraz wyd³u¿y³ sie o kamienn± pó³kê - wielk±
+                    kulê która zaklinowa³a sie pomiêdzy s¶cianami przepa¶ci.";
+                "^Tracisz kontrolê nad kamienn± kul±, która szybciej toczy siê przez kilka ostatnich
+                metrów. Ska³y dr¿± kiedy klinuje siê w ¶cianach bezdennej przepa¶ci. Na moment tracisz 
+                równowagê i uderzasz bokiem g³owy w ¶cianê. Osuwasz siê krwawi±c... próbujesz 
+                oprzeæ siê o kamienn± kulê, ale ona zdaje siê kurczyæ, albo to Twoja rêka
+                siê powiêkszy³a... Trzymasz j± w d³oni, a przed Tob±, po drugiej stronie wielkiego
+                okr±g³ego placu stoi Zipacna, syn Vucub Caquix. Otaczaj± was nabite na pikach 
+                g³owy jego wrogów, a zgromadzony t³um domaga siê Twojej krwi. Nic nie mo¿esz zrobiæ...
+                ale to wszystko to jedynie majaki. Zapewne rezultat potê¿nego ból g³owy...^";
+                }
+            ],
+  has   scenery open container female;
+
+! ---------------------------------------------------------------------------- !
+!       The PUMICE LEDGE.
+!
+!       Defined in DM4 §23
+Object  On_Ball "Skalna pó³ka"
+  with  description
+            "Zaimprowizowana skalna pó³ka utworzona przez zaklinowan± nad przepa¶ci± kamienn± kulê.
+            Tak czy owak, w tym miejscu kanion siê koñczy.",
+        n_to Canyon_S,
+        d_to Canyon_S,
+        u_to Canyon_S,
+  has   light;
+
+!       Defined in DM4 §23
+Treasure -> "grawerowana ko¶æ"
+  with  name 'grawerowana' 'kosc',
+        name_dop 'grawerowanej' 'kosci',
+        name_cel 'grawerowanej' 'kosci',
+        name_bie 'grawerowana' 'kosc',
+        name_nar 'grawerowana' 'kosci±',
+        name_mie 'grawerowanej' 'kosci',
+
+        desc_dop "grawerowanej ko¶ci",
+        desc_cel "grawerowanej ko¶ci",
+        desc_bie "grawerowan± ko¶æ",
+        desc_nar "grawerowan± ko¶ci±",
+        desc_mie "grawerowanej ko¶ci",
+        initial
+            "Ze wszystkich ¶wiêtych darów wrzucanych niegdy¶ do otch³ani, dzi¶ pewnie nic nie uda siê  
+	    odzyskaæ. Nic poza kawa³kiem grawerowanej ko¶ci, wystaj±cej z wilgotnej szczeliny
+	    w ¶cianie kanionu.",
+        description
+            "Insktypcje przedstawiaj± d³oñ trzymaj±c± pêdzel wychodz±ca z k³ów Itzamn@'a,
+             Pana Wiedzy, wynalazcy pisma, w jego wê¿owej formie.",
+    has female;
+
+! ---------------------------------------------------------------------------- !
+!       PRZEDSIONEK.
+!
+!       Defined in DM4 §23
+Object  Antechamber "Przedsionek"
+  with  description
+            "Po³udniowo-wschodni kamienny nawis stanowi bardzo ciekawy naturalny przedsionek ¶wi±tyni.",
+        nw_to Shrine,
+        in_to cage,
+        has light;
+
+!       Defined in DM4 Exercise 22, modified in Exercise 55
+Object  -> cage "¿elazna klatka"
+  with  name 'zelazna' 'klatka' 'zelazne' 'kraty' 'prety' 'rama',
+        name_dop 'zelaznej' 'klatki' 'zelaznych' 'krat' 'pretow' 'ramy',
+        name_cel 'zelaznej' 'klatce' 'zelaznym' 'kratom' 'pretom' 'ramie',
+        name_bie 'zelazna' 'klatke' 'zelazne' 'kraty' 'prety' 'rame',
+        name_nar 'zelazna' 'klatka' 'zelaznymi' 'kratami' 'pretami' 'rama',
+        name_mie 'zelaznej' 'klatce' 'zelaznych' 'kratach' 'pretach' 'ramie',
+
+        desc_dop "¿elaznej klatki",
+        desc_cel "¿elaznej klatce",
+        desc_bie"¿elazn± klatkê",
+        desc_nar"¿elazn± klatk±",
+        desc_mie"¿elaznej klatce",
+        description
+            "Na ¿elaznej klatce wykuto nastêpuj±ce glify: Ptak Strza³a Guziec.",
+        inside_description [;
+            if (self.floor_open)
+                "W pod³odze klatki zionie otwór prowadz±cy w dó³ do grobowej krypty.";
+            "Otaczaj± ciê ¿elazne prêty klatki.";
+            ],
+        when_open
+            "Na ¶rodku stoi z³owroga ¿elazna klatka, wystarczaj±co du¿a aby zmie¶ci³ siê w niej cz³owiek. 
+            Drzwi wej¶ciowe s± otwarte. Na ramie wykuto kilka glifów.",
+        when_closed
+            "¯elazna klatka jest zamkniêta.",
+        after [;
+            Enter:
+                print "Spoczywaj±ce w klatce szkielety nagle powracaj± do ¿ycia!
+                    Chwytaj± Ciê, ok³adaj± piê¶ciami i zaciskaj± ko¶ciste palce na gardle.
+                    Tracisz przytomno¶æ, a kiedy dochodzisz do siebie odkrywasz, ¿e
+                    przydarzy³o Ci siê co¶ niemo¿liwego i groteskowego...^";
+                move warthog to Antechamber;
+                remove skeletons;
+                give self ~open;
+                give warthog light;
+                self.after = 0;
+                ChangePlayer(warthog, 1);
+                <<Look>>;
+            ],
+        react_before [;
+            Go:
+                if (noun == d_obj && self.floor_open) {
+                    PlayerTo(Burial_Shaft);
+                    rtrue;
+                    };
+                if (noun == in_obj) <<Enter self>>; ! Ma³y dodatek zapewniaj±cy "normalne" zachowanie siê klatki 
+                                                    ! po u¿yciu polecenia "id¼ do ¶rodka".
+            ],
+        floor_open false,
+  has   enterable transparent container openable open static female;
+
+!       Defined in Exercise 55
+Object  -> -> skeletons "szkielety"
+  with  name 'szkielety' 'szkielet' 'kosc' 'czaszka' 'kosci' 'czaszki',
+        name_dop 'szkieletow' 'szkieletu' 'kosci' 'czaszki',
+        name_cel 'szkieletom' 'szkieletowi' 'kosciom' 'czaszce',
+        name_bie 'szkielety' 'szkielet' 'kosc' 'czaszke' 'kosci' 'czaszki',
+        name_nar 'szkieletami' 'szkieletem' 'koscia' 'czaszka' 'koscmi' 'czaszkami',
+        name_mie 'szkieletach' 'szkielecie' 'kosci' 'czaszce' 'kosciach' 'czaszkach',
+
+        desc_dop "szkieletów",
+        desc_cel "szkieletom",
+        desc_bie "szkielety",
+        desc_nar "szkieletami",
+        desc_mie "szkieletach",
+  has   pluralname static;
+
+! ---------------------------------------------------------------------------- !
+!      KRYPTA GROBOWA.
+!
+!       Defined in Exercise 55
+Object  Burial_Shaft "Krypta grobowa"
+  with  description
+             "W swoim raporcie z wyprawy, to miejsce opiszesz 
+             nastêpuj±co:
+             ~Krypta grobowa z namalowanymi na ¶cianach smuk³ymi postaciami, przypuszczalnie 
+             reprezentuj±cymi Dziewiêciu W³adców Nocy. Niski sufit obsypuje siê i  
+             zdaje siê utrzymywaæ jedynie dziêki zmursza³ym wspornikom.
+           Porozrzucane dooko³a ko¶ci zdaj± siê nale¿eæ do jednej doros³ej osoby i kilkorga dzieci, 
+           ale mo¿na tu tak¿e znale¼æ pazury jaguara...~ (Generalnie notatki z wypraw archeologicznych
+           nale¿y prowadziæ tak, aby nikt nie móg³ siê zorientowaæ, w których miejscach by³e¶
+           ¶miertelnie przera¿ony.)",
+        n_to Wormcast,
+        u_to [;
+            cage.floor_open = true;
+            self.u_to = self.opened_u_to;
+            move selfobj to self;
+            print "Z ca³ych swoich gu¼cowych si³ wybijasz siê do góry. Uderzasz w 
+                    niskie sklepienie komnaty, które nie wytrzymuje i siê zawala.  
+                    Wszêdzie widaæ tylko ziemiê i kurz, a z góry spada 
+                    na ciebie co¶ ciê¿kiego i pozbawionego ¿ycia: 
+                    Tracisz przytomno¶æ, a kiedy dochodzisz do siebie odkrywasz, ¿e znowu 
+                    przydarzy³o Ci siê co¶ niemo¿liwego i groteskowego...^";
+            ChangePlayer(selfobj);
+            give warthog ~light;
+            <<Look>>;
+            ],
+        cant_go
+            "Architekci tego pomieszczenia nie byli zbyt szczodrzy je¶li chodzi 
+            o obdarzanie go drzwiami. Jedynie w pó³nocnej ¶cianie zionie ciemny otwór 
+            wykopany przez jakie¶ zwierzê. Chyba przez gu¼ca.",
+        before [; Jump: <<Go u_obj>>; ],
+        opened_u_to [; PlayerTo(cage); rtrue; ],
+  has   light;
+
+!       Defined in DM4 §5
+Treasure -> honeycomb "plaster miodu"
+  with  name 'starozytny' 'stary' 'miod' 'plaster' 'miodu',
+        name_dop 'starozytnego' 'starego' 'miodu' 'plastra',
+        name_cel 'starozytnemu' 'staremu' 'miodowi' 'miodu' 'plastrowi',
+        name_bie 'starozytny' 'stary' 'miod' 'miodu' 'plaster',
+        name_nar 'starozytnym' 'starym' 'miodem' 'miodu' 'plastrem',
+        name_mie 'starozytnym' 'starym' 'miodzie' 'miodu' 'plastrze',
+
+        desc_dop "plastra miodu",
+        desc_cel "plastrowi miodu",
+        desc_bie "plaster miodu",
+        desc_nar "plastrem miodu",
+        desc_mie "plastrze miodu",
+        initial
+            "Na kamieniu le¿y stary, ale doskonale zachowany plaster miodu!",
+        description
+            "Zapewne mia³a to byæ wotywna ofiara pogrzebowa.",
+        after [;
+            Eat:
+                "Najprawdopodobniej jest to najdro¿szy posi³ek w Twoim ¿yciu. Miód ma
+                dziwny smak, zapewne dlatego, ¿e s³u¿y³ do zakonserwowania wnêtrzno¶ci
+                pochowanego tu w³adcy. Mimo wszystko jednak ma smak miodu.";
+            ],
+  has   edible;
+! ---------------------------------------------------------------------------- !
+!      GNIAZDO.
+!
+!       Defined in DM4 Exercises 7 and 8, modified in Exercise 54
+
+Object  Wormcast "Gniazdo"
+  with  description
+            "Rozkopane miejsce, którego ¶ciany pe³ne s± przeplataj±cych 
+            siê mniejszych i wiêkszych nor. Przypomina to pajêcz± sieæ wyrytych 
+            w ziemi korytarzy prowadz±cych we wszystkich kierunkach. Jedyne dziury, 
+            wystarczaj±co du¿e aby móg³ siê przez nie przecisn±æ cz³owiek prowadz± 
+            na pó³nocny-wschód, po³udnie i do góry.",
+        w_to Square_Chamber,
+        s_to [;
+            print "¦ciany nory robi± siê ¶liskie, kiedy ciep³o Twojego cia³a rozpuszcza
+                dawno temu zaschniête odchody. Zamykasz mocno oczy i czo³gasz siê przez ciemno¶æ...^";
+            if (eggsac in player) return Square_Chamber;
+            return random(Square_Chamber, Corridor, Forest);
+            ],
+        ne_to [; return self.s_to(); ],
+        u_to [; return self.s_to(); ],
+        cant_go [;
+            if (player ~= warthog)
+                "Choæ instynktownie czujesz, ¿e po drugiej stronie nory znajduje siê
+                co¶ bardzo istotnego, to jednak otwór prowadz±cy w tym kierunku jest 
+                dla Ciebie zdecydowanie za ma³y. Byæ mo¿e zmie¶ci³oby
+                siê w nim jakie¶ zwierzê, ale na pewno nie Twój brzuch."; 
+            print "¦ciany robi± siê ¶liskie i wydajesz z siebie mimowolny pisk, kiedy ryj±c w ciemno¶ci 
+            nagle spadasz prosto do...^";
+            PlayerTo(Burial_Shaft);
+            rtrue;
+            ],
+        after [;
+            Drop:
+                move noun to Square_Chamber;
+                print_ret "Odk³adasz, ale pod³o¿e jest bardzo nierówne wiêc ", (name) noun,
+                          " natychmiast wpada do jednego z licznych otworów i znika w ciemno¶ci.";
+            ],
+  has   light;
+
+!       Defined in DM4 §23
+Object  -> eggsac "b³yszcz±cy bia³y kokon",
+  with  name 'blyszczacy' 'kokon' 'bialy' 'skrzek',
+        name_dop 'blyszczacego' 'kokonu' 'bialego' 'skrzeku',
+        name_cel 'blyszczacemu' 'kokonowi' 'bialemu' 'skrzekowi',
+        name_bie 'blyszczacy' 'kokon' 'bialy' 'skrzek',
+        name_nar 'blyszczacym' 'kokonem' 'bialym' 'skrzekiem',
+        name_mie 'blyszczacym' 'kokonie' 'bialym' 'skrzeku',
+
+        desc_dop "b³yszcz±cego bia³ego kokonu",
+        desc_cel "b³yszcz±cemu bia³emu kokonowi",
+        desc_bie "b³yszcz±cy bia³y kokon",
+        desc_nar "b³yszcz±cym bia³ym kokonem",
+        desc_mie "b³yszcz±cym bia³ym kokonie",
+        initial
+            "W jednej ze szczelin spoczywa b³yszcz±cy bia³y kokon, który
+            wygl±da jak opleciona bia³± nici± kupka ¿abiego skrzeku. Z t± ró¿nic±, ¿e ma rozmiar sporej pi³ki pla¿owej.",
+        after [; Take: "Fuj, lepi siê do r±k."; ],
+        react_before [;
+            Go:
+                if (location == Square_Chamber && noun == u_obj) {
+                    deadflag = true;
+                    "W momencie gdy ¶wiat³o s³oñca pad³o na kokon, zaczyna on gwa³townie pêcznieæ i niepokoj±co bulgotaæ.
+                    Zanim zd±¿y³e¶ go odrzuciæ, eksplodowa³ Ci w rêkach uwalniaj±c 
+                    setkê ma³ych, jadowitych, ¿ar³ocznych i bardzo bardzo g³odnych insektów...";
+                    }
+            ];
+
+! ---------------------------------------------------------------------------- !
+!       Te obiekty s± umieszczane na w³a¶ciwych miejscach w chwili rozpoczêcia.
+!
+!       Defined in DM4 §14, modified in §23
+
+Object  sodium_lamp "lampa sodowa"
+  with  name 'lampa' 'sodowa',
+        name_dop 'lampy' 'sodowej',
+        name_cel 'lampie' 'sodowej',
+        name_bie 'lampe' 'sodowa',
+        name_nar 'lampa' 'sodowa',
+        name_mie 'lampie' 'sodowej',
+
+        desc_dop "lampy sodowej",
+        desc_cel "lampie sodowej",
+        desc_bie "lampê sodow±",
+        desc_nar "lamp± sodow±",
+        desc_mie "lampie sodowej",
+        describe [;
+            if (self has on)
+                "^Na ziemi stoi archeologiczna lampa sodowa, daj±c ciep³e ¿ó³te ¶wiat³o.";
+            "^Na ziemi stoi archeologiczna lampa sodowa.";
+            ],
+        before [;
+            Examine:
+                print "Lampa archeologiczna do pracy w trudnych warunkach. ";
+                if (self hasnt on) "Aktualnie wy³±czona.";
+                if (self.battery_power < 10) "¦wieci s³abo przygaszonym ciemno¿ó³tym blaskiem.";
+                "¦wieci bardzo mocnym ¿ó³tym blaskiem.";
+            Burn:
+                <<SwitchOn self>>;
+            SwitchOn:
+                if (self.battery_power <= 0)
+                    "Niestety, wygl±da na to, ¿e bateria siê wyczerpa³a.";
+                if (parent(self) hasnt supporter && self notin location)
+                    "Lampa sodowa musi zostaæ postawiona na ziemi zanim bêdzie mo¿na j± zapaliæ.";
+            Take, Remove:
+                if (self has on)
+                    "¯arówka jest zbyt delikatna, a metalowa r±czka zbyt gor±ca, aby nosiæ ze sob± lampê,
+                    kiedy jest w³±czona.";
+            PushDir:
+                if (location == Shrine && second == sw_obj)
+                    "Lampa daje siê przesun±c jedynie do w±skiego wyj¶cia z sanktuarium, 
+                    tam gdzie koñczy siê równa pod³oga.";
+                AllowPushDir();
+                rtrue;
+            ],
+        after [;
+            SwitchOn:
+                give self light;
+            SwitchOff:
+                give self ~light;
+            ],
+        daemon [;
+            if (self hasnt on) return;
+            if (--self.battery_power == 0) give self ~light ~on;
+            if (self in location) {
+                switch (self.battery_power) {
+                    10: "^¦wiat³o lampy sodowej zrobi³o siê zdecydowanie s³absze!";
+                    5:  "^¦wiat³o lampy zrobi³o siê ciemno ¿ó³te. Za chwilê przestanie dzia³aæ!";
+                    0:  "^Lampa sodowa zgas³a.";
+                    }
+                }
+            ],
+        battery_power 100,
+  has   switchable female;
+
+!       Defined in DM4 §16
+
+Object  dictionary "s³ownik dialektu majów Waldecka"
+  with  name 'slownik' 'lokalny' 'instrukcja' 'ksiazka' 'majow' 'waldeck' 'waldecka',
+        name_dop 'slownika' 'lokalnego' 'instrukcji' 'ksiazki' 'majow' 'waldecka',
+        name_cel 'slownikowi' 'lokalnemu' 'instrukcji' 'ksiazce' 'majow' 'waldecka',
+        name_bie 'slownik' 'lokalny' 'instrukcje' 'ksiazke' 'majow' 'waldecka',
+        name_nar 'slownikiem' 'lokalnym' 'instrukcja' 'ksiazka' 'majow' 'waldecka',
+        name_mie 'slowniku' 'lokalnym' 'instrukcji' 'ksiazce' 'majow' 'waldecka',
+
+        desc_dop "slownika dialektu majów Waldecka",
+        desc_cel "slownikowi dialektu majów Waldecka",
+        desc_bie "slownik dialektu majów Waldecka",
+        desc_nar "slownikiem dialektu majów Waldecka",
+        desc_mie "slowniku dialektu majów Waldecka",
+                     
+        description
+            "Kompilacja z litografów legendarnego odkrywcy i gawêdziarza ~Hrabiego~
+            Jeana Frederica Maximiliena Waldecka (1766??-1875). W tej ksi±¿ce zebrana zosta³a  
+            ca³a (skromna) wiedza na temat symboli i glifów u¿ywanych w lokalnym 
+            staro¿ytnym dialekcie majów. Na koñcu jest wygodny indeks do szybkiego
+            odnajdywania hase³. Spróbuj ~wyszukaj <nazwa glifu lub symbolu> w s³owniku~.",
+        before [ w1 w2 glyph;
+            Open: "Spróbuj ~wyszukaj <nazwa glifu lub symbolu> w s³owniku~.";
+            Consult:
+                wn = consult_from;
+                w1 = NextWord(); ! First word of subject
+                w2 = NextWord(); ! Second word (if any) of subject
+                if (consult_words==1 && w1~='symbol' or 'symbole' or 'glif' or 'glify') glyph = w1;
+                else if (consult_words==2 && w1=='symbol') glyph = w2;
+                else if (consult_words==2 && w2=='symbol') glyph = w1;
+                else "Spróbuj ~wyszukaj <nazwa glifu lub symbolu> w s³owniku~.";
+                switch (glyph) {
+                    'q1':                   "(To jest jeden z tych nielicznych symboli, które uda³o Ci siê zapamiêtaæ!)^^
+                                            Q1: ~¶wiête miejsce~.";
+                    'polksiezyc':           "Pó³ksiê¿yc: o ile wiadomo symbol ten nale¿y odczytywaæ jako ~xibalba~,
+                                            choæ jego znaczenie nie jest znane.";
+                    'strzala', 'strzale':   "Strza³a: ~podró¿; stawanie siê~.";
+                    'czaszka', 'czaszke':   "Czaszka: ~¶mieræ, zag³ada; przeznaczenie (niekonieczne w znaczniu negatywnym)~.";
+                    'krag':                 "Kr±g: ~S³oñce; ale tak¿e ¿ycie~.";
+                    'jaguar', 'jaguara':    "Jaguar: ~w³adca~.";
+                    'malpa','malpe':        "Ma³pa: ~kap³an?~.";
+                    'ptak', 'ptaka':        if (self.correct) "Ptak: ~martwy jak kamieñ~.";
+                                            "Ptak: ~bogaty, wp³ywowy?~.";
+                    default:                "Taki glif nie zosta³ opisany.";
+                }
+            ],
+        correct false,
+  has   proper;
+
+!       Defined in DM4 §23
+
+Object  map "mapa okolic Quintana Roo"
+  with  name 'mapa' 'szkic' 'quintana' 'roo',
+        name_dop 'mapy' 'szkicu' 'quintana' 'roo',
+        name_cel 'mapie' 'szkicowi' 'quintana' 'roo',
+        name_bie 'mape' 'szkic' 'quintana' 'roo',
+        name_nar 'mapa' 'szkicem' 'quintana' 'roo',
+        name_mie 'mapie' 'szkicu' 'quintana' 'roo',
+
+        desc_dop "mapy okolic Quintana Roo",
+        desc_cel "mapie okolic Quintana Roo",
+        desc_bie "mapê okolic Quintana Roo",
+        desc_nar "map± okolic Quintana Roo",
+        desc_mie "mapie okolic Quintana Roo",
+        description
+            "Na tej rêcznie naszkicowanej mapie zaznaczono w zasadzie tylko potok. Ten sam, który przywiód³ Ciê 
+            do tego zapomnianego miejsca na po³udniowym wschodzie Meksyku, w g³±b niezbadanej d¿ungli, 
+            gdzie jedyn± otwart± przestrzeñ stanowi ten niewielki p³askowy¿."
+        has female;
+
+!       Defined in DM4 §23
+
+Object  stone_key "kamienny klucz"
+  with  name 'kamienny' 'klucz',
+        name_dop 'kamiennego' 'klucza',
+        name_cel 'kamiennemu' 'kluczowi',
+        name_bie 'kamienny' 'klucz',
+        name_nar 'kamiennym' 'kluczem',
+        name_mie 'kamiennym' 'kluczu',
+
+        desc_dop "kamiennego klucza",
+        desc_cel "kamiennemu kluczowi",
+        desc_bie "kamienny klucz",
+        desc_nar "kamiennym kluczem",
+        desc_mie "kamiennym kluczu";
+
+!       Defined in DM4 §17, modified in §18 and §23
+
+Object  priest "stary kap³an"
+  with  name 'stary' 'wysuszony' 'pomarszczony' 'zmumifikowany' 'kaplan',
+        name_dop 'starego' 'wysuszonego' 'pomarszczonego' 'zmumifikowanego' 'kaplana',
+        name_cel 'staremu' 'wysuszonemu' 'pomarszczonemu' 'zmumifikowanemu' 'kaplanowi',
+        name_bie 'starego' 'wysuszonego' 'pomarszczonego' 'zmumifikowanego' 'kaplana',
+        name_nar 'starym' 'wysuszonym' 'pomarszczonym' 'zmumifikowanym' 'kaplanem',
+        name_mie 'starym' 'wyszuszonym' 'pomarszczonym' 'zmumifikowanym' 'kaplanie',
+
+        desc_dop "starego kap³ana",
+        desc_cel "staremu kap³anowi",
+        desc_bie "starego kap³ana",
+        desc_nar "starym kap³anem",
+        desc_mie "starym kap³anie",
+        initial
+            "Za p³yt± o³tarza stoi stary kap³an majów. Choæ wygl±da na ledwie ¿ywego, a i to  w najlepszym 
+            wypadku, sprawia niezwykle czcigodne wa¿enie.",
+        description
+            "Cia³o kap³ana jest wysuszone ze staro¶ci i masz wra¿enie, ¿e utrzymuje je 
+            w ca³o¶ci jedynie si³± woli. Choæ jego jêzykiem ojczystym jest
+            najprawdopodobniej lokalny dialekt majów, instynktownie czujesz, 
+            ¿e bez problemu zrozumie Twoje s³owa.",
+        life [;
+            Answer:
+                "Kap³an kaszle spazmatycznie. Masz wra¿enie, ¿e zaraz rozsypie siê na proch.";
+            Ask: switch (second) {
+                's³ownik', 'ksi±¿kê':
+                    if (dictionary.correct == false)
+                        "~Ten opis symbolu ptaka... zabawne.~";
+                    "~S³ownik? Naprawdê?~";
+                'glif', 'glify', 'symbol', 'symbole', 'znak', 'znaki', 'pismo', 'majów', 'dialekt', 'jêzyk':
+                    "~W naszej kulturze kap³ani zawsze byli wykszta³ceni.~";
+                'w³adcê', 'grobowiec', '¶wi±tyniê':
+                    "~To jest sprawa osobista.~";
+                'malowid³a', 'malowid³o', 'obrazy', 'obraz', 'rysunek', 'rysunki':
+                    "Kap³an marszczy brwi. ~10 baktun, 4 katun,
+                     daje 1,468,800 dni od pocz±tku czasu:
+                     wed³ug Twojego kalendarza przedstawione wydarzenia mia³y miejsce 19 stycznia 909 roku.~";
+                'ruiny', 'grobowiec':
+                    "~Ruiny zdo³aj± pokonaæ wszystkich z³odziei. W krainie ¶mierci,
+                    na grabie¿ców czekaj± wieczna mêka i tortury.~. Po chwili milczenia kap³an dodaje.
+                     ~Tak samo jak na archeologów.~";
+                'sieæ', 'gniazdo', 'norê', 'nory':
+                    "~¯aden cz³owiek nie przeci¶nie siê przej¶æ przez labirynt nor.~";
+                'xibalba', 'xibalbê':
+                    if (Shrine.sw_to == Junction)
+                        "Kap³an w milczeniu unosi ko¶cistym palec wskazuj±c na po³udniowy zachód.";
+                    Shrine.sw_to = Junction;
+                    " ~Xibalb@'a, ¦wi±tynia strachu.~ mówi stary kap³an wskazuj±c ko¶cistym palcem 
+                    na po³udniowy zachód w kierunku lodowej zmarzliny i sopli, które po jego s³owach 
+                    zaczynaj± topnieæ i znikaj± otwieraj±c przej¶cie.";
+                    }
+                "~Sam musisz znale¼æ odpowied¼ na to pytanie.~";
+            Tell:
+                "Kap³ana nie obchodz± szczegó³y Twojego nêdznego ¿ycia.";
+            Attack, Kiss:
+                remove self;
+                "Cia³o kap³ana rozsypuje siê w proch. Nie zostaje po nim ¿aden ¶lad. Ani ko¶æ, ani nawet powiew wiatru.";
+            ThrowAt:
+                move noun to location; <<Attack self>>;
+            Show, Give:
+                if (noun == dictionary && dictionary.correct == false) {
+                    dictionary.correct = true;
+                    "Przegl±daj±c strony s³ownika, kap³an wybucha kilka razy g³uchym 
+                    zachrypniêtym ¶miechem. Nie mog±c powstrzymaæ rozbawienia wprowadza
+                    tu i ówdzie kilka poprawek, po czym oddaje Ci ksi±¿kê.";
+                    }
+                if (noun == newspaper)
+                    "Stary kap³an spogl±da na datê. ~12 baktun 16 katun 4 tun 1 uinal
+                     12 kin~, obwieszcza przegl±daj±c pierwsz± stronê.
+                     ~Dokona³ siê pewien postêp jak widzê.~";
+                "Kap³an nie wydaje siê byæ zainteresowany sprawami doczesnymi.";
+            ],
+        orders [;
+            Go:
+                "~Nie wolno mi opuszczaæ sanktuarium.~";
+            NotUnderstood:
+                "~Mówisz zagadkami przybyszu.~";
+            default:
+                "~To nie twoim rozkazom mam byæ pos³uszny.~";
+            ],
+  has   animate;
+
+!       Defined in DM4 Exercise 53
+Object  warthog "guziec"
+  with  name 'guziec' 'dziki' 'dzika' 'swinia' 'dzik',
+        name_dop 'guzca' 'dzikiego' 'dzikiej' 'swini' 'dzika',
+        name_cel 'guzcowi' 'dzikiemu' 'dzikiej' 'swini' 'dzikowi',
+        name_bie 'guzca' 'dzikiego' 'dzika' 'swinie' 'dzika',
+        name_nar 'guzcem' 'dzikim' 'dzika' 'swinia' 'dzikiem',
+        name_mie 'guzcu' 'dzikim' 'dzikiej' 'swini' 'dziku',
+
+        desc_dop "gu¼ca",
+        desc_cel "gu¼cowi",
+        desc_bie "gu¼ca",
+        desc_nar "gu¼cem",
+        desc_mie "gu¼cu",
+        initial
+            "Guziec pomrukuje z zadowoleniem ryj±c w kurzu i ziemi.",
+        description
+            "W³ochaty, ub³ocony i pochrz±kuj±cy.",
+        orders [;
+            Go, Look, Examine, Smell, Taste, Touch, Search, Jump, Enter:
+                rfalse;
+            Eat:
+                "Jako¶ nie potrafisz odkryæ w sobie talentu do rycia.";
+            default:
+                "Gu¼ce nie mog± robiæ nic tak skomplikowanego. Gdyby nie zdolno¶æ 
+                widzenia w ciemno¶ci i brak brzucha, sytuacja w której siê znalaz³e¶
+                by³aby nie do pozazdroszczenia.";
+            ],
+  has   animate proper;
+
+!       Defined in DM4 §8
+
+Object  low_mist "mg³a"
+  with  name 'mgla' 'powietrze',
+        name_dop 'mgly' 'powietrza',
+        name_cel 'mgle' 'powietrzu',
+        name_bie 'mgle' 'powietrze',
+        name_nar 'mgla' 'powietrzem',
+        name_mie 'mgle' 'powietrzu',
+
+        desc_dop "mg³y",
+        desc_cel "mgle",
+        desc_bie "mg³ê",
+        desc_nar  "mg³±",
+        desc_mie"mgle",
+        description "Ca³y czas masz wra¿enie, ¿e miejscowe powietrze ma aromat tortilli.",
+        before [;
+            Examine, Search:
+                ;
+            Smell:
+                <<Examine self>>;
+            default:
+                "Mg³a jest na to zdecydowanie zbyt ulotna.";
+            ],
+        react_before [; Smell: if (noun == nothing) <<Smell self>>; ],
+        found_in Square_Chamber Forest,
+  has   scenery female;
+
+!       Defined in DM4 Exercise 46
+
+Object  tiny_claws "insekty" thedark
+  with  name 'male' 'insekty' 'insekt' 'insektow' 'owady' 'owad' 'owadow' 'odglos' 'dzwiek',
+        name_dop 'malych' 'insektow' 'insekta' 'insektow' 'owadow' 'owada' 'owadow' 'odglosu' 'dzwieku',
+        name_cel 'malym' 'insektom' 'insektow' 'insektom' 'owadom' 'owadowi' 'owadom' 'odglosowi' 'dzwiekowi',
+        name_bie 'male' 'insekty' 'insekta' 'insektow' 'owady' 'owad' 'owadow' 'odglos' 'dzwiek',
+        name_nar'malymi' 'insektami' 'insektem' 'insektow' 'owadami' 'owadem' 'owadow' 'odglosem' 'dzwiekiem',
+        name_mie 'malych' 'insektach' 'insekcie' 'insektow' 'owadach' 'owadzie' 'owadow' 'odglosie' 'dzwieku',
+
+        desc_dop "insektów",
+        desc_cel "insektom",
+        desc_bie "insekty",
+        desc_nar "insektami",
+        desc_mie "insektach",
+        
+        initial
+            "Jedyne d¼wiêki w ciemno¶ci to Twój niespokojny oddech i odg³os przemieszczaj±cych siê ma³ych insektów.",
+        before [;
+            Listen:
+                "Jak na zwyk³e owady, brzmi± bardzo inteligentnie.";
+            Touch, Taste:
+                "Nie chcesz tego robiæ. Naprawdê nie chcesz.";
+            Smell:
+                "Jedyne co w tej chwili czujesz to strach.";
+            Attack:
+                "Owady z ³atwo¶ci± unikaj± twoich nieporadnych wymachów.";
+            default:
+                "Bardziej wyczuwasz ni¿ widzisz te dziesi±tki owadów biegaj±cych dooko³a i wydaj±cych ten charakterystyczny brzêcz±cy d¼wiêk.";
+            ],
+        each_turn [; StartDaemon(self); ],
+        daemon [;
+            if (location ~= thedark) {
+                self.turns_active = 0;
+                StopDaemon(self);
+                rtrue;
+                }
+            switch (++(self.turns_active)) {
+                1:  "^Tupot ma³ych nóg nasila siê. Zaczynasz oddychaæ g³o¶no i nieregularnie.";
+                2:  "^Dr¿±c± rêk± ocierasz z czo³a zimny pot. Cokolwiek czai siê w mroku jest coraz bli¿ej!";
+                3:  "^Czujesz ³askotanie na nodze i gwa³townie kopiesz co¶ zrzucaj±c. 
+                S³yszysz tylko gro¼ny trzask, kiedy chitynowy pancerz jakiego¶ insekta pêka uderzaj±c o kamieñ.";
+                4:  deadflag = true;
+                    "^Nagle pojawia siê piek±cy ból, kiedy ostre ¿±d³o wbija siê Twoj± ³ydkê. Niemal w tej samej chwili 
+                    dostajesz drgawek, czujesz jak blokuj± siê stawy, jak puchnie jêzyk...";
+                }
+            ],
+        turns_active 0;
+
+! ---------------------------------------------------------------------------- !
+!       Utility routines.
+
+!       Defined in DM4 §4, modified in §21 and §23
+
+[ Initialise;
+        TitlePage();
+        location = Forest;
+        move map to player;
+        move sodium_lamp to player;
+        move dictionary to player;
+        StartDaemon(sodium_lamp);
+        thedark.description =
+            "Panuj±ce ciemno¶ci przyt³aczaj± powoduj±c, ¿e czujesz siê odrobinê klaustrofobicznie.";
+        "^^^Dni poszukiwañ, dni mozolnego przedzierania siê ciernisty, gêsty las. Twoja cierpliwo¶æ zostaje w koñcu wynagrodzona! Odkrycie!^";
+        ];
+
+!       Defined in DM4 Exercise 123
+
+[ TitlePage i;
+        @erase_window -1; print "^^^^^^^^^^^^^";
+        i = 0->33; if (i > 30) i = (i-30)/2;
+        style bold; font off; spaces(i);
+        print " RUINY^";
+        style roman; print "^^"; spaces(i);
+        print "[Naci¶nij SPACJÊ aby kontynuowaæ.]^";
+        font on;
+        box "Zipacna nie kopa³ dziury na dnie po to,"
+            "Aby sta³a siê jego grobem."
+            "Raczej kopa³ sobie w³asn± dziurê,"
+            "Aby s³u¿y³a mu jako schronienie."
+            ""
+            "-- z Rêkopisu z Chichicastenango (Popol Vuh)";
+        @read_char 1 -> i;
+        @erase_window -1;
+        ];
+
+!       Defined in DM4 §22
+
+[ PrintRank;
+        print ", co odpowiada randze ";
+        if (score == 30) "Dyrektora Carnegie Institution.";
+        if (score >= 20) "archeologa.";
+        if (score >= 10) "do¶wiadczonego poszukiwacza.";
+        if (score >= 5) "pocz±tkuj±cego odkrywcy.";
+        "niedzielnego turysty.";
+        ];
+
+!       Defined in DM4 §21
+
+[ DeathMessage;
+        if (deadflag == 3) print "Zosta³e¶ schwytany";
+        ];
+
+! ---------------------------------------------------------------------------- !
+
+Include "Grammar";
+
+!       Defined in DM4 §6
+
+[ PhotographSub;
+        if (camera notin player) "Nie mo¿esz zrobiæ zdjêcia bez aparatu.";
+        if (noun == player) "Lepiej nie. Nie goli³e¶ siê od l±dowania w Meksyku.";
+        if (children(player) > 1)
+            "Fotografowanie jest strasznie uci±¿liwym zajêciem, do którego potrzebujesz obu r±k. 
+            Bêdziesz musia³ na chwilê od³o¿yæ wszystkie pozosta³e rzeczy.";
+        if (location == Forest) "Twój sprzêt jest zbyt delikatny, aby u¿ywaæ go w wilgotnej d¿ungli.";
+        if (location == thedark) "Tu jest zdecydowanie zbyt ciemno.";
+        if (AfterRoutines()) return;
+        	print_ret "Ustawiasz swój nieporêczny, kolodionowy aparat, 
+        	montujesz lampê i cierpliwie dokumentujesz ",
+                (bie) noun, " w miejscu odkrycia znaleziska.";
+        ];
+
+Verb 'sfotografuj' 'fotografuj'
+        * bierniknoun                     -> Photograph;
+
+Verb 'zrob'
+        * 'zdjecie' celowniknoun          -> Photograph;
+
+
+! ---------------------------------------------------------------------------- !

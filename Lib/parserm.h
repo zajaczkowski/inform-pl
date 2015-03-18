@@ -3556,7 +3556,7 @@ Constant SCORE__DIVISOR = 20;
     
             if ( temp_noun_form == 0) { print (bie) i; jump TokenPrinted; }; 
             if ( temp_noun_form == 1) { print (dop) i; jump TokenPrinted; };	
-            if ( temp_noun_form == 2 && temp_second == 1) { print (mie) i; jump TokenPrinted; };	
+            if ( temp_noun_form == 2 && temp_second == 1) { print (msc) i; jump TokenPrinted; };	
             if ( temp_noun_form == 2 && temp_second == 0) { print (bie) i; temp_second++; jump TokenPrinted; };
 
 	}

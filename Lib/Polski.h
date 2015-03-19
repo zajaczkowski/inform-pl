@@ -110,7 +110,7 @@ Constant AND2__WD       = 'i//';
 Constant AND3__WD       = 'oraz';
 Constant BUT1__WD       = 'oprócz';
 Constant BUT2__WD       = 'wyj±wszy';
-Constant BUT3__WD       = 'but';
+Constant BUT3__WD       = 'bez';
 Constant ME1__WD        = 'mi';
 Constant ME2__WD        = 'siebie';
 Constant ME3__WD        = 'siê';
@@ -127,10 +127,10 @@ Constant THEN3__WD      = 'then';
 
 Constant NO1__WD        = 'n//';
 Constant NO2__WD        = 'nie';
-Constant NO3__WD        = 'nie';
+Constant NO3__WD        = 'no';
 Constant YES1__WD       = 't//';
 Constant YES2__WD       = 'tak';
-Constant YES3__WD       = 'tak';
+Constant YES3__WD       = 'yes';
 
 Constant AMUSING__WD    = 'amusing';
 Constant FULLSCORE1__WD = 'wynik';
@@ -371,31 +371,11 @@ Array LanguageNumbers table
 ! odpowiedniej formie.
 ! ------------------------------------------------------------------------------
 
-![ mia obj;
-!    if (obj.desc_mia) PrintOrRun(obj, desc_mia, 1); else print (name) obj;
-!];
-
-[ dop obj;
-    if (obj.desc_dop) PrintOrRun(obj, desc_dop, 1); else print (name) obj;
-];
-
-[ cel obj;
-    if (obj.desc_cel) PrintOrRun(obj, desc_cel, 1); else print (name) obj;
-];
-
-[ bie obj;
-    ! JeÅ›li biernik jest taki sam jak mianownik to w zasadzie nie ma potrzeby 
-    ! go definiowaÄ‡...
-    if (obj.desc_bie) PrintOrRun(obj, desc_bie, 1); else print (name) obj;
-];
-
-[ nar obj;
-    if (obj.desc_nar) PrintOrRun(obj, desc_nar, 1); else print (name) obj;
-];
-
-[ mie obj;
-    if (obj.desc_mie) PrintOrRun(obj, desc_mie, 1); else print (name) obj;
-];
+[ dop obj; if (obj.desc_dop) PrintOrRun(obj, desc_dop, 1); else print (name) obj;];
+[ cel obj; if (obj.desc_cel) PrintOrRun(obj, desc_cel, 1); else print (name) obj;];
+[ bie obj; if (obj.desc_bie) PrintOrRun(obj, desc_bie, 1); else print (name) obj;];
+[ nar obj; if (obj.desc_nar) PrintOrRun(obj, desc_nar, 1); else print (name) obj;];
+[ mie obj; if (obj.desc_mie) PrintOrRun(obj, desc_mie, 1); else print (name) obj;];
 
 ! --------------------------------------------------------------------------------
 
@@ -913,8 +893,8 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
 
 
     !   Czasowniki dodatkowe, które nie z± zdefiniowane w podstawowym zestawie
-    'policz': print "policzyæ";   ! pochodzi z Advent.inf
-
+    'policz': print "policzyæ";           ! pochodzi z advent.inf
+    'sfotografuj': print "sfotografowaæ"; ! pochodzi z ruins.inf
     default: rfalse;
 
 
@@ -1006,7 +986,7 @@ Constant YOURSELF__TX   = "Ty";
 Constant YOU__TX        = "You";
 Constant DARKNESS__TX   = "Ciemno¶æ";
 
-Constant THOSET__TX     = "tamte rzeczy";
+Constant THOSET__TX     = "jakie¶ rzeczy";
 Constant THAT__TX       = "tamto";
 Constant OR__TX         = " lub ";
 Constant OR2__TX        = " czy ";     ! dodanie tej opcji wymaga³o zmiany parsera
@@ -1538,7 +1518,7 @@ Array name_buffer->64;
         1:  "W ", (cel) x1, " nie ma zamka.";
         2:  print (Cname) x1, " "; if (x1 has pluralname)       { print "s± ju¿ zamkniête na klucz.^"; return; }
             if (x1 has female)       { print "jest ju¿ zamkniêta na klucz.^"; return; }
-            else if (x1 hasnt neuter) { print "jest ju¿ zamkniête na klucz.^"; return; }
+            else if (x1 hasnt neuter) { print "jest ju¿ zamkniêty na klucz.^"; return; }
             print "jest ju¿ zamkniête na klucz.^";
         3:  "(zamykajac ", (bie) x1, ")";
         4:  print (Cname) x1, " nie "; if (x1 has pluralname) print "pasuj± "; else print "pasuje ";
@@ -1578,11 +1558,11 @@ Array name_buffer->64;
         2:  "Nothing to do!";
         3:  print " Zgin±³e¶ ";
         4:  print " Zwyciê¿y³e¶ ";
-        5:  print "^Czy chcesz ZRESTARTOWAÆ , ZA£ADOWAÆ€  zapisany stan gry";
+        5:  print "^Czy chcesz ZRESTARTOWAÆ, ZA£ADOWAÆ€  zapisany stan gry";
             #Ifdef DEATH_MENTION_UNDO;
             print ", COFN¡Æ  swój ostatni ruch";
             #Endif;
-            if (TASKS_PROVIDED == 0) print ", zobaczyæ PE³NY WYNIK";
+            if (TASKS_PROVIDED == 0) print ", zobaczyæ PE£NY WYNIK";
             if (deadflag == 2 && AMUSING_PROVIDED == 0)
                 print ", see some suggestions for AMUSING things to do";
             " czy ZAKOÑCZYÆ ?";
@@ -1611,8 +1591,8 @@ Array name_buffer->64;
         24: "You can't talk to ", (the) x1, ".";
         25: "To talk to someone, try ~someone, hello~ or some such.";
         26: "(bierzesz ", (bie) not_holding, ")";
-        27: "I didn't understand that sentence.";
-        28: print "Zrozumia³em tylko tyle, ¿e próbujesz ";
+        27: "Nie zrozumia³em tego zdania.";
+        28: print "Zrozumia³em tylko tyle, ¿e usi³ujesz ";
         29: "I didn't understand that number.";
         30: "Nie widzisz nic takiego.";
         31: "You seem to have said too little!";
@@ -1737,7 +1717,7 @@ Array name_buffer->64;
     }
   Rub:      "Nie uda³o Ci siê w ten sposób osi±gn±æ niczego konkretnego.";
   Save: switch (n) {
-        1:  "Stan gry nie zosta³ zapisany.";
+        1:  "Nie uda³o siê zapisaæ stanu gry.";
         2:  "Ok.";
     }
   Score: switch (n) {
@@ -1798,7 +1778,7 @@ Array name_buffer->64;
         3:  "W³±czasz ", (bie) x1, ".";
     }
   Take: switch (n) {
-        1:  "Zabierasz ", (bie) x1,".";
+        1:  "Bierzesz ", (bie) x1,".";
         2:  "Próbujesz wi±¶æ siê trochê w gar¶æ.";
         3:  "I don't suppose ", (the) x1, " would care for that.";
         4:  print "You'd have to get ";
@@ -1850,7 +1830,7 @@ Array name_buffer->64;
         1:  "The game file has verified as intact.";
         2:  "The game file did not verify as intact, and may be corrupt.";
     }
-  Wait:     "Mija trochê czasu.";
+  Wait:     "Up³ywa trochê czasu.";
   Wake:     "The dreadful truth is, this is not a dream.";
   WakeOther:"That seems unnecessary.";
   Wave: switch (n) {

@@ -184,80 +184,61 @@ Verb 'wake' 'awake' 'awaken'
 
 
 
-! ------------------
-! Polskie czasowniki
-! ------------------
-
-
-
-Verb 'wez' 'zabierz' 'podnies'  ! TU ZMIANA
-    * biernikmulti                              -> Take    
-    * multiinside 'from' noun			        -> Remove;          ! <- tu jest problem, który wymaga poprawek w parserze... :(
-
-Verb 'wyjmij' 'wyciagnij'
-!    * multiinside                            	 -> Pull			! <- to jest niejasne
-    * multiinside 'z//'/'ze//' dopelniacznoun   -> Remove;
-
-
-  
-
-
-
-! Lista czasowników
-! -----------------
+! -------------------
+!  Lista czasowników
+! -------------------
 
 
 Verb 'dmij' 'zadmij' 'dmuchaj' 'dmuchnij'
     * 'w' biernikheld                           			-> Blow;
 
-
-Verb 'podpal' 
-    * bierniknoun                               			-> Burn
-    * bierniknoun narzednikheld                 			-> Burn;
-        
     
-Verb 'czekaj' 'poczekaj' 'zaczekaj' 'odczekaj'
+Verb 'czekaj' 'poczekaj' 'zaczekaj'
     *                                           			-> Wait;
+
 
 Verb 'ciagnij' 'pociagnij'
     * bierniknoun                               			-> Pull
     * 'za' bierniknoun                          			-> Pull;
- 
+
+
 Verb 'czytaj' 'przeczytaj'
     * bierniknoun                               			-> Examine
     * 'o' topic 'w' miejscowniknoun             			-> Consult
     * 'w' miejscowniknoun 'o' topic							-> Consult;
 
+
 Verb 'daj' 'oddaj'
     * biernikheld celownikcreature              			-> Give
     * celownikcreature biernikheld              			-> Give reverse;
- 
+
+
 Verb 'dotknij'
     * dopelniacznoun                            			-> Touch;
+
 
 Verb 'idz' 'biegnij' 'pobiegnij' 'pojdz'
     *                                           			-> VagueGo
     * 'na' noun=ADirection                      			-> Go
     * 'do' noun=ADirection                      			-> GoIn;
 
+
 Verb 'i//' 'inwentarz'
     *                                           			-> Inv
     * 'lista'                                   			-> InvTall
     * 'opis'                                    			-> InvWide;
-  
+
+
 Verb 'kop'
     * 														-> Dig
     * 'w' miejscowniknoun                       			-> Dig
     * 'w' miejscowniknoun narzednikheld         			-> Dig
     * narzednikheld 'w' miejscowniknoun         			-> Dig;
 
+
 Verb 'kup' 'zakup'
     * bierniknoun                               			-> Buy;
-    
 
-Verb 'machaj' 'pomachaj'
-    *                                           			-> WaveHands
-    * narzedniknoun                             			-> Wave;
 
 Verb 'napelnij'
     * bierniknoun                               			-> Fill;
@@ -266,37 +247,36 @@ Verb 'napelnij'
 Verb 'napij'
     * 'sie' dopelniacznoun                      			-> Drink
     * 'sie' 'z'/'ze' dopelniacznoun             			-> Drink;
+
     
-Verb 'nie'
+Verb 'nie' 'n//'
     *                                           			-> No;
-    
+
+   
 Verb 'obejrzyj' 'ob//' 'zobacz' 'x//'
     * bierniknoun                               			-> Examine;
-
-Verb 'obroc' 'przekrec' 'zakrec' 'dokrec' 'skrec' 'odkrec'
-    * bierniknoun                               			-> Turn;
-
-Verb 'oczysc' 'czysc' 'wyczysc' 'odkurz' 'zmaz'
-    * bierniknoun                               			-> Rub;
 
 
 Verb 'odblokuj'
     * bierniknoun narzednikheld                 			-> Unlock
     * narzednikheld bierniknoun                 			-> Unlock;
     
+
 Verb 'odloz'
     * biernikmultiheld                          			-> Drop
     * biernikheld 'w' miejscowniknoun           			-> Insert
     * biernikmultiexcept 'do' dopelniacznoun    			-> Insert
     * biernikmultiexcept 'na' bierniknoun       			-> PutOn;
 
-! nie dokoñczony
-Verb 'odpowiedz' 'say' 'shout' 'speak'
+
+Verb 'odpowiedz' ! nie dokoñczony - 'say' 'shout' 'speak'
     * topic 'to' creature                       			-> Answer;
+
 
 Verb 'oproznij'
     * bierniknoun                               			-> Empty
     * bierniknoun 'na'/'do' dopelniacznoun      			-> EmptyT;
+
 
 Verb 'otworz'
     * bierniknoun                               			-> Open
@@ -311,21 +291,27 @@ Verb 'pchnij' 'popchnij' 'przesun'
     
 Verb 'plyn' 'poplyn'
     *                                           			-> Swim;
-    
-Verb 'caluj' 'pocaluj' 'przytul' 'usciskaj'
+
+  
+Verb 'pocaluj' 'caluj' 'przytul' 'usciskaj'
     * biernikcreature                           			-> Kiss;
 
 
+Verb 'podpal' 
+    * bierniknoun                                           -> Burn
+    * bierniknoun narzednikheld                             -> Burn;
 
 
 Verb 'podskocz' 'skocz'
     *                                           			-> Jump;
+
 
 Verb 'pokaz'
     * 'inwentarz'                                           -> Inv
     * celownikcreature biernikheld              			-> Show reverse
     * biernikheld celownikcreature              			-> Show;
     
+
 Verb 'poloz'
     * 'sie' 'na' miejscowniknoun                			-> Enter
     * 'sie' 'w' miejscowniknoun                 			-> Enter
@@ -334,58 +320,74 @@ Verb 'poloz'
     * biernikmultiexcept 'do' dopelniacznoun    			-> Insert
     * biernikmultiexcept 'na' miejscowniknoun   			-> PutOn;
     
+
+Verb 'pomachaj' 'machaj'
+    *                                                       -> WaveHands
+    * narzedniknoun                                         -> Wave;
+  
+
 Verb 'pomodl' 'modl'
     * 														-> Pray
     * 'sie'                                     			-> Pray;
 
+
 Verb 'pomysl' 'mysl'
     *                                           			-> Think;
 
+
 Verb 'popros' 'pros'
     * biernikcreature 'o' bierniknoun           			-> AskFor;
-    
-Verb 'postaw' 'zostaw'
-    * biernikmultiheld                              		-> Drop
-    * biernikmultiexcept 'na' miejscowniknoun       		-> PutOn
-    * biernikmultiheld 'w' miejscowniknoun          		-> Insert;
-        
-Verb 'potrzyj' 'wytrzyj' 'przetrzyj'
+
+
+Verb 'ustaw' 'postaw' 
+    * biernikmulti                                          -> Drop
+    * biernikmultiexcept 'na' miejscowniknoun               -> PutOn;
+
+      
+Verb 'potrzyj' 'przetrzyj' 'wytrzyj' 
     * bierniknoun                               			-> Rub;
-    
+
+
 Verb 'powachaj' 'wachaj'
     * bierniknoun                               			-> Smell;
+
 
 Verb 'powiedz'
     * celownikcreature 'o' topic                			-> Tell
     * celownikcreature topic                    			-> AskTo;
-    
-Verb 'wstañ'
-    *                                           			-> Exit
-    * 'z' dopelniacznoun									-> Exit;
+
+
+Verb 'przekrec' 'dokrec' 'obroc' 'odkrec' 'zakrec'
+    * bierniknoun                                           -> Turn;
+
 
 Verb 'przenies' 'przeloz'
     * bierniknoun 'do' dopelniacznoun           			-> Transfer;
     
+
 Verb 'przeskocz'
     * 'nad' miejscowniknoun                     			-> JumpOver;
  
+
 Verb 'przeszukaj'
     * bierniknoun                               			-> Search;
-    
-Verb 'przepchnij' 'wypchnij'
-    * bierniknoun 'na' noun                     			-> PushDir;
+
 
 Verb 'przepros'
     *                                           			-> Sorry;    
 
+
 Verb 'przespij' 'zdrzemnij'
     * 'sie'                                     			-> Sleep;
 
-Verb 'przetnij' 'tnij' 'przekroj' 'kroj'
+
+Verb 'przetnij' 'kroj' 'przekroj' 'tnij'
     * bierniknoun                               			-> Cut;
-    
+
+
 Verb 'przyjrzyj'
     * 'sie' celowniknoun                        			-> Examine;
+
 
 Verb 'rzuc'
     * biernikmultiheld										-> Drop
@@ -396,20 +398,25 @@ Verb 'rzuc'
     * biernikmultiheld 'do' dopelniacznoun      			-> Insert
     * biernikmultiexcept 'na'/'w' miejscowniknoun 			-> PutOn;
     
-Verb 'wyrzuc'
-    * biernikmultiheld										-> Drop;   
-    
 
 Verb 'schowaj'
     * bierniknoun 'w' miejscowniknoun           			-> Insert 
     * biernikmulti 'do' dopelniacznoun          			-> Insert;
-    
-Verb 'sprobuj' 'skosztuj'
-    * bierniknoun                               			-> Taste;
-    
+
+
+Verb 'siadz' 'usiadz'
+    * 'na' miejscowniknoun                                  -> Enter
+    * 'w' miejscowniknoun                                   -> Enter;
+
+
 Verb 'sluchaj' 'posluchaj'
     *                                           			-> Listen
     * dopelniacznoun                            			-> Listen;
+
+
+Verb 'spij' 'zasnij'
+    *                                                       -> Sleep;
+
 
 Verb 'spojrz' 'sp//' 'popatrz'   ! TU ZMIANA
     *                                           			-> Look
@@ -418,41 +425,36 @@ Verb 'spojrz' 'sp//' 'popatrz'   ! TU ZMIANA
     * 'pod'/'za' bierniknoun                    			-> LookUnder;
 
 
-Verb 'pytaj' 'spytaj' 'zapytaj'
-    * biernikcreature 'o' topic                 			-> Ask
-    * biernikcreature 'o' bierniknoun           			-> AskFor;
-
-    ! * creature 'to' topic                     			-> AskTo
-    ! * 'that' creature topic                   			-> AskTo;
+Verb 'sprawdz' 'skonsultuj'
+    * topic 'w' miejscowniknoun                             -> Consult
+    * bierniknoun                                           -> Examine;
 
 
+Verb 'sprobuj' 'skosztuj'
+    * bierniknoun                                           -> Taste;
+    
 
 Verb 'stan'
     * 'na' miejscowniknoun                      			-> Enter;
 
-Verb 'szukaj' 'poszukaj' 'wyszukaj' 'odszukaj'
+
+Verb 'szukaj' 'odszukaj' 'poszukaj' 
     * dopelniacznoun                            			-> Search
     * topic 'w' miejscowniknoun                   			-> Consult
     * 'pod'/'za'/'na' narzedniknoun             			-> LookUnder;
 
     
-Verb "scisnij" "wycisnij" "zgniec"
+Verb 'scisnij' 'zgniec'
     * bierniknoun                               			-> Squeeze;
     
-Verb "tak" "t//"
+
+Verb 'tak' 't//'
     *                                           			-> Yes;
 
-Verb "uruchom"
+
+Verb 'uruchom'
     * 'ponownie'                                			-> Restart
     * bierniknoun                               			-> SwitchOn;
-
-Verb 'usiadz'
-    * 'na' miejscowniknoun                        			-> Enter
-    * 'w' miejscowniknoun                         			-> Enter;
-    
-Verb "ustaw"
-    * biernikmulti                              			-> Drop
-    * biernikmultiexcept 'na' miejscowniknoun   			-> PutOn;
 
 
 Verb 'wdrap' 'wespnij'
@@ -460,8 +462,12 @@ Verb 'wdrap' 'wespnij'
     * 'sie' 'po' miejscowniknoun							-> Climb;
 
 
+Verb 'wez' 'zabierz' 'podnies'  ! TU ZMIANA
+    * biernikmulti                                          -> Take    
+    * multiinside 'from' noun                               -> Remove;          ! <- tu jest problem, który wymaga poprawek w parserze... :(
 
-Verb "wejdz"
+
+Verb 'wejdz'
     *                                           			-> GoIn
     * 'do' noun=ADirection                      			-> GoIn
     * 'do' dopelniacznoun                       			-> Enter
@@ -470,26 +476,39 @@ Verb "wejdz"
     * 'po' miejscowniknoun									-> Climb; 
 
  
-Verb "wlacz" "zapal"
+Verb 'wlacz' 'zapal'
     * bierniknoun                               			-> SwitchOn;
 
-Verb "wloz"
+
+Verb 'wloz'
     * biernikheld                               			-> Wear
     * biernikmultiheld 'w' bierniknoun              		-> Insert 
     * biernikmultiheld 'do' dopelniacznoun          		-> Insert;
 
+
 Verb 'wrzuc'
     * biernikmultiheld 'do'/'w' dopelniacznoun  			-> Insert;
-    
+
+
 Verb "wsiadz"
     * 'do' dopelniacznoun                       			-> Enter;
+
     
+Verb 'wstañ'
+    *                                                       -> Exit
+    * 'z' dopelniacznoun                                    -> Exit;
+
+
 Verb 'wyjdz'
     *                                           			-> Exit
     * 'na' 'zewnatrz'                           			-> Exit
     * 'na' noun=ADirection                      			-> Go
     * 'z' dopelniacznoun                        			-> Exit;
 
+
+Verb 'wyjmij' 'wyciagnij'
+!    * multiinside                                          -> Pull            ! <- to jest niejasne
+    * multiinside 'z//'/'ze//' dopelniacznoun               -> Remove;
 
 
 Verb 'wylacz' 'zgas'
@@ -500,77 +519,97 @@ Verb 'wypij'
     * bierniknoun                               			-> Drink;
 
 
-    
+Verb 'wyrzuc'
+    * biernikmultiheld                                      -> Drop;   
+   
+
 Verb 'wysiadz'
     *                                           			-> Exit
     * 'z' dopelniacznoun                        			-> Exit;
    
-   
 
-
-Verb 'atakuj' 'zaatakuj' 'zniszcz'
-    * bierniknoun                               			-> Attack;
+Verb 'zaatakuj' 'zniszcz'
+    * bierniknoun                               			-> Attack
+    * biernikcreature                                       -> Attack;
 
 
 Verb 'zabij'  'zamorduj'
 	* biernikcreature										-> Attack;
 	
 
-Verb 'kopnij' 'uderz' 'walnij'
+Verb 'uderz' 'walnij' 'kopnij'
 	* 'w' bierniknoun                           			-> Attack
     * bierniknoun                               			-> Attack;
 
-
     	
-Verb "zablokuj"
+Verb 'zablokuj'
     * narzednikheld bierniknoun                 			-> Lock
     * bierniknoun narzednikheld                 			-> Lock;
- 
-Verb "zajrzyj"
+
+
+Verb 'zajrzyj'
     * 'do' dopelniacznoun                       			-> Search
     * 'pod'/'za' bierniknoun                    			-> LookUnder;
     
+
 Verb 'zaloz' 'ubierz'
     * biernikheld                               			-> Wear;
-    
+
+
 Verb 'zamknij'
     * bierniknoun                               			-> Close
     * bierniknoun narzednikheld                 			-> Lock
     * narzednikheld bierniknoun                 			-> Lock
     * bierniknoun 'na' biernikheld              			-> Lock;
 
+
+Verb 'zapytaj' 'pytaj' 'spytaj' 
+    * biernikcreature 'o' topic                             -> Ask
+    * biernikcreature 'o' bierniknoun                       -> AskFor;
+
+    ! * creature 'to' topic                                 -> AskTo
+    ! * 'that' creature topic                               -> AskTo;
+
+
 Verb 'zastanow'
     * 'sie'                                     			-> Think;
 
+
 Verb 'zaspiewaj' 'spiewaj'
     *                                           			-> Sing;
-    
+
+
+Verb 'zjedz' 'polknij' 'ugryz' 
+    * bierniknoun                                           -> Eat;
+
+  
 Verb 'znajdz'
     * topic 'w' miejscowniknoun                   			-> Consult
     * bierniknoun                               			-> Search;
          
- 
-Verb 'sprawdz' 'skonsultuj'
-    * topic 'w' miejscowniknoun                   			-> Consult
-    * bierniknoun                               			-> Examine;
 
-
-Verb "zdejmij"
+Verb 'zdejmij'
     * bierniknoun                               			-> Disrobe;
 
-Verb "zejdz" 
+
+Verb 'zejdz' 
     *                                           			-> Exit
     * 'z'/'ze' dopelniacznoun	                			-> Exit;
 
-Verb "zsiadz" 
+Verb 'zostaw'
+    * biernikmultiheld                                      -> Drop
+    * biernikmultiexcept 'na' miejscowniknoun               -> PutOn
+    * biernikmultiheld 'w' miejscowniknoun                  -> Insert;
+
+
+Verb 'zsiadz' 
     * 'z'/'ze' dopelniacznoun	                			-> GetOff;
  
-Verb 'polknij' 'ugryz' 'zjedz' 
-    * bierniknoun                               			-> Eat;
+
 
 
      
-Verb 'shit' 'damn' 'fuck' 'sod' 'kurwa' 'huj' 'chuj' 'gówno'
+Verb 'shit' 'damn' 'fuck' 'sod' 'kurwa' 'huj' 'chuj' 'gowno'
     *                                           			-> Strong
     * topic                                     			-> Strong;
     

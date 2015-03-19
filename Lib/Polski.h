@@ -80,7 +80,6 @@ CompassDirection -> d_obj "dó³"
 CompassDirection -> in_obj "¶rodek"
                     with door_dir in_to, 
                     name 'srodek' 'wnetrze' 'srodka' 'wnetrza';
-
 CompassDirection -> out_obj "zewn±trz"
                     with door_dir out_to, name 'zewnatrz';
 
@@ -108,9 +107,9 @@ Constant ALL5__WD       = 'obie ';
 Constant AND1__WD       = 'i//';
 Constant AND2__WD       = 'i//';
 Constant AND3__WD       = 'oraz';
-Constant BUT1__WD       = 'oprócz';
-Constant BUT2__WD       = 'wyj±wszy';
-Constant BUT3__WD       = 'bez';
+Constant BUT1__WD       = 'oprócz';   ! kogo, czego?
+Constant BUT2__WD       = 'wyj±wszy'; ! kogo, co?
+Constant BUT3__WD       = 'bez';      ! kogo, czego?
 Constant ME1__WD        = 'mi';
 Constant ME2__WD        = 'siebie';
 Constant ME3__WD        = 'siê';
@@ -258,7 +257,6 @@ Array LanguageNumbers table
   
     if (word == 'pó³nocny-zachód' && buffer->(at+8) =='-' && buffer->(at+9) == 'z')
       { 
-
       for (y=at:y<at+15:y++) {buffer->(y) = ' ';};
   
       buffer->(at+0) = 'p';
@@ -619,55 +617,55 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
   
   switch (q) 
     {
+      'dmij', 'zadmij', 'dmuchnij', 'dmuchaj':            print "W co";
+      'czekaj','poczekaj','zaczekaj':                     print "Na co";
+      'ciagnij', 'pociagnij':                             print "Co";
+      'czytaj', 'przeczytaj':                             print "Co";
+      'daj', 'oddaj':                                     print "Komu";
+      'dotknij':                                          print "Co";
+      'idz', 'biegnij', 'pobiegnij', 'pojdz':             print "Dok±d";
+      'kop':                                              print "Gdzie"; 
+      'kup', 'zakup':                                     print "Co";
+      'napelnij':                                         print "Co";
+      'napij':                                            print "Czego";   
+      'obejrzyj','zobacz':                                print "Co";
+      'potrzyj':                                          print "Co";
+      'odblokuj':                                         print "Co";
+      'odloz':                                            print "Co";
+      'odpowiedz':                                        print "Co"; ! ewentualnie mog³o by byæ 'Komu'
+      'oproznij':                                         print "Co";
+      'otworz':                                           print "Co";
+      'pchnij', 'popchnij', 'przesun':                    print "Co";
+      'plyn', 'poplyn':                                   print "Dok±d";
+      'pocaluj', 'caluj', 'przytul', 'usciskaj':          print "Kogo";
+      'podpal':                                           print "Co";
+      'pokaz':                                            print "Co";
+      'poloz':                                            print "Co"; ! ewentualnie mog³o by byæ 'Gdzie' 'Na czym' itp.
+      'pomachaj', 'machaj':                               print "Czym";
+      'popros','pros':                                    print "Kogo"; ! ewentualnie mog³o by byæ 'O co'
+      'postaw', 'ustaw':                                  print "Co";
+      'potrzyj', 'przetrzyj', 'wytrzyj':                  print "Co";
+      'powachaj','w±chaj':                                print "Co";
+      'powiedz':                                          print "Co";
+      'przekrec', 'dokrec', 'obroc', 'odkrec', 'zakrec':  print "Co";
+      'przenies', 'przeloz':                              print "Co";
+      'przeskocz':                                        print "Nad czym";
+      'przeszukaj':                                       print "Co";
+      'przetnij', 'tnij', 'przekroj', 'kroj':             print "Co";
+      'przyjrzyj':                                        print "Czemu"; ! ewentualnie mog³o by byæ 'Komu'
+      'rzuc':                                             print "Co";
+      'schowaj':                                          print "Co";    
+      'siadz', 'usiadz':                                  print "Gdzie";
+      'sluchaj', 'posluchaj':                             print "Czego";
+      'spojrz', 'popatrz':                                print "Na co"; 
+      'sprawdz', 'skonsultuj':                            print "Co"; 
+      'sprobuj', 'skosztuj':                              print "Co"; 
+      'szukaj', 'odszukaj', 'poszukaj':                   print "Co";
+      'scisnij', 'zgniec':                                print "Co";
+      'uruchom':                                          print "Co";
 
-    ! Ask:
-      'pytaj', 'spytaj', 'zapytaj':               print "Kogo";   
-    ! Attack:
-      'atakuj', 'zaatakuj', 'zabij':              print "Kogo";
-        
-    ! Blow:
-      'dmij', 'zadmij', 'dmuchnij', 'dmuchaj':    print "W co";
-    ! Burn:
-      ! default
-    ! Buy:
-      ! default
-    ! Climb:
-      'wdrap', 'wespnij':                          print "Na co";
-    ! Close:
-      ! default
-    ! Consult:
-      ! default   
-    ! Cut:
-      ! default 
-    ! Dig:
-      'kop':                                      print "W czym"; 
-    ! Disrobe:
-      ! default       
-    ! Drink:
-      'napij':                print "Czego";    
-    ! 'wypij':                ! default   
-    ! Drop:
-      ! default
-    ! Eat:
-      ! default
-    ! EmptyT:
-      ! default
-    ! Enter:
-      'stan':                   print "Na czym";    
+      'zostaw':                                           print "Co";
 
-
-    ! Give:
-      'daj': print "Komu";
-    ! Kiss:
-      'caluj', 'pocaluj': print "Kogo";
-
-
-
-    'popros', 'pros': print "O co";
-      'poszukaj': print "Czego";
-      'ubierz': print "W co";
-
-        
     default: print "Co";
   };
 
@@ -683,218 +681,90 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
   switch (i) 
     {
     'i//','spis':               print "obejrzeæ spis posiadanych przez ciebie przedmiotów";
-
     ! 'z//':                    print "wait";
 
 
-! Answer:
-
-! Ask:
-    'spytaj': print "spytaæ, "; ! siebie?
-    'pytaj', 'zapytaj': print "zapytaæ, "; ! siebie?
-! Attack:
-    'atakuj': print "atakowaæ";
-    'kopnij': print "kopn±æ";
-    'uderz': print "uderzyæ";
-    'walnij': print "waln±æ"; 
-    'zaatakuj': print "zaatakowaæ";
-    'zabij': print "zabiæ";
-    'zamorduj': print "zamordowaæ";
-    'zniszcz': print "zniszczyæ";
-! Blow:
-    'dmij', 'zadmij': print "zad±æ";
-    'dmuchnij', 'dmuchaj': print "dmuchn±æ";
-! Burn:
-    'podpal': print "podpaliæ"; 
-    
-! Buy:
-    'kup','zakup': print "kupiæ";
-! Climb:
-    'wdrap': print "siê wdrapaæ";
-    'wejdz': print "wej¶æ"; ! Climb, Enter, GoIn
-    'wespnij': print "siê wspi±æ";
-! Close, Lock:
-    'zablokuj': print "zablokowaæ"; ! Lock
-    'zamknij': print "zamkn±æ"; ! Close, Lock
-! Consult:
-    'odszukaj', 'wyszukaj': print "odszukaæ"; ! Search, Consult, LookUnder
-    'poszukaj','szukaj': print "poszukaæ"; ! Search, Consult, LookUnder
-    'skonsultuj': print "skonsultowaæ"; 
-    'sprawdz': print "sprawdziæ";
-    'znajdz': print "znale¼æ";
-! Cut:
-    'przekroj', 'kroj': print "przekroiæ";
-    'przetnij', 'tnij': print "przeci±æ";
-    
-! Dig:
-    'kop': print "kopaæ";
-! Disrobe:
-    'zdejmij': print "zdj±æ";
-! Drink:
-    'napij': print "siê napiæ";
-    'wypij': print "wypiæ";
-! Drop:
-    'odloz': print "od³o¿yæ";
-    'poloz': print "po³o¿yæ";
-    'postaw': print "postawiæ"; 
-    'zostaw': print "zostawiæ"; 
-    'rzuc': print "rzuciæ"; 
-    'wyrzuc': print "wyrzuciæ";     
-
-! Eat:
-    'polknij', 'zjedz': print "zje¶æ";
-    'ugryz': print "ugry¼æ";          
-
-! EmptyT:
-    'oproznij': print "opró¿niæ";
-! Enter:
-    'poloz': print "po³o¿yæ";
-    'stan': print "stan±æ";
-    'usiadz': print "usi±¶æ";
-    'wejdz': print "wej¶æ";
-    'wsiadz': print "wsi±¶æ";
-    
-! Examine:
-    'czytaj', 'przeczytaj': print "przeczytaæ";
-    'obejrzyj', 'ob//': print "obejrzeæ";
-    'popatrz': print "popatrzeæ"; ! Examine, Look, LookUnder
-    'przyjrzyj': print "siê przyjrzeæ";
-    'spojrz', 'sp//': print "spojrzeæ"; ! Examine, Look, LookUnder
-    'zobacz', 'x//': print "zobaczyæ";
-
-! Exit:
-    'wstan': print "wstañ";
-    'wyjdz': print "wyj¶æ";
-    'wysiadz': print "wysi±¶æ";
-    'zejdz': print "zej¶æ"; 
-
-! Fill:
-    'napelnij': print "nape³niæ";
-! GetOff:
-    'zsiadz': print "zsi±¶æ";
-! Give:
-    'daj', 'oddaj': print "daæ";
-! Go, VagueGo, GoIn,:
-    'biegnij': print "biec";
-    'pobiegnij': print "pobiec";
-    'pojdz': print "pój¶æ";
-    
-! Insert:
-
-! Jump:
-
-! JumpOver, Tie:
-
-! Kiss:
-    'caluj', 'pocaluj': print "poca³owaæ";
-    'przytul': print "przytuliæ";
-    'usciskaj': print "u¶ciskaæ";
-! Listen:  
-
-! Look, LookUnder:    
-    'zajrzyj': print "bli¿ej zbadaæ"; ! Search, LookUnder
-
-! Open, Unlock:
-    'odblokuj': print "odblokowaæ"; ! Unlock
-    'otworz': print "otworzyæ"; ! Open, Unlock
-
-! Taste:    
-    'sprobuj','skosztuj': print "spróbowaæ";! Taste     
-
-
-    'ciagnij', 'pociagnij': print "poci±gn±æ";
-    'czekaj','poczekaj','zaczekaj': print "poczekaæ";
-
-    'dokrec': print "dokrêciæ";
-    'dotknij': print "dotkn±æ";
-    'idz': print "pój¶æ";
-    ! 
-
-    'machaj','pomachaj': print "pomachaæ";
-
-
-    'obejrzyj','zobacz': print "obejrzeæ";
-    'obroc': print "obróciæ";
-    'oczysc','czysc','wyczysc', 'zma¿': print "wyczy¶ciæ";
-    'odkrec': print "odkrêciæ";
-
-    'opowiedz','powiedz': print "powiedzieæ";
-
-
-    'pchnij','popchnij': print "popchn±æ";
-    'plyn','poplyn': print "pop³yn±æ";
-    'pobiegnij': print "pobiec";
-
-    'podnies': print "podnie¶æ";
-
-    'pokaz': print "pokazaæ";
-
-    'pomodl','modl': print "pomodliæ"; ! nie dodany czasownik w verblibie
-    'pomysl','mysl': print "pomy¶leæ";
-    'popros','pros': print "poprosiæ";
-
-
-    'potrzyj': print "potrzeæ";
-    'powachaj','w±chaj': print "pow±chaæ";
-    'powiedz': print "powiedzieæ";
-
-
-    'przekrec': print "przekrêciæ";
-    'przekroj', 'krój': print "przekroiæ";
-    'przeloz': print "prze³o¿yæ";
-    'przenies': print "przenie¶æ";
-    'przesun': print "przesun±æ";
-    'przeszukaj','szukaj': print "szukaæ";
-    'przespij','zdrzemnij': print "przespaæ";
-    'przepchnij': print "przepchn±æ";
-
-    'przetrzyj': print "przetrzeæ";
-
-
-    'skrec': print "skrêciæ";
+    'dmij', 'zadmij':                         print "zad±æ";
+    'dmuchnij', 'dmuchaj':                    print "dmuchn±æ";
+    'czekaj','poczekaj','zaczekaj':           print "poczekaæ";
+    'ciagnij', 'pociagnij':                   print "poci±gn±æ";
+    'czytaj', 'przeczytaj':                   print "przeczytaæ";
+    'daj', 'oddaj':                           print "daæ";
+    'dotknij':                                print "dotkn±æ";
+    'idz':                                    print "pój¶æ";
+      'biegnij':                              print "biec";
+      'pobiegnij':                            print "pobiec";
+      'pojdz':                                print "pój¶æ";
+    'kop':                                    print "kopaæ";
+    'kup','zakup':                            print "kupiæ";
+    'napelnij':                               print "nape³niæ";
+    'napij':                                  print "siê napiæ"; ! szyk przestawny!
+    'obejrzyj','zobacz':                      print "obejrzeæ";
+    'odblokuj':                               print "odblokowaæ"; ! w znaczeniu 'Unlock'
+    'odloz':                                  print "od³o¿yæ";
+    'odpowiedz':                              print "odpowiedzieæ";
+    'oproznij':                               print "opró¿niæ";
+    'otworz':                                 print "otworzyæ"; ! w znaczeniu 'Open' oraz 'Unlock'
+    'pchnij':                                 print "pchn±æ";
+      'popchnij':                             print "popchn±æ";
+      'przesun':                              print "przesun±æ";
+    'plyn':                                   print "p³yn±æ";
+      'poplyn':                               print "pop³yn±æ";
+    'caluj', 'pocaluj':                       print "poca³owaæ";
+      'przytul':                              print "przytuliæ";
+      'usciskaj':                             print "u¶ciskaæ";
+    'podpal':                                 print "podpaliæ"; 
+    'pokaz':                                  print "pokazaæ";
+    'poloz':                                  print "po³o¿yæ";
+    'pomachaj', 'machaj':                     print "pomachaæ";
+    'pomodl','modl':                          print "pomodliæ";
+    'pomysl','mysl':                          print "pomy¶leæ";
+    'popros','pros':                          print "poprosiæ";
+    'postaw':                                 print "postawiæ"; 
+      'ustaw':                                print "ustawiæ";
+    'potrzyj':                                print "potrzeæ";
+      'przetrzyj':                            print "przetrzeæ";
+      'wytrzyj':                              print "wytrzeæ";
+    'powachaj','w±chaj':                      print "pow±chaæ";
+    'powiedz':                                print "powiedzieæ";
+    'przekrec':                               print "przekrêciæ";
+      'dokrec':                               print "dokrêciæ";
+      'obroc':                                print "obróciæ";
+      'odkrec':                               print "odkrêciæ";
+      'zakrec':                               print "zakrêciæ";
+    'przenies':                               print "przenie¶æ";
+      'przeloz':                              print "prze³o¿yæ";
+    'przeskocz':                              print "przeskoczyæ";
+    'przeszukaj':                             print "przeszukaæ";
+    'przepros':                               print "przeprosiæ";
+    'przespij':                               print "przespaæ";
+      'zdrzemnij':                            print "zdrzemn±æ";
+    'przetnij', 'tnij':                       print "przeci±æ";
+    'przekroj', 'kroj':                       print "przekroiæ";
+    'przyjrzyj':                              print "siê przyjrzeæ"; ! szyk przestawny!
+    'rzuc':                                   print "rzuciæ";
+    'schowaj':                                print "schowaæ";
+    'siadz', 'usiadz':                        print "usi±¶æ";
+    'sluchaj', 'posluchaj':                   print "pos³uchaæ";
+    'spojrz':                                 print "spojrzeæ";
+      'popatrz':                              print "popatrzeæ";
+    'sprawdz':                                print "sprawdziæ";
+      'skonsultuj':                           print "skonsultowaæ";
+    'sprobuj':                                print "spróbowaæ";
+      'skosztuj':                             print "skosztowaæ";
+    'szukaj', 'odszukaj', 'poszukaj':         print "poszukaæ";
+    'scisnij':                                print "¶cisn±æ";
+      'zgniec':                               print "zgnie¶æ";
+    'uruchom':                                print "uruchomiæ";
 
 
 
-    'scisnij': print "¶cisn±æ";
-    'ubierz': print "siê ubraæ";
-
-    'ugryz': print "ugry¼æ";
-    'uruchom': print "uruchomiæ";
-    'ustaw': print "ustawiæ";
-
-
-
-    'wez': print "wzi±æ";
-    'wlacz': print "w³±czyæ";
-    'wloz': print "w³o¿yæ";
-    'wrzuc': print "wrzuciæ";
-
-    'wyciagnij': print "wyci±gn±æ";
-    'wycisnij': print "wycisn±æ";
-    'wylacz': print "wy³±czyæ";
-    'wyjmij': print "wyj±æ";
-
-    'wypchnij': print "wypchn±æ";
-
-    'wytrzyj': print "wytrzeæ";
-
-    'zabierz': print "zabraæ";
-
-
-      
-    'zakrec': print "zakrêciæ";
-    'zaloz': print "za³o¿yæ";
-
-
-    'zapal': print "zapaliæ";
-    'zgas': print "zgasiæ";
-      
-    'zgniec': print "zgnie¶æ";
-
+    'zostaw':                               print "zostawiæ"; 
 
     !   Czasowniki dodatkowe, które nie z± zdefiniowane w podstawowym zestawie
-    'policz': print "policzyæ";           ! pochodzi z advent.inf
+    'policz': print "policzyæ";   ! pochodzi z Advent.inf
     'sfotografuj': print "sfotografowaæ"; ! pochodzi z ruins.inf
+
     default: rfalse;
 
 
@@ -1281,17 +1151,6 @@ Array name_buffer->64;
     print "To";
 ];
 
-[ NimLubNia obj;     ! Used in the nominative
-    if (obj == player)            { print "tob±"; return; }
-    if (obj has pluralname)       { print "nimi"; return; }
-
-    if (obj has female)           { print "ni±"; return; }
-    if (obj hasnt neuter)         { print "nim"; return; }
-  
-    print "tym";
-];
-
-
 [ CTheyreorThats obj;
     if (obj == player)             { print "Ty"; return; }
     if (obj has pluralname)        { print "Te"; return; }
@@ -1558,14 +1417,14 @@ Array name_buffer->64;
         2:  "Nothing to do!";
         3:  print " Zgin±³e¶ ";
         4:  print " Zwyciê¿y³e¶ ";
-        5:  print "^Czy chcesz ZRESTARTOWAÆ, ZA£ADOWAÆ€  zapisany stan gry";
+        5:  print "^Czy chcesz ZRESTARTOWAÆ, ZA£ADOWAÆ  zapisany stan gry";
             #Ifdef DEATH_MENTION_UNDO;
             print ", COFN¡Æ  swój ostatni ruch";
             #Endif;
             if (TASKS_PROVIDED == 0) print ", zobaczyæ PE£NY WYNIK";
             if (deadflag == 2 && AMUSING_PROVIDED == 0)
                 print ", see some suggestions for AMUSING things to do";
-            " czy ZAKOÑCZYÆ ?";
+            " czy ZAKOÑCZYÆ€ ?";
         6:  "[Niestety! U¿ywany przez ciebie interpreter nie pozwala wykonaæ ~cofania~.]";
             #Ifdef TARGET_ZCODE;
         7:  "~Undo~ failed.  [Not all interpreters provide it.]";
@@ -1762,7 +1621,7 @@ Array name_buffer->64;
   Sorry:    "Nie musisz przepraszaæ!";
   Squeeze: switch (n) {
         1:  "Trzymaj rêce przy sobie.";
-        2:  "You achieve nothing by this.";
+        2:  "Nic w ten sposób nie osi±gniesz.";
     }
   Strong:   "Poszukiwacze przygód nie u¿ywaj± takiego jêzyka.";
   Swim:     "There's not enough water to swim in.";

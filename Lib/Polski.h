@@ -663,8 +663,36 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
       'szukaj', 'odszukaj', 'poszukaj':                   print "Co";
       'scisnij', 'zgniec':                                print "Co";
       'uruchom':                                          print "Co";
-
+      'wdrap', 'wespnij':                                 print "Na co";
+      'wez', 'zabierz', 'podnies':                        print "Co";
+      'wejdz':                                            print "Gdzie";
+      'wlacz', 'zapal':                                   print "Co";
+      'wloz':                                             print "Co";
+      'wrzuc':                                            print "Co";
+      'wsiadz':                                           print "Do czego";
+      'wstan':                                            print "Z czego";
+      'wyjdz':                                            print "Dok±d";
+      'wyjmij', 'wyciagnij':                              print "Co";
+      'wylacz', 'zgas':                                   print "Co";
+      'wypij':                                            print "Co";
+      'wyrzuc':                                           print "Co";
+      'wysiadz':                                          print "Z czego";
+      'zaatakuj', 'zniszcz':                              print "Co";
+      'zabij':                                            print "Co";
+      'uderz', 'walnij', 'kopnij':                        print "Co";
+      'zablokuj':                                         print "Co";
+      'zajrzyj':                                          print "Gdzie";
+      'zaloz', 'ubierz':                                  print "Co";
+      'zamknij':                                          print "Co";
+      'zapytaj', 'pytaj', 'spytaj':                       print "O co";
+      'zastanow':                                         print "Nad czym";
+      'zaspiewaj', 'spiewaj':                             print "Co";
+      'zjedz', 'polknij', 'ugryz':                        print "Co";
+      'znajdz':                                           print "Co";
+      'zdejmij':                                          print "Co";
+      'zejdz':                                            print "Sk±d";
       'zostaw':                                           print "Co";
+      'zsiadz':                                           print "Z czego";
 
     default: print "Co";
   };
@@ -756,13 +784,51 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
     'scisnij':                                print "¶cisn±æ";
       'zgniec':                               print "zgnie¶æ";
     'uruchom':                                print "uruchomiæ";
-
-
-
-    'zostaw':                               print "zostawiæ"; 
+    'wdrap':                                  print "siê wdrapaæ"; ! szyk przestawny!
+      'wespnij':                              print "siê wspi±æ"; ! szyk przestawny!
+    'wez':                                    print "wzi±æ";
+      'zabierz':                              print "zabraæ";
+      'podnie¶':                              print "podnie¶æ";
+    'wejdz':                                  print "wejd¼";
+    'wlacz':                                  print "w³±czyæ";
+      'zapal':                                print "zapaliæ";
+    'wloz':                                   print "w³o¿yæ";
+    'wrzuc':                                  print "wrzuciæ";
+    'wsiadz':                                 print "wsi±¶æ";
+    'wstan':                                  print "wstaæ";
+    'wyjsc':                                  print "wyj¶æ";
+    'wyjmij':                                 print "wyj±æ";
+      'wyciagnij':                            print "wyci±gn±æ";
+    'wylacz':                                 print "wy³±czyæ";
+      'zgas':                                 print "zgasiæ";
+    'wypij':                                  print "wypiæ";
+    'wyrzuc':                                 print "wyrzuciæ";
+    'wysiadz':                                print "wysi±¶æ";
+    'zaatakuj':                               print "zaatakowaæ";
+      'zniszcz':                              print "zniszczyæ";
+    'zabij':                                  print "zabiæ";
+    'uderz':                                  print "uderzyæ";
+      'walnij':                               print "waln±æ";
+      'kopnij':                               print "kopn±æ";
+    'zablokuj':                               print "zablokowaæ";
+    'zajrzyj':                                print "zajrzyj";
+    'zaloz':                                  print "za³o¿yæ";
+      'ubierz':                               print "ubraæ";
+    'zamknij':                                print "zamkn±æ";
+    'zapytaj', 'pytaj', 'spytaj':             print "zapytaæ";
+    'zastanow':                               print "siê zastanowiæ"; ! szyk przestawny!
+    'zaspiewaj', 'spiewaj':                   print "za¶piewaæ";
+    'zjedz':                                  print "zje¶æ";
+      'polknij':                              print "po³kn±æ";
+      'ugryz':                                print "ugry¼æ";
+    'znajdz':                                 print "znale¼æ";
+    'zdejmij':                                print "zdj±æ";
+    'zejdz':                                  print "zej¶æ";
+    'zostaw':                                 print "zostawiæ";
+    'zsiadz':                                 print "zsi±¶æ";
 
     !   Czasowniki dodatkowe, które nie z± zdefiniowane w podstawowym zestawie
-    'policz': print "policzyæ";   ! pochodzi z Advent.inf
+    'policz': print "policzyæ";   ! pochodzi z advent.inf
     'sfotografuj': print "sfotografowaæ"; ! pochodzi z ruins.inf
 
     default: rfalse;
@@ -967,7 +1033,7 @@ Array name_buffer->64;
     if (obj has pluralname)       { print "oddane"; return; }
         if (obj has female)       { print "oddana"; return; }
         else
-            if (obj hasnt neuter) { print "odd any"; return; }
+            if (obj hasnt neuter) { print "oddany"; return; }
     print "wy³±czone";
 ];
 
@@ -1354,7 +1420,7 @@ Array name_buffer->64;
         8:  print " (¶wieci i ", (JestUbrany) x1;
         9:  print " (¶wieci";
         10: print " (", (JestUbrany) x1;
-        11: print " (", (ktoryktoraktore) x1, " ", (JestLubSa) x1, " ";
+        11: print " (...", (ktoryktoraktore) x1, " ";!, (JestLubSa) x1, " ";
         12: print (JestLubSa) x1, " ", (JestOtwarty) x1;
         13: print (JestLubSa) x1, " ", (JestOtwarty) x1," i ", (JestPusty) x1;
         14: print (JestLubSa) x1, " ", (JestZamkniety) x1;

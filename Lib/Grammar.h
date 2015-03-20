@@ -490,11 +490,11 @@ Verb 'wrzuc'
     * biernikmultiheld 'do'/'w' dopelniacznoun  			-> Insert;
 
 
-Verb "wsiadz"
+Verb 'wsiadz'
     * 'do' dopelniacznoun                       			-> Enter;
 
     
-Verb 'wstañ'
+Verb 'wstan'
     *                                                       -> Exit
     * 'z' dopelniacznoun                                    -> Exit;
 
@@ -533,7 +533,7 @@ Verb 'zaatakuj' 'zniszcz'
     * biernikcreature                                       -> Attack;
 
 
-Verb 'zabij'  'zamorduj'
+Verb 'zabij'
 	* biernikcreature										-> Attack;
 	
 

@@ -2819,7 +2819,7 @@ Constant UNLIT_BIT  =  32;
         k = match_list-->marker;
 
 
-        ! DOSTOSOWANIE DO REGU£ JÊZYKA POLSKIEGO
+        ! DOSTOSOWANIE DO REGUÂ£ JÃŠZYKA POLSKIEGO
         !if (match_classes-->marker > 0) print (the) k; else print (a) k;
 
         print (bie) k;

@@ -2,9 +2,9 @@
 !   POLSKI:  Language Definition File
 !
 !   Przeznaczony do uzywania z kompilatorem Inform 6.
-! 
+!
 !   Wersja 6/11/PL
-!   Copyright Bartosz Zaj±czkowski 2011-2014 
+!   Copyright Bartosz Zaj±czkowski 2011-2014
 !       z mozliwosci± swobodnego korzystania.
 !
 !   Original 6/11 Library
@@ -47,16 +47,16 @@ Object Compass "kompas" has concealed;
 
 CompassDirection -> n_obj "pó³noc",
                     with door_dir n_to, name 'pn//' 'polnoc', has female;
-                    
+
 CompassDirection -> s_obj "po³udnie"
                     with door_dir s_to, name 'pd//' 'poludnie', has neuter;
-                    
+
 CompassDirection -> e_obj "wschód"
                     with door_dir e_to, name 'w//' 'wschod';
-                    
+
 CompassDirection -> w_obj "zachód"
                     with door_dir w_to, name 'z//' 'zachod';
-                    
+
 CompassDirection -> ne_obj "pó³nocny-wschód"
                     with door_dir ne_to, name 'pnw';
 
@@ -78,7 +78,7 @@ CompassDirection -> d_obj "dó³"
 #endif; ! WITHOUT_DIRECTIONS
 
 CompassDirection -> in_obj "¶rodek"
-                    with door_dir in_to, 
+                    with door_dir in_to,
                     name 'srodek' 'wnetrze' 'srodka' 'wnetrza';
 CompassDirection -> out_obj "zewn±trz"
                     with door_dir out_to, name 'zewnatrz';
@@ -199,14 +199,14 @@ Array LanguageNumbers table
 
 
 ! ------------------------------------------------------------------------------
-!   Part III.   Translation
+!   Part III.   T³umaczenie
 ! ------------------------------------------------------------------------------
 
 [ LanguageToInformese;
 
   ClearPolishDirections();
 
-  GetRidOfPolishLetters();
+  ! GetRidOfPolishLetters();
 
 ];
 
@@ -215,22 +215,20 @@ Array LanguageNumbers table
 ! ------------------------------------------------------------------------------
 ! ClearPolishDirections();
 !
-! Kompilator ma problemy z rozró¿nianiem nazw d³u¿szych ni¿ osiem znaków.
+! Procedura ClearPolishDirections() robi porz±dek z nazwami kierunków ¶wiata
+! zanim jeszcze parser zacznie analizowaæ polecenie. Jest to niezbêdne, poniewa¿
+! kompilator ma problemy z rozró¿nianiem nazw d³u¿szych ni¿ osiem znaków.
 ! Problem jest szczególnie dotktliwy w przypadkach gdy pierwsze osiem
-! znaków jest takie same. 
-! W przypadku jêzyka polskiego najwiêkszy problem sprawia interpretacja 
-! kierunków ¶wiata, np. "pó³noc", "pó³nocny-zachód" i "pó³nocny-wschód" 
-! (przy czym nale¿y pamiêtaæ, ¿e polskie litery "ó" oraz "³" zajmuj± po
-! trzy znaki. 
-! Procedura ClearPolishDirections() robi porz±dek z nazwami kierunków ¶wiata 
-! zanim jeszcze parser zacznie analizowaæ polecenie.
+! znaków jest takie same, a tak w³asnie jest w jêzyku polskim. Chodzi o cztery
+! przypadki: pó³nocny-wschód, pó³nocny-zachód, po³udniowy-wschód
+! i po³udniowy zachód. D³ugie nazwy kierunków zostaj± zast±pione odpowiadaj±cymi
+! im skrótami z kompasu, co wyklucza ewentualn± pomy³kê interpretera.
 ! ------------------------------------------------------------------------------
 
 [ ClearPolishDirections x y at word;
 
-
 #ifdef TARGET_ZCODE;
-  
+
   for (x=0:x<parse->1:x++)  ! loop through every word
     {
     word = parse-->(x*2+1);
@@ -245,129 +243,80 @@ Array LanguageNumbers table
 
 #endif; ! TARGET_;
 
+    ! po³udniowy-zachód -> PDZ
     if (word == 'po³udniowy-zachód' && buffer->(at+10) =='-' && buffer->(at+11) == 'z')
-      { 
-      for (y=at:y<at+17:y++) {buffer->(y) = ' ';};
-  
-      buffer->(at+0) = 'p';
-      buffer->(at+1) = 'd';
-      buffer->(at+2) = 'z';
-      break;
-      };
-  
-    if (word == 'pó³nocny-zachód' && buffer->(at+8) =='-' && buffer->(at+9) == 'z')
-      { 
-      for (y=at:y<at+15:y++) {buffer->(y) = ' ';};
-  
-      buffer->(at+0) = 'p';
-      buffer->(at+1) = 'n';
-      buffer->(at+2) = 'z'; 
-      break;
-      };
-  
-    if (word == 'po³udniowy-wschód' && buffer->(at+10) =='-' && buffer->(at+11) == 'w') 
-      { 
-      for (y=at:y<at+17:y++) {buffer->(y) = ' ';};
-  
-      buffer->(at+0) = 'p';
-      buffer->(at+1) = 'd';
-      buffer->(at+2) = 'w';
-      break;
-      };
-  
-    if (word == 'pó³nocny-wschód' && buffer->(at+8) =='-' && buffer->(at+9) == 'w')
-      { 
-      for (y=at:y<at+15:y++) {buffer->(y) = ' ';};
-  
-      buffer->(at+0) = 'p';
-      buffer->(at+1) = 'n';
-      buffer->(at+2) = 'w';
-      break;
-      };
-
-    }; ! end of loop
-];
-
-
-
-! ------------------------------------------------------------------------------
-! GetRidOfPolishLetters();
-!
-! Pomimo rozmaitych prób, nie uda³o mi siê zmusiæ wspó³czesnych interpreterów do 
-! prawid³owego rozpoznawania polskich znaków stosowanych w nazwach obiektów oraz
-! w czasownikach. Chodzi przede wszystkim o "parchment" oraz o interpretery
-! w systemach mobilnych.
-!
-! Z powy¿szego powodu konieczne jest stosowanie poni¿szej procedury, która
-! usuwa polskie znaki z polecenia zanim  interpreter zacznie je analizowaæ.
-! ------------------------------------------------------------------------------
-
-
-[ GetRidOfPolishLetters x i word at len;
-
-
-#Ifdef TARGET_ZCODE;
-
-  for (x=0:x<parse->1:x++)
-    {
-    word = parse-->(x*2 + 1);
-    at = parse->(x*4 + 5);
-    len = parse->(x*4 + 4);
-
-#Ifnot; ! TARGET_GLULX
-
-  for (x=0:x<parse-->0:x++) 
-    {
-    word = parse-->(x*3 + 1);
-    at = parse-->(x*3 + 3);
-    len = parse-->(x*3 + 2);
-
-#Endif; ! TARGET_
-
-    for (i=at:i<at+len:i++)
       {
+        for (y=at:y<at+17:y++) {buffer->(y) = ' ';};
+        buffer->(at+0) = 'p';
+        buffer->(at+1) = 'd';
+        buffer->(at+2) = 'z';
+        break;
+      };
 
-      if     (buffer->i=='±') buffer->i='a';
-      else if(buffer->i=='æ') buffer->i='c';
-      else if(buffer->i=='ê') buffer->i='e';
-      else if(buffer->i=='³') buffer->i='l';
-      else if(buffer->i=='ñ') buffer->i='n';
-      else if(buffer->i=='ó') buffer->i='o';
-      else if(buffer->i=='¶') buffer->i='s';
-      else if(buffer->i=='¿') buffer->i='z';
-      else if(buffer->i=='¼') buffer->i='z';
-      
-      if     (buffer->i=='¡') buffer->i='A';
-      else if(buffer->i=='Æ') buffer->i='C';
-      else if(buffer->i=='Ê') buffer->i='E';
-      else if(buffer->i=='£') buffer->i='L';
-      else if(buffer->i=='Ñ') buffer->i='N';
-      else if(buffer->i=='Ó') buffer->i='O';
-      else if(buffer->i=='¦') buffer->i='S';
-      else if(buffer->i=='¯') buffer->i='Z';
-      else if(buffer->i=='¬') buffer->i='Z';
+    ! pó³nocny-zachód -> PNZ
+    if (word == 'pó³nocny-zachód' && buffer->(at+8) =='-' && buffer->(at+9) == 'z')
+      {
+      for (y=at:y<at+15:y++) {buffer->(y) = ' ';};
+        buffer->(at+0) = 'p';
+        buffer->(at+1) = 'n';
+        buffer->(at+2) = 'z';
+        break;
+      };
 
-      }
-    
-    Tokenise__(buffer,parse);
+    ! po³udniowy-wschód -> PDW
+    if (word == 'po³udniowy-wschód' && buffer->(at+10) =='-' && buffer->(at+11) == 'w')
+      {
+      for (y=at:y<at+17:y++) {buffer->(y) = ' ';};
+        buffer->(at+0) = 'p';
+        buffer->(at+1) = 'd';
+        buffer->(at+2) = 'w';
+        break;
+      };
 
-  }
+    ! pó³nocny-wschód -> PNW
+    if (word == 'pó³nocny-wschód' && buffer->(at+8) =='-' && buffer->(at+9) == 'w')
+      {
+      for (y=at:y<at+15:y++) {buffer->(y) = ' ';};
+        buffer->(at+0) = 'p';
+        buffer->(at+1) = 'n';
+        buffer->(at+2) = 'w';
+        break;
+      };
 
-];
-
-
-
-
-
+    }; ! koniec pêtli
+]; ! koniec ClearPolishDirections
 
 
 
 ! ---------------------------------------------------------------------------
 ! Deklinacja rzeczowników
 !
-! Te procedury u¿ywane s± przez interpreter do wy¶wietlania na ekranie nazw w 
-! odpowiedniej formie.
+! Ka¿dy obiekt powinien mieæ zdefiniowane dodatkowe w³asno¶ci (property)
+! zawieraj±ce informacje o jego nazwie prawid³owo zdefiniowanej w jêzyku
+! polskim. W tym celu polska biblioteka korzysta z dziesiêciu dodatkowych
+! w³asno¶ci (property), których dzia³ania staje siê jasne po zapoznaniu siê
+! z poni¿szym przyk³adem obiektu.
+! U¿yty w grze "¿elazny miecz" powinien zostaæ zdefiniowany nastêpuj±co:
+!
+! Object -> miecz "¿elazny miecz",
+!   name '¿elazny' 'miecz',
+!   name_dop '¿elaznego' 'miecza',       ! tu s± nazwy interpretowane i tutaj
+!   name_cel '¿elaznemu' 'mieczowi',     ! powinny zostaæ wymienione wszelkie
+!   name_bie '¿elazny' 'miecz',          ! synonimy.
+!   name_nar '¿elaznym' 'mieczem',
+!   name_mie '¿elaznym' 'mieczu',
+!   desc_dop "¿elaznego miecza",         ! tu s± nazwy wy¶wietlane, wystarczy
+!   desc_cel "¿elaznemu mieczowi",       ! odmieniæ nazwê w³asn± obiektu
+!   desc_bie "¿elazny miecz",
+!   desc_nar "¿elaznym mieczem",
+!   desc_mie "¿elaznym mieczu";
+
+! Je¶li interpreter nie znajdzie w definicji obiektu nazwy w odpowiedniej
+! formie (desc_dop, desc_cel, itp.), zostanie wy¶wietlona nazwa w formie
+! mianownika.
 ! ------------------------------------------------------------------------------
+
+
 
 [ dop obj; if (obj.desc_dop) PrintOrRun(obj, desc_dop, 1); else print (name) obj;];
 [ cel obj; if (obj.desc_cel) PrintOrRun(obj, desc_cel, 1); else print (name) obj;];
@@ -375,9 +324,11 @@ Array LanguageNumbers table
 [ nar obj; if (obj.desc_nar) PrintOrRun(obj, desc_nar, 1); else print (name) obj;];
 [ mie obj; if (obj.desc_mie) PrintOrRun(obj, desc_mie, 1); else print (name) obj;];
 
+
+
 ! --------------------------------------------------------------------------------
 
-[ dopelniacznoun;
+[ dopelniacznoun; ! KOGO?, CZEGO?
   parser_inflection = name_dop;
   return ParseToken(ELEMENTARY_TT, NOUN_TOKEN);
 ];
@@ -507,13 +458,13 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
 [ LanguageNumber n f;
     if (n == 0)    { print "zero"; rfalse; }
     if (n < 0)     { print "minus "; n = -n; }
-    if (n >= 1000) { 
-    if (n < 2000) { print "tysi±c"; } 
-    else  { 
-      LanguageNumber(n/1000);  
+    if (n >= 1000) {
+    if (n < 2000) { print "tysi±c"; }
+    else  {
+      LanguageNumber(n/1000);
       if (n<5000) print " tysi±ce"; else print " tysiêcy";
       }
-    n = n%1000; f = 1; 
+    n = n%1000; f = 1;
     }
     if (n >= 100)  {
         if (f == 1) print " ";
@@ -528,7 +479,7 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
         7:  print "siedemset";
         8:  print "osiemset";
         9:  print "dziewiêæset";
-    } 
+    }
 
         n = n%100; f = 1;
     }
@@ -582,11 +533,11 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
 ! ------------------------------------------------------------------------------
 
 [ LanguagePreposition i;
-  switch (i) 
+  switch (i)
     {
 
     ! Ask:
-      'pytaj', 'spytaj', 'zapytaj': return 1;    
+      'pytaj', 'spytaj', 'zapytaj': return 1;
     ! Drink:
       'napij': return 1;
       'po³ó¿': return 2;
@@ -603,7 +554,7 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
 ! QuestionVerb();
 !
 ! Je¶li interpreter nie bêdzie potrzebowaæ dodatkowych informacji, zada graczowi
-! pytanie o podanie dodatkowych informacji. W jêzyku polskim sposób zadania tego 
+! pytanie o podanie dodatkowych informacji. W jêzyku polskim sposób zadania tego
 ! pytania bêdzie zale¿eæ od u¿ywanego czasownika. Procedura QuestionVerb() ma za
 ! zadanie rozwi±zaæ ten problem.
 !
@@ -614,8 +565,8 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
 [ QuestionVerb q;
 
   q = verb_word;
-  
-  switch (q) 
+
+  switch (q)
     {
       'dmij', 'zadmij', 'dmuchnij', 'dmuchaj':            print "W co";
       'czekaj','poczekaj','zaczekaj':                     print "Na co";
@@ -624,10 +575,10 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
       'daj', 'oddaj':                                     print "Komu";
       'dotknij':                                          print "Co";
       'idz', 'biegnij', 'pobiegnij', 'pojdz':             print "Dok±d";
-      'kop':                                              print "Gdzie"; 
+      'kop':                                              print "Gdzie";
       'kup', 'zakup':                                     print "Co";
       'napelnij':                                         print "Co";
-      'napij':                                            print "Czego";   
+      'napij':                                            print "Czego";
       'obejrzyj','zobacz':                                print "Co";
       'potrzyj':                                          print "Co";
       'odblokuj':                                         print "Co";
@@ -654,12 +605,12 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
       'przetnij', 'tnij', 'przekroj', 'kroj':             print "Co";
       'przyjrzyj':                                        print "Czemu"; ! ewentualnie mog³o by byæ 'Komu'
       'rzuc':                                             print "Co";
-      'schowaj':                                          print "Co";    
+      'schowaj':                                          print "Co";
       'siadz', 'usiadz':                                  print "Gdzie";
       'sluchaj', 'posluchaj':                             print "Czego";
-      'spojrz', 'popatrz':                                print "Na co"; 
-      'sprawdz', 'skonsultuj':                            print "Co"; 
-      'sprobuj', 'skosztuj':                              print "Co"; 
+      'spojrz', 'popatrz':                                print "Na co";
+      'sprawdz', 'skonsultuj':                            print "Co";
+      'sprobuj', 'skosztuj':                              print "Co";
       'szukaj', 'odszukaj', 'poszukaj':                   print "Co";
       'scisnij', 'zgniec':                                print "Co";
       'uruchom':                                          print "Co";
@@ -698,7 +649,7 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
   };
 
   print " chcesz ";
-  
+
 ];
 
 ! ------------------------------------------------------------------------------
@@ -706,7 +657,7 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
 ! ------------------------------------------------------------------------------
 
 [ LanguageVerb i;
-  switch (i) 
+  switch (i)
     {
     'i//','spis':               print "obejrzeæ spis posiadanych przez ciebie przedmiotów";
     ! 'z//':                    print "wait";
@@ -741,14 +692,14 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
     'caluj', 'pocaluj':                       print "poca³owaæ";
       'przytul':                              print "przytuliæ";
       'usciskaj':                             print "u¶ciskaæ";
-    'podpal':                                 print "podpaliæ"; 
+    'podpal':                                 print "podpaliæ";
     'pokaz':                                  print "pokazaæ";
     'poloz':                                  print "po³o¿yæ";
     'pomachaj', 'machaj':                     print "pomachaæ";
     'pomodl','modl':                          print "pomodliæ";
     'pomysl','mysl':                          print "pomy¶leæ";
     'popros','pros':                          print "poprosiæ";
-    'postaw':                                 print "postawiæ"; 
+    'postaw':                                 print "postawiæ";
       'ustaw':                                print "ustawiæ";
     'potrzyj':                                print "potrzeæ";
       'przetrzyj':                            print "przetrzeæ";
@@ -850,7 +801,7 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
 
 
 ! ----------------------------------------------------------------------------
-!  LanguageVerbIsDebugging is called by SearchScope.  It should return true 
+!  LanguageVerbIsDebugging is called by SearchScope.  It should return true
 !  if word w is a debugging verb which needs all objects to be in scope.
 ! ----------------------------------------------------------------------------
 
@@ -881,7 +832,7 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
 ];
 
 ! ----------------------------------------------------------------------------
-!  LanguageVerbMayBeName is called by NounDomain when dealing with the 
+!  LanguageVerbMayBeName is called by NounDomain when dealing with the
 !  players reply to a "Which do you mean, the short stick or the long
 !  stick?" prompt from the parser. If the reply is another verb (for example,
 !  LOOK) then then previous ambiguous command is discarded /unless/
@@ -941,9 +892,9 @@ Constant COMMA__TX      = ", ";
 
 
 ! ------------------------------------------------------------------------------
-! Procedura wy¶wietlaj±ca pierwsz± literê nazwy obiektu z du¿ej litery. 
+! Procedura wy¶wietlaj±ca pierwsz± literê nazwy obiektu z du¿ej litery.
 ! W jêzyku polskim nie ma rodzajników okre¶lonych i nieokre¶lonych, dlatego
-! bez tej procedury zdania zaczynaj±ce siê od nazwy obiektu zaczyna³y by  
+! bez tej procedury zdania zaczynaj±ce siê od nazwy obiektu zaczyna³y by
 ! siê z ma³ej litery (nieelegancko) lub trzeba by³o by konstruowaæ niepotrzebne
 ! konstrukcje s³owne.
 ! ------------------------------------------------------------------------------
@@ -957,25 +908,25 @@ Array name_buffer->64;
   @output_stream -3;
 
   for (:i < (name_buffer-->0): i++ )
-  {         
-      if (i == 0) 
+  {
+      if (i == 0)
         {
-    
+
               ! Przy konwersji ma³ej litery na du¿± trzeba pamiêtaæ o polskich znakach.
               ! Dla polskich znaków w standardzie ISO-8859-2 przesuniêcie wynosi 40 i 41...
               ! Kody znaków s± dostêpne na: http://www.firthworks.com/roger/informfaq/aa20.html
-              
+
               st = 0;
-            
-            if (name_buffer->(i+2) >= 97 && name_buffer->(i+2) <= 122) st = 32; 
-            if (name_buffer->(i+2) >= 195 && name_buffer->(i+2) <= 170) st = 40;  
-            if (name_buffer->(i+2) >= 171 && name_buffer->(i+2) <= 235) st = 41;  
-                      
+
+            if (name_buffer->(i+2) >= 97 && name_buffer->(i+2) <= 122) st = 32;
+            if (name_buffer->(i+2) >= 195 && name_buffer->(i+2) <= 170) st = 40;
+            if (name_buffer->(i+2) >= 171 && name_buffer->(i+2) <= 235) st = 41;
+
             print (char) name_buffer->(i+2) - st;
-      }     
-            
+      }
+
         else print (char) name_buffer->(i+2);
-  
+
 
   }
 
@@ -1010,13 +961,13 @@ Array name_buffer->64;
 
 
 [ KtoryKtoraKtore obj;
-    if (obj has pluralname) {print "które"; return; }; 
+    if (obj has pluralname) {print "które"; return; };
             if (obj has female)       { print "która"; return; }
         else
             if (obj hasnt neuter) { print "który"; return; } else { print "które";return;};
 ];
 [ KtorymKtorejKtorych obj;
-    if (obj has pluralname) {print "których"; return; }; 
+    if (obj has pluralname) {print "których"; return; };
             if (obj has female)       { print "której"; return; }
         else
             if (obj hasnt neuter) { print "którym"; return; } else { print "którym";return;};
@@ -1047,7 +998,7 @@ Array name_buffer->64;
 
 [ JestPrzytwierdzony obj;
     if (obj has pluralname) {
-    print "Nie jeste¶ w stanie ich przesun±æ."; return;} else 
+    print "Nie jeste¶ w stanie ich przesun±æ."; return;} else
         print "Nie jeste¶ w stanie";
             if (obj has female)       { print " przesun±æ ", (dop) obj,"."; return; }
         else
@@ -1114,7 +1065,7 @@ Array name_buffer->64;
 
 
 ! ------------------------------------------------------------------------------
-! Kilka funkcji wy¶wietlaj±cych informacje o liczebnikach prawid³owo 
+! Kilka funkcji wy¶wietlaj±cych informacje o liczebnikach prawid³owo
 ! zgodnie z zasadami jêzyka polskiego. Potrzebne przy wy¶wietlaniu wyniku.
 ! ------------------------------------------------------------------------------
 
@@ -1127,14 +1078,14 @@ Array name_buffer->64;
   if (num > 1000) num = num%1000;
   if (num > 100) num = num%100;
   if (num > 10) num = num %10;
-  
+
   if (num > 1 && num < 5) { print_ret " punkty";} else {print " punktów";return;};
-  
+
 
 ];
 
 [ LiczTury num;
- 
+
   if (num == 0) { print num, " tur";return;};
   if (num == 1) { print num, " tury";return;};
   if (num > 1) { print num, " tur";return;};
@@ -1150,25 +1101,25 @@ Array name_buffer->64;
 ! -----------------------------------------------------------------------------
 
 [ DawacSie obj;
-  if (obj has pluralname)   print "daj± "; 
+  if (obj has pluralname)   print "daj± ";
         else
      print "daje ";
 ];
 
 [ Lezec obj;
-  if (obj has pluralname)   print "le¿±"; 
+  if (obj has pluralname)   print "le¿±";
         else
      print "le¿y";
 ];
 
 [ NadawacSie obj;
-  if (obj has pluralname)   print "nadaj±"; 
+  if (obj has pluralname)   print "nadaj±";
         else
      print "nadaje";
 ];
 
 [ Stac obj;
-  if (obj has pluralname)   print "stoj±"; 
+  if (obj has pluralname)   print "stoj±";
         else
      print "stoi";
 ];
@@ -1176,7 +1127,7 @@ Array name_buffer->64;
 
 
 ! ------------------------------------------------------------------------------
-! Zaimki wskazuj±ce... te zaczynaj±ce siê z du¿ej litery s± bardzo rzadko 
+! Zaimki wskazuj±ce... te zaczynaj±ce siê z du¿ej litery s± bardzo rzadko
 ! u¿ywane. Zosta³y na wszelki wypadek.
 ! ------------------------------------------------------------------------------
 
@@ -1543,7 +1494,7 @@ Array name_buffer->64;
         47: "Sorry, you can only have one item here. Which exactly?";
         48: QuestionVerb();
             if (actor ~= player) print " ", (the) actor;
-            ! print "to "; 
+            ! print "to ";
             PrintCommand(); print "?^";
         49: QuestionVerb();
             if (actor ~= player) print " kazaæ ", (cel) actor;
@@ -1601,7 +1552,7 @@ Array name_buffer->64;
         5:  ".";
     }
   Pull,Push,Turn: switch (n) {
-        1: print (JestPrzytwierdzony) x1;  
+        1: print (JestPrzytwierdzony) x1;
         2:  "Nie jeste¶ w stanie tego zrobiæ.";
         3:  "Nic specjalnego siê nie sta³o.";
         4:  "To by³oby bardzo niekulturalne.";
@@ -1647,7 +1598,7 @@ Array name_buffer->64;
     }
   Score: switch (n) {
         1:  if (turns>0) print "W czasie ", (LiczTury) turns; else print "Jak dot±d";
-            print " uda³o Ci siê zdobyæ "; 
+            print " uda³o Ci siê zdobyæ ";
             print score, " z mo¿liwych do zdobycia ", MAX_SCORE, (LiczPunkty) MAX_SCORE;
             return;
         2:  "W tej opowie¶ci nie s± liczone punkty.";
@@ -1748,7 +1699,7 @@ Array name_buffer->64;
         3:  if (x1 has pluralname) print "Nie pasuj± "; else print "Nie pasuje ";
             "do zamka.";
         4:  "Odblokowujesz ", (bie) x1, " za pomoc± ", (dop) second,".";
-             
+
     }
   VagueGo:  "Musisz sprecyzowaæ kierunek, w którym chcesz siê udaæ.";
   Verify: switch (n) {
@@ -1811,14 +1762,14 @@ Verb 'xy'
 
   !while (i < l) {print (char) a->i;i++;};
 
-  
+
 
   ! - RZECZOWNIK -> -³A
-  
+
   if (l >= 2 && a->(l-2) == '³' && a->(l-1) == 'a') {
 
     while (i < l) {print (char) a->i;i++;};
-      
+
     a->(l-1) = 'o';
 
     word = DictionaryLookup(a, l-1);
@@ -1849,5 +1800,3 @@ Verb 'xy'
 
 
 ! ==============================================================================
-
-

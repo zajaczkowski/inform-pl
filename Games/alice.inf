@@ -49,7 +49,7 @@ Include "grammar";
 
 [ ReflectSub;
     if (second ~= mirror) "Có¿ za dziwny pomys³!";
-    if (noun == hearth or mirror || (player notin mantelpiece && 
+    if (noun == hearth or mirror || (player notin mantelpiece &&
         player notin armchair))
         "Z miejsca w którym stoisz w ¿aden sposób nie uda ci siê zobaczyæ odbicia ", (dop) noun ,".";
     print "Lustrzane odbicie ";
@@ -63,38 +63,39 @@ Include "grammar";
     " tylko na odwrót, lewa strona zamieniona z praw±.";
 ];
 
-Extend 'spojrz'
+Extend 'spójrz'
     * "na" bierniknoun "w" miejscowniknoun       -> Reflect;
 
 Extend 'obejrzyj'
     * bierniknoun "w" miejscowniknoun            -> Reflect;
 
-Extend 'idz'
+Extend 'id¼'
     * 'przez' bierniknoun                        -> Enter;
 
-Verb 'rozplacz' "nawin" "zwin"
+Verb 'rozpl±cz' "nawiñ" "zwiñ"
     * bierniknoun -> Untangle;
 
-Verb 'poglaszcz' = 'potrzyj';
+Verb 'pog³aszcz' = 'potrzyj';
 
 
 
 Object Drawing_Room "Salon"
  has    light
 
- with   name     'snieg',
-        name_dop 'sniegu',
-        name_cel 'sniegowi',
-        name_bie 'snieg',
-        name_nar 'sniegiem',
-        name_mie 'sniegu',
+ with   name     '¶nieg',
+        name_dop '¶niegu',
+        name_cel '¶niegowi',
+        name_bie '¶nieg',
+        name_nar '¶niegiem',
+        name_mie '¶niegu',
 
-        description 
-            "Delikatne uderzenia ¶niegu o szybê przypominaj±, ¿e na dworze jest 
+        description
+            "Delikatne uderzenia ¶niegu o szybê przypominaj±, ¿e na dworze jest
             bardzo zimno. Tym bardziej cieszysz siê przebywaj±c w tym przytulnym pokoju,
-            z kominkiem daj±cym przyjemne ciep³o, miêkkim dywanem oraz wygodnym fotelem, na którym 
-            a¿ chcia³oby siê skuliæ i zasn±æ. Ca³e pomieszczenie odbija siê w ogromnym 
-            zwierciadle zawieszonym nad szerok± pó³k± ponad kominkiem.",
+            z kominkiem od którego bije przyjemne ciep³o, miêkkim dywanem
+            oraz wygodnym fotelem, na którym a¿ chcia³oby siê skuliæ i zasn±æ.
+            Ca³y pokój odbija siê w wielkim zwierciadle zawieszonym nad szerok± 
+            pó³k± ponad kominkiem.",
 
         before [;
             if (player notin Mantelpiece) rfalse;
@@ -124,20 +125,20 @@ Object  red_queen "czerwona królowa"
         desc_bie "czerwon± królow±",
         desc_nar "czerwon± królow±",
         desc_mie "czerwonej królowej",
-        
+
         describe [;
             if (white_kitten.state == QUEEN_STATE
                 || black_kitten.state == QUEEN_STATE)
                 rtrue;
         ],
-        
+
         description "Niedu¿a, acz gro¼na figura szachowa.",
-        
+
         after [;
             Take:
-                if (white_kitten.state == QUEEN_STATE) 
+                if (white_kitten.state == QUEEN_STATE)
                     white_kitten.state = CHAIR_STATE;
-                if (black_kitten.state == QUEEN_STATE) 
+                if (black_kitten.state == QUEEN_STATE)
                     black_kitten.state = CHAIR_STATE;
             PutOn,Transfer,Insert:
                 if (second == chess_board)
@@ -159,10 +160,10 @@ Object  chess_board "szachownica" Drawing_Room
         desc_bie "szachownicê",
         desc_nar "szachownic±",
         desc_mie "szachownicy",
-        
+
         initial "Na pod³odze le¿y porzucona szachownica.",
-        
-        description "Szachownica zosta³a tu po niedawno zakoñczonej grze. Niestety, wszystkie   
+
+        description "Szachownica zosta³a tu po niedawno zakoñczonej grze. Niestety, wszystkie
             figury siê pogubi³y. Kociaki chcia³y siê nimi trochê pobawiæ.";
 
 
@@ -182,11 +183,11 @@ Object  hearth "kominek" Drawing_Room
         desc_nar "kominkiem",
         desc_mie "kominku",
 
-        description "Przygl±daj±c siê p³omieniom zastanawiasz siê czy 
-            po drugiej stronie lustra te¿ p³onie ogieñ. W zwierciadle 
-            tego nie widaæ, ale gdy z kominka wydostanie siê przypadkiem 
-            k³±b dymu, to w domu po drugiej stronie lustra te¿ widaæ 
-            dym. Chyba, ¿e to dla niepoznaki. Tak aby zdawa³o siê, 
+        description "Przygl±daj±c siê p³omieniom zastanawiasz siê czy
+            po drugiej stronie lustra te¿ p³onie ogieñ. W zwierciadle
+            tego nie widaæ, ale gdy z kominka wydostanie siê przypadkiem
+            k³±b dymu, to w domu po drugiej stronie lustra te¿ widaæ
+            dym. Chyba, ¿e to dla niepoznaki. Tak aby zdawa³o siê,
             ¿e tam te¿ rozpalono ogieñ.";
 
 
@@ -206,14 +207,14 @@ Object  rug "dywan" Drawing_Room
         desc_bie "dywan",
         desc_nar "dywanem",
         desc_mie "dywanie",
-        
-        description "Wspania³y miêkki dywan przywieziony z jakiego¶ odleg³ego 
+
+        description "Wspania³y miêkki dywan przywieziony z jakiego¶ odleg³ego
             kraju. Mo¿e z Indii lub Arabii, gdziekolwiek by to nie by³o.",
-        
+
         before [;
-            Take: "Jest za ciê¿ki i o wiele za du¿y, aby mog³a go unie¶æ ma³a dziewczynka. 
+            Take: "Jest za ciê¿ki i o wiele za du¿y, aby mog³a go unie¶æ ma³a dziewczynka.
                 Mo¿esz co najwy¿ej pod niego zajrzeæ.";
-            Push,Pull: 
+            Push,Pull:
                 "Miejsce dywanu jest przy kominku.";
             LookUnder:
                 if (player in mantelpiece || player in armchair)
@@ -225,7 +226,7 @@ Object  rug "dywan" Drawing_Room
                     give self general;
                     move red_queen to player;
                     "Zagl±dasz pod dywan unosz±c naro¿nik i odkrywasz zagubion± figurê szachow±. Bierzesz czerwon± królow±.";
-                }  
+                }
         ];
 
 Object  armchair "fotel" Drawing_Room
@@ -247,7 +248,7 @@ Object  armchair "fotel" Drawing_Room
         desc_mie "fotelu",
 
         description [;
-            print "Wielki fotel. Wymarzone miejsce na drzemkê dla kotka lub ma³ej 
+            print "Wielki fotel. Wymarzone miejsce na drzemkê dla kotka lub ma³ej
                 dziewczynki. Stoi przy ";
             if (self has general) "kominku.";
             "oknie.";
@@ -292,10 +293,10 @@ Object  mantelpiece "pó³ka nad kominkiem" Drawing_Room
         desc_bie "pó³kê nad kominkiem",
         desc_nar "pó³k± nad kominkiem",
         desc_mie "pó³ce nad kominkiem",
-        
+
         description "Jest zawieszona wysoko nad pod³og±. Wygl±da na wystarczaj±co
             szerok± i solidn±, aby utrzymaæ ciê¿ar ma³ej dziewczynki.",
-        
+
         before [;
             Enter,Climb:
                 if (player notin armchair)
@@ -331,12 +332,12 @@ Object  mirror "lustro" Drawing_Room
             if (player in mantelpiece)
                 "Tafla szk³a zdaje siê rozp³ywaæ, niczym b³yszcz±ca srebrna mgie³ka.";
             if (player in armchair)
-                "W zwierciadle widzisz salon domu po drugiej stronie lustra. 
+                "W zwierciadle widzisz salon domu po drugiej stronie lustra.
                 W gruncie rzeczy wygl±da tak samo jak ten w którym siê znajdujesz,
                 tylko wszystko jest w nim odwrócone z lewej na prawo. Masz jednak
                 pewno¶æ, ¿e poza tym niewielkim fragmentem który widzisz, ¶wiat po drugiej stronie lustra
                 jest zupe³nie inny ni¿ Twój w³asny.";
-            "W zwierciadle widzisz sufit salonu po drugiej stronie lustra. Wygl±da 
+            "W zwierciadle widzisz sufit salonu po drugiej stronie lustra. Wygl±da
             w zasadzie tak samo jak sufit Twojego salonu.";
         ],
 
@@ -349,7 +350,7 @@ Object  mirror "lustro" Drawing_Room
                 ! I tak Alicja wchodzi do domu po drugiej stronie lustra...
                 deadflag = 2;
                 "Twoja d³oñ bez oporu zanurza siê w srebrzystej mgie³ce, chwilê pó¼niej
-                ca³a rêka, a za ni± reszta Twojego cia³a... Przechodzisz na drug± 
+                ca³a rêka, a za ni± reszta Twojego cia³a... Przechodzisz na drug±
                 stronê lustra...";
         ];
 
@@ -378,22 +379,22 @@ Object  worsted "k³êbek w³óczki" Drawing_Room
 
         description [;
             if (self has general)
-                "Co za okropny ko³tun! Pomy¶leæ tylko ile czasu zajê³o ci zwijanie w³óczki. 
+                "Co za okropny ko³tun! Pomy¶leæ tylko ile czasu zajê³o ci zwijanie w³óczki.
                 Wszystko posz³o na marne!";
             "Starannie zwiniêty k³êbek b³êkitnej w³óczki.";
         ],
 
         before [;
-            Untangle: 
+            Untangle:
                 give self ~general;
                 "Tak szybko, ¿e szybciej siê chyba nie da, zwijasz na nowo k³êbek b³êkitnej w³óczki.";
         ],
 
         after [;
             Take:
-                if (white_kitten.state == WOOL_STATE) 
+                if (white_kitten.state == WOOL_STATE)
                     white_kitten.state = CHAIR_STATE;
-                if (black_kitten.state == WOOL_STATE) 
+                if (black_kitten.state == WOOL_STATE)
                     black_kitten.state = CHAIR_STATE;
         ];
 
@@ -408,7 +409,7 @@ Object  chess_pieces "figury szachowe" Drawing_Room
             }
             if (w == 'pion' or 'piona' or 'wieza' or 'wieze' or 'zamek' ||
                 w == 'kon' or 'konia' or 'rycerz' or 'rycerza' or 'goniec' or 'gonca' ||
-                w == 'krol' or 'krola' || (w == 'krolowa' && 
+                w == 'krol' or 'krola' || (w == 'krolowa' &&
                 (colour == 'bialy' || rug hasnt general))) return n + 1;
             return 0;
         ],
@@ -449,7 +450,7 @@ Class   Kitten
                 ok = 0;
                 w = NextWord();
 
-                ! procedura parse_name musi sprawdziæ ca³± deklinacjê 
+                ! procedura parse_name musi sprawdziæ ca³± deklinacjê
                 if (
                     ! wszystkie potencjalne formy liczby mnogiej...
                     w == 'kotki' or 'koty' or 'kociaki'         ! mianownik
@@ -470,7 +471,7 @@ Class   Kitten
                         or 'kotka' or 'kota' or 'kociaka'       ! biernik
                         or 'kotkiem' or 'kotem' or 'kociakiem'  ! narzêdnik
                         or 'kotku' or 'kocie' or 'kociaku'      ! miejscownik
-                    
+
                     ! ...oraz dodatkowo sprawdzenie deklinacji nazw dla ka¿dego obiektu nale¿±cego
                     ! do zdefiniowanej tutaj klasy.
                     || w == ((self.&name)-->0)
@@ -515,13 +516,13 @@ Class   Kitten
 
         life [;
             Ask,Answer,Order:
-                print_ret (Cname) self, " porusza kilka razy w±sami i patrzy na ciebie swoim 
-                    inteligentnym spojrzeniem. Nie masz najmniejszej w±tpliwo¶ci, ¿e 
+                print_ret (Cname) self, " porusza kilka razy w±sami i patrzy na ciebie swoim
+                    inteligentnym spojrzeniem. Nie masz najmniejszej w±tpliwo¶ci, ¿e
                     rozumie ka¿de Twoje s³owo.";
-            Kiss: 
+            Kiss:
                 "Dajesz ", (cel) self, " buziaka w mokry nosek.";
             Attack: "Nigdy nie zrobi³aby¶ czego¶ tak okrutnego takiemu ma³emu bezbronnemu zwierzaczkowi!";
-            Show: 
+            Show:
                 print_ret (Cname) self, " wbija pazurki w ", (bie) noun, ".";
             Give,ThrowAt:
                 if (noun ~= red_queen or worsted) {
@@ -536,8 +537,8 @@ Class   Kitten
                 if (self in player) print " wyrywa ci siê z r±k i";
                 move noun to Drawing_Room;
                 move self to Drawing_Room;
-                print " rusza za ", (NimLubNia) noun, " w po¶cig";
-            
+                print " rusza za ", (nar) noun, " w po¶cig";
+
                 if (noun == worsted) {
                     give worsted general;
                     self.state = WOOL_STATE;
@@ -607,7 +608,7 @@ Class   Kitten
                 CHAIR_STATE:
                     if ((self.other_kitten).state == CHAIR_STATE && random(2) == 1) {
                         i = random(5);
-                        switch (i) {    
+                        switch (i) {
                             1: print " z zapa³em goni ";
                             2: print " rzuca siê na ";
                             3: print " czy¶ci ";

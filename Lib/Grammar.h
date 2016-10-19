@@ -4,11 +4,11 @@
 !   GRAMMAR:  Zawiera informacje o rozpoznawanych przez kompilator czasownikach.
 !
 !   Przeznaczony do uzywania z kompilatorem Inform 6.
-! 
+!
 !   Wersja 6/11/PL
-!   Copyright Bartosz Zajaczkowski 2011-2014 
+!   Copyright Bartosz Zajaczkowski 2011-2014
 !       z mozliwosci± swobodnego korzystania.
-!   
+!
 !   Original 6/11 Library
 !   Copyright Graham Nelson 1993-2004 but freely usable (see manuals)
 !
@@ -29,31 +29,31 @@ Verb meta 'verbose' 'pelne'
     *                                           -> LMode2;
 Verb meta 'superbrief' 'skrocone'
     *                                           -> LMode3;
-Verb meta 'opisy' 
+Verb meta 'opisy'
     * 'normalne'                                -> LMode1
     * 'pelne'/'dlugie'                          -> LMode2
     * 'skrocone'/'krotkie'                      -> LMode3;
-    
-    
+
+
 Verb meta 'notify'
     *                                           -> NotifyOn
     * 'on'                                      -> NotifyOn
     * 'off'                                     -> NotifyOff;
 Verb meta 'pronouns' 'nouns'
     *                                           -> Pronouns;
-Verb meta 'zakoncz' 'skoncz''quit' 'q//' 'die' 
+Verb meta 'zakoncz' 'skoncz''quit' 'q//' 'die'
     *                                           -> Quit;
 Verb meta 'recording'
     *                                           -> CommandsOn
     * 'on'                                      -> CommandsOn
     * 'off'                                     -> CommandsOff;
-    
+
 Verb meta 'replay'
     *                                           -> CommandsRead;
-    
+
 Verb meta 'restart' 'zrestartuj' 'restartuj'
     *                                           -> Restart;
-    
+
 Verb meta 'restore' 'zaladuj' 'wczytaj'
     *                                           -> Restore;
 Verb meta 'save' 'zapisz'
@@ -64,18 +64,18 @@ Verb meta 'fullscore' 'full' 'pe³ny'
     *                                           -> FullScore
     * 'wynik'                                   -> FullScore
     * 'score'                                   -> FullScore;
-    
+
 Verb meta 'script' 'transcript'
     *                                           -> ScriptOn
     * 'on'                                      -> ScriptOn
     * 'off'                                     -> ScriptOff;
-    
+
 Verb meta 'noscript' 'unscript'
     *                                           -> ScriptOff;
-    
+
 Verb meta 'verify' 'zweryfikuj'
     *                                           -> Verify;
-    
+
 Verb meta 'version' 'wersja'
     *                                           -> Version;
 
@@ -192,12 +192,12 @@ Verb 'wake' 'awake' 'awaken'
 Verb 'dmij' 'zadmij' 'dmuchaj' 'dmuchnij'
     * 'w' biernikheld                           			-> Blow;
 
-    
+
 Verb 'czekaj' 'poczekaj' 'zaczekaj'
     *                                           			-> Wait;
 
 
-Verb 'ciagnij' 'pociagnij'
+Verb 'ci±gnij' 'poci±gnij'
     * bierniknoun                               			-> Pull
     * 'za' bierniknoun                          			-> Pull;
 
@@ -217,7 +217,7 @@ Verb 'dotknij'
     * dopelniacznoun                            			-> Touch;
 
 
-Verb 'idz' 'biegnij' 'pobiegnij' 'pojdz'
+Verb 'id¼' 'biegnij' 'pobiegnij' 'pójd¼'
     *                                           			-> VagueGo
     * 'na' noun=ADirection                      			-> Go
     * 'do' noun=ADirection                      			-> GoIn;
@@ -240,19 +240,19 @@ Verb 'kup' 'zakup'
     * bierniknoun                               			-> Buy;
 
 
-Verb 'napelnij'
+Verb 'nape³nij'
     * bierniknoun                               			-> Fill;
 
 
 Verb 'napij'
-    * 'sie' dopelniacznoun                      			-> Drink
-    * 'sie' 'z'/'ze' dopelniacznoun             			-> Drink;
+    * 'siê' dopelniacznoun                      			-> Drink
+    * 'siê' 'z'/'ze' dopelniacznoun             			-> Drink;
 
-    
+
 Verb 'nie' 'n//'
     *                                           			-> No;
 
-   
+
 Verb 'obejrzyj' 'ob//' 'zobacz' 'x//'
     * bierniknoun                               			-> Examine;
 
@@ -260,44 +260,44 @@ Verb 'obejrzyj' 'ob//' 'zobacz' 'x//'
 Verb 'odblokuj'
     * bierniknoun narzednikheld                 			-> Unlock
     * narzednikheld bierniknoun                 			-> Unlock;
-    
 
-Verb 'odloz'
+
+Verb 'od³ó¿'
     * biernikmultiheld                          			-> Drop
     * biernikheld 'w' miejscowniknoun           			-> Insert
     * biernikmultiexcept 'do' dopelniacznoun    			-> Insert
     * biernikmultiexcept 'na' bierniknoun       			-> PutOn;
 
 
-Verb 'odpowiedz' ! nie dokoñczony - 'say' 'shout' 'speak'
+Verb 'odpowiedz' ! niedokoñczony - 'say' 'shout' 'speak'
     * topic 'to' creature                       			-> Answer;
 
 
-Verb 'oproznij'
+Verb 'opró¿nij'
     * bierniknoun                               			-> Empty
     * bierniknoun 'na'/'do' dopelniacznoun      			-> EmptyT;
 
 
-Verb 'otworz'
+Verb 'otwórz'
     * bierniknoun                               			-> Open
     * bierniknoun narzednikheld                 			-> Unlock
     * narzednikheld bierniknoun                 			-> Unlock;
 
 
-Verb 'pchnij' 'popchnij' 'przesun' 
+Verb 'pchnij' 'popchnij' 'przesuñ'
     * bierniknoun                               			-> Push
     * bierniknoun 'na' noun                     			-> PushDir;
 
-    
-Verb 'plyn' 'poplyn'
+
+Verb 'plyñ' 'poplyñ'
     *                                           			-> Swim;
 
-  
-Verb 'pocaluj' 'caluj' 'przytul' 'usciskaj'
+
+Verb 'poca³uj' 'ca³uj' 'przytul' 'u¶ciskaj'
     * biernikcreature                           			-> Kiss;
 
 
-Verb 'podpal' 
+Verb 'podpal'
     * bierniknoun                                           -> Burn
     * bierniknoun narzednikheld                             -> Burn;
 
@@ -306,49 +306,49 @@ Verb 'podskocz' 'skocz'
     *                                           			-> Jump;
 
 
-Verb 'pokaz'
+Verb 'poka¿'
     * 'inwentarz'                                           -> Inv
     * celownikcreature biernikheld              			-> Show reverse
     * biernikheld celownikcreature              			-> Show;
-    
 
-Verb 'poloz'
-    * 'sie' 'na' miejscowniknoun                			-> Enter
-    * 'sie' 'w' miejscowniknoun                 			-> Enter
+
+Verb 'po³ó¿'
+    * 'siê' 'na' miejscowniknoun                			-> Enter
+    * 'siê' 'w' miejscowniknoun                 			-> Enter
     * biernikmultiheld                          			-> Drop
-    * biernikmultiheld 'w' miejscowniknoun           		-> Insert 
+    * biernikmultiheld 'w' miejscowniknoun           		-> Insert
     * biernikmultiexcept 'do' dopelniacznoun    			-> Insert
     * biernikmultiexcept 'na' miejscowniknoun   			-> PutOn;
-    
+
 
 Verb 'pomachaj' 'machaj'
     *                                                       -> WaveHands
     * narzedniknoun                                         -> Wave;
-  
-
-Verb 'pomodl' 'modl'
-    * 														-> Pray
-    * 'sie'                                     			-> Pray;
 
 
-Verb 'pomysl' 'mysl'
+Verb 'pomódl' 'módl'
+    * 														                    -> Pray
+    * 'siê'                                     			-> Pray;
+
+
+Verb 'pomy¶l' 'my¶l'
     *                                           			-> Think;
 
 
-Verb 'popros' 'pros'
+Verb 'popro¶' 'pro¶'
     * biernikcreature 'o' bierniknoun           			-> AskFor;
 
 
-Verb 'ustaw' 'postaw' 
+Verb 'ustaw' 'postaw'
     * biernikmulti                                          -> Drop
     * biernikmultiexcept 'na' miejscowniknoun               -> PutOn;
 
-      
-Verb 'potrzyj' 'przetrzyj' 'wytrzyj' 
+
+Verb 'potrzyj' 'przetrzyj' 'wytrzyj'
     * bierniknoun                               			-> Rub;
 
 
-Verb 'powachaj' 'wachaj'
+Verb 'pow±chaj' 'w±chaj'
     * bierniknoun                               			-> Smell;
 
 
@@ -357,31 +357,31 @@ Verb 'powiedz'
     * celownikcreature topic                    			-> AskTo;
 
 
-Verb 'przekrec' 'dokrec' 'obroc' 'odkrec' 'zakrec'
+Verb 'przekrêæ' 'dokrêæ' 'obróæ' 'odkrêæ' 'zakrêæ'
     * bierniknoun                                           -> Turn;
 
 
-Verb 'przenies' 'przeloz'
+Verb 'przenie¶' 'prze³ó¿'
     * bierniknoun 'do' dopelniacznoun           			-> Transfer;
-    
+
 
 Verb 'przeskocz'
     * 'nad' miejscowniknoun                     			-> JumpOver;
- 
+
 
 Verb 'przeszukaj'
     * bierniknoun                               			-> Search;
 
 
-Verb 'przepros'
-    *                                           			-> Sorry;    
+Verb 'przepro¶'
+    *                                           			-> Sorry;
 
 
-Verb 'przespij' 'zdrzemnij'
-    * 'sie'                                     			-> Sleep;
+Verb 'prze¶pij' 'zdrzemnij'
+    * 'siê'                                     			-> Sleep;
 
 
-Verb 'przetnij' 'kroj' 'przekroj' 'tnij'
+Verb 'przetnij' 'krój' 'przekrój' 'tnij'
     * bierniknoun                               			-> Cut;
 
 
@@ -389,7 +389,7 @@ Verb 'przyjrzyj'
     * 'sie' celowniknoun                        			-> Examine;
 
 
-Verb 'rzuc'
+Verb 'rzuæ'
     * biernikmultiheld										-> Drop
     !* biernikheld 'w' biernikcreature          			-> Attack
     * narzednikheld celownikcreature                        -> Give
@@ -397,56 +397,56 @@ Verb 'rzuc'
     !* biernikmultiheld 'w' bierniknoun         			-> Insert
     * biernikmultiheld 'do' dopelniacznoun      			-> Insert
     * biernikmultiexcept 'na'/'w' miejscowniknoun 			-> PutOn;
-    
+
 
 Verb 'schowaj'
-    * bierniknoun 'w' miejscowniknoun           			-> Insert 
+    * bierniknoun 'w' miejscowniknoun           			-> Insert
     * biernikmulti 'do' dopelniacznoun          			-> Insert;
 
 
-Verb 'siadz' 'usiadz'
+Verb 'si±d¼' 'usi±d¼'
     * 'na' miejscowniknoun                                  -> Enter
     * 'w' miejscowniknoun                                   -> Enter;
 
 
-Verb 'sluchaj' 'posluchaj'
+Verb 's³uchaj' 'pos³uchaj'
     *                                           			-> Listen
     * dopelniacznoun                            			-> Listen;
 
 
-Verb 'spij' 'zasnij'
+Verb '¶pij' 'za¶nij'
     *                                                       -> Sleep;
 
 
-Verb 'spojrz' 'sp//' 'popatrz'   ! TU ZMIANA
+Verb 'spójrz' 'sp//' 'popatrz'   ! TU ZMIANA
     *                                           			-> Look
     * 'na' bierniknoun                          			-> Examine
     * 'na' noun=ADirection                      			-> Examine
     * 'pod'/'za' bierniknoun                    			-> LookUnder;
 
 
-Verb 'sprawdz' 'skonsultuj'
+Verb 'sprawd¼' 'skonsultuj'
     * topic 'w' miejscowniknoun                             -> Consult
     * bierniknoun                                           -> Examine;
 
 
-Verb 'sprobuj' 'skosztuj'
+Verb 'spróbuj' 'skosztuj'
     * bierniknoun                                           -> Taste;
-    
 
-Verb 'stan'
+
+Verb 'stañ'
     * 'na' miejscowniknoun                      			-> Enter;
 
 
-Verb 'szukaj' 'odszukaj' 'poszukaj' 
+Verb 'szukaj' 'odszukaj' 'poszukaj'
     * dopelniacznoun                            			-> Search
     * topic 'w' miejscowniknoun                   			-> Consult
     * 'pod'/'za'/'na' narzedniknoun             			-> LookUnder;
 
-    
-Verb 'scisnij' 'zgniec'
+
+Verb '¶ci¶nij' 'zgnieæ'
     * bierniknoun                               			-> Squeeze;
-    
+
 
 Verb 'tak' 't//'
     *                                           			-> Yes;
@@ -462,44 +462,44 @@ Verb 'wdrap' 'wespnij'
     * 'sie' 'po' miejscowniknoun							-> Climb;
 
 
-Verb 'wez' 'zabierz' 'podnies'  ! TU ZMIANA
-    * biernikmulti                                          -> Take    
+Verb 'we¼' 'zabierz' 'podnie¶'  ! TU ZMIANA
+    * biernikmulti                                          -> Take
     * multiinside 'from' noun                               -> Remove;          ! <- tu jest problem, który wymaga poprawek w parserze... :(
 
 
-Verb 'wejdz'
+Verb 'wejd¼'
     *                                           			-> GoIn
     * 'do' noun=ADirection                      			-> GoIn
     * 'do' dopelniacznoun                       			-> Enter
     * 'na' bierniknoun                          			-> Enter
     * 'w' bierniknoun                           			-> Enter
-    * 'po' miejscowniknoun									-> Climb; 
+    * 'po' miejscowniknoun									-> Climb;
 
- 
-Verb 'wlacz' 'zapal'
+
+Verb 'w³±cz' 'zapal'
     * bierniknoun                               			-> SwitchOn;
 
 
-Verb 'wloz'
+Verb 'w³o¿'
     * biernikheld                               			-> Wear
-    * biernikmultiheld 'w' bierniknoun              		-> Insert 
+    * biernikmultiheld 'w' bierniknoun              		-> Insert
     * biernikmultiheld 'do' dopelniacznoun          		-> Insert;
 
 
-Verb 'wrzuc'
+Verb 'wrzuæ'
     * biernikmultiheld 'do'/'w' dopelniacznoun  			-> Insert;
 
 
-Verb 'wsiadz'
+Verb 'wsiad¼'
     * 'do' dopelniacznoun                       			-> Enter;
 
-    
-Verb 'wstan'
+
+Verb 'wstañ'
     *                                                       -> Exit
     * 'z' dopelniacznoun                                    -> Exit;
 
 
-Verb 'wyjdz'
+Verb 'wyjd¼'
     *                                           			-> Exit
     * 'na' 'zewnatrz'                           			-> Exit
     * 'na' noun=ADirection                      			-> Go
@@ -511,7 +511,7 @@ Verb 'wyjmij' 'wyciagnij'
     * multiinside 'z//'/'ze//' dopelniacznoun               -> Remove;
 
 
-Verb 'wylacz' 'zgas'
+Verb 'wy³±cz' 'zga¶'
     * bierniknoun                               			-> SwitchOff;
 
 
@@ -519,14 +519,14 @@ Verb 'wypij'
     * bierniknoun                               			-> Drink;
 
 
-Verb 'wyrzuc'
-    * biernikmultiheld                                      -> Drop;   
-   
+Verb 'wyrzuæ'
+    * biernikmultiheld                                      -> Drop;
+
 
 Verb 'wysiadz'
     *                                           			-> Exit
     * 'z' dopelniacznoun                        			-> Exit;
-   
+
 
 Verb 'zaatakuj' 'zniszcz'
     * bierniknoun                               			-> Attack
@@ -535,13 +535,13 @@ Verb 'zaatakuj' 'zniszcz'
 
 Verb 'zabij'
 	* biernikcreature										-> Attack;
-	
+
 
 Verb 'uderz' 'walnij' 'kopnij'
 	* 'w' bierniknoun                           			-> Attack
     * bierniknoun                               			-> Attack;
 
-    	
+
 Verb 'zablokuj'
     * narzednikheld bierniknoun                 			-> Lock
     * bierniknoun narzednikheld                 			-> Lock;
@@ -550,9 +550,9 @@ Verb 'zablokuj'
 Verb 'zajrzyj'
     * 'do' dopelniacznoun                       			-> Search
     * 'pod'/'za' bierniknoun                    			-> LookUnder;
-    
 
-Verb 'zaloz' 'ubierz'
+
+Verb 'za³ó¿' 'ubierz'
     * biernikheld                               			-> Wear;
 
 
@@ -563,7 +563,7 @@ Verb 'zamknij'
     * bierniknoun 'na' biernikheld              			-> Lock;
 
 
-Verb 'zapytaj' 'pytaj' 'spytaj' 
+Verb 'zapytaj' 'pytaj' 'spytaj'
     * biernikcreature 'o' topic                             -> Ask
     * biernikcreature 'o' bierniknoun                       -> AskFor;
 
@@ -571,28 +571,28 @@ Verb 'zapytaj' 'pytaj' 'spytaj'
     ! * 'that' creature topic                               -> AskTo;
 
 
-Verb 'zastanow'
+Verb 'zastanów'
     * 'sie'                                     			-> Think;
 
 
-Verb 'zaspiewaj' 'spiewaj'
+Verb 'za¶piewaj' '¶piewaj'
     *                                           			-> Sing;
 
 
-Verb 'zjedz' 'polknij' 'ugryz' 
+Verb 'zjedz' 'po³knij' 'ugry¼'
     * bierniknoun                                           -> Eat;
 
-  
-Verb 'znajdz'
+
+Verb 'znajd¼'
     * topic 'w' miejscowniknoun                   			-> Consult
     * bierniknoun                               			-> Search;
-         
+
 
 Verb 'zdejmij'
     * bierniknoun                               			-> Disrobe;
 
 
-Verb 'zejdz' 
+Verb 'zejd¼'
     *                                           			-> Exit
     * 'z'/'ze' dopelniacznoun	                			-> Exit;
 
@@ -602,18 +602,18 @@ Verb 'zostaw'
     * biernikmultiheld 'w' miejscowniknoun                  -> Insert;
 
 
-Verb 'zsiadz' 
+Verb 'zsi±d¼'
     * 'z'/'ze' dopelniacznoun	                			-> GetOff;
- 
 
 
 
-     
-Verb 'shit' 'damn' 'fuck' 'sod' 'kurwa' 'huj' 'chuj' 'gowno'
+
+
+Verb 'shit' 'damn' 'fuck' 'sod' 'kurwa' 'huj' 'chuj' 'gówno'
     *                                           			-> Strong
     * topic                                     			-> Strong;
-    
-    
+
+
 ! ------------------------------------------------------------------------------
 !  This routine is no longer used here, but provided to help existing games
 !  which use it as a general parsing routine:

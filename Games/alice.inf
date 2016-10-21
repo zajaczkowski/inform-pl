@@ -22,9 +22,11 @@ Constant WOOL_STATE = 2;     ! Bawi siê k³êbkiem w³óczki
 Constant CHAIR_STATE = 3;    ! Stoi na drodze fotela
 
 
-Include "parser";
-Include "verblib";
-Include "grammar";
+
+
+Include "Parser";
+Include "Verblib";
+Include "Grammar";
 
 
 
@@ -33,7 +35,7 @@ Include "grammar";
     StartDaemon(white_kitten);
     StartDaemon(black_kitten);
     print "^^^^^Na zewn±trz panuje sroga zima, ale w domu po drugiej stronie lustra
-        jest pe³nia lata. Musisz tylko wymy¶liæ w jaki sposób przedostaæ siê na drug± stronê...^^";
+        jest ¶rodek lata. Musisz tylko znale¼æ sposób jak przedostaæ siê na drug± stronê...^^";
 ];
 
 
@@ -94,7 +96,7 @@ Object Drawing_Room "Salon"
             bardzo zimno. Tym bardziej cieszysz siê przebywaj±c w tym przytulnym pokoju,
             z kominkiem od którego bije przyjemne ciep³o, miêkkim dywanem
             oraz wygodnym fotelem, na którym a¿ chcia³oby siê skuliæ i zasn±æ.
-            Ca³y pokój odbija siê w wielkim zwierciadle zawieszonym nad szerok± 
+            Ca³y pokój odbija siê w wielkim zwierciadle zawieszonym nad szerok±
             pó³k± ponad kominkiem.",
 
         before [;
@@ -209,7 +211,7 @@ Object  rug "dywan" Drawing_Room
         desc_mie "dywanie",
 
         description "Wspania³y miêkki dywan przywieziony z jakiego¶ odleg³ego
-            kraju. Mo¿e z Indii lub Arabii, gdziekolwiek by to nie by³o.",
+            kraju. Z Indii, a mo¿e z Arabii, gdziekolwiek by to nie by³o.",
 
         before [;
             Take: "Jest za ciê¿ki i o wiele za du¿y, aby mog³a go unie¶æ ma³a dziewczynka.
@@ -330,11 +332,11 @@ Object  mirror "lustro" Drawing_Room
 
         description [;
             if (player in mantelpiece)
-                "Tafla szk³a zdaje siê rozp³ywaæ, niczym b³yszcz±ca srebrna mgie³ka.";
+                "Tafla lustra zdaje siê rozp³ywaæ, niczym b³yszcz±ca srebrna mgie³ka.";
             if (player in armchair)
                 "W zwierciadle widzisz salon domu po drugiej stronie lustra.
-                W gruncie rzeczy wygl±da tak samo jak ten w którym siê znajdujesz,
-                tylko wszystko jest w nim odwrócone z lewej na prawo. Masz jednak
+                W gruncie rzeczy wygl±da tak samo jak ten w którym jeste¶,
+                ale wszystko jest w nim odwrócone z lewej na prawo. Masz jednak
                 pewno¶æ, ¿e poza tym niewielkim fragmentem który widzisz, ¶wiat po drugiej stronie lustra
                 jest zupe³nie inny ni¿ Twój w³asny.";
             "W zwierciadle widzisz sufit salonu po drugiej stronie lustra. Wygl±da
@@ -355,14 +357,14 @@ Object  mirror "lustro" Drawing_Room
         ];
 
 Object  worsted "k³êbek w³óczki" Drawing_Room
-        ! z ustawionym atrybutem general je¶li zosta³ sko³tuniony przez kociaki
+        ! posiada atrybut 'general' je¶li k³êbek zosta³ sko³tuniony przez kociaki
 
- with   name 'klebek' 'wloczki' 'wloczka' 'welny' 'blekitny' 'blekitnej' 'koltun',
-        name_dop 'klebka' 'wloczki' 'welny' 'blekitnego' 'blekitnej' 'koltuna',
-        name_cel 'klebkowi' 'wloczki' 'wloczce' 'welny' 'blekitnemu' 'blekitnej' 'koltunowi',
-        name_bie 'klebek' 'wloczki' 'wloczke' 'welny' 'blekitny' 'blekitnej' 'koltun',
-        name_nar 'klebkiem' 'wloczki' 'wloczka' 'welny' 'blekitnym' 'blekitnej' 'koltunem',
-        name_mie 'klebku' 'wloczki' 'wloczce' 'welny' 'blekitnym' 'blekitnej' 'koltunie',
+ with   name     'k³êbek' 'w³óczki' 'w³óczka' 'we³ny' 'b³êkitny' 'b³êkitnej' 'ko³tun',
+        name_dop 'k³êbka' 'w³óczki' 'we³ny' 'b³êkitnego' 'b³êkitnej' 'ko³tuna',
+        name_cel 'k³êbkowi' 'w³óczki' 'w³óczce' 'we³ny' 'b³êkitnemu' 'b³êkitnej' 'ko³tunowi',
+        name_bie 'k³êbek' 'w³óczki' 'w³óczke' 'we³ny' 'b³êkitny' 'b³êkitnej' 'ko³tun',
+        name_nar 'k³êbkiem' 'w³óczki' 'w³óczka' 'we³ny' 'b³êkitnym' 'b³êkitnej' 'ko³tunem',
+        name_mie 'k³êbku' 'w³óczki' 'w³óczce' 'we³ny' 'b³êkitnym' 'b³êkitnej' 'ko³tunie',
 
         desc_dop "k³êbka w³óczki",
         desc_cel "k³êbkowi w³óczki",
@@ -387,7 +389,7 @@ Object  worsted "k³êbek w³óczki" Drawing_Room
         before [;
             Untangle:
                 give self ~general;
-                "Tak szybko, ¿e szybciej siê chyba nie da, zwijasz na nowo k³êbek b³êkitnej w³óczki.";
+                "Tak szybko jak tylko potrafisz, zwijasz na nowo k³êbek b³êkitnej w³óczki.";
         ],
 
         after [;
@@ -398,11 +400,12 @@ Object  worsted "k³êbek w³óczki" Drawing_Room
                     black_kitten.state = CHAIR_STATE;
         ];
 
+
 Object  chess_pieces "figury szachowe" Drawing_Room
  has    scenery
  with   parse_name [ w colour n;
             w = NextWord();
-            if (w == 'bialy' or 'biala' or 'biala' or 'bialego' or 'czerwony' or 'czerwona' or 'czerwona' or 'czerwonego') {
+            if (w == 'bia³y' or 'bia³a' or 'bia³a' or 'bia³ego' or 'czerwony' or 'czerwona' or 'czerwon±' or 'czerwonego') {
                 n ++;
                 colour = w;
                 w = NextWord();
@@ -502,7 +505,7 @@ Class   Kitten
                     if ((self.other_kitten).state == 3) {
                         i = self.other_kitten;
                         give i general;
-                        "^Dwa ma³e kotki, bia³y i czarny, bawi± siê ze sob± przy fotelu.";
+                        "^Dwa ma³e kociaki, bia³y i czarny, bawi± siê ze sob± przy fotelu.";
                 }
                 "^", (Cname) self, " bawi siê przy fotelu.";
              default: rtrue;
@@ -554,7 +557,7 @@ Class   Kitten
                 self.state = HELD_STATE;
                 move self to player;
                 "Ostro¿nie podnosisz ", (bie) self, ". Jaki on uroczy!";
-            Touch, Rub: print_ret (Cname) self, " ociera siê o ciebie pomrukuj±c z zadowoleniem.";
+            Touch, Rub: print_ret (Cname) self, " ociera siê o twoje nogi pomrukuj±c z zadowoleniem.";
         ],
 
         after [;
@@ -611,7 +614,7 @@ Class   Kitten
                         switch (i) {
                             1: print " z zapa³em goni ";
                             2: print " rzuca siê na ";
-                            3: print " czy¶ci ";
+                            3: print " czy¶ci futerko ";
                             4: print " ¶ciga ";
                             5: print " drapie ";
                         }
@@ -635,12 +638,12 @@ Class   Kitten
 
 Kitten  white_kitten "bia³y kotek" Drawing_Room
 
- with   name     'bialy',
-        name_dop 'bialego',
-        name_cel 'bialemu',
-        name_bie 'bialego',
-        name_nar 'bialym',
-        name_mie 'bialym',
+ with   name     'bia³y',
+        name_dop 'bia³ego',
+        name_cel 'bia³emu',
+        name_bie 'bia³ego',
+        name_nar 'bia³ym',
+        name_mie 'bia³ym',
 
         desc_dop "bia³ego kotka",
         desc_cel "bia³emu kotkowi",

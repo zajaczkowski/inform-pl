@@ -863,7 +863,7 @@ Constant QKEY2__KY      = 'q';
 Constant SCORE__TX      = "Wynik: ";
 Constant MOVES__TX      = "Ruchy: ";
 Constant TIME__TX       = "Czas: ";
-Constant CANTGO__TX     = "Nie mo¿esz i¶æ w tym kierunku.";
+Constant CANTGO__TX     = "Nie mo¿esz pój¶æ w tym kierunku.";
 Constant FORMER__TX     = "your former self";
 Constant YOURSELF__TX   = "Ty";
 Constant YOU__TX        = "You";
@@ -1628,7 +1628,7 @@ Array name_buffer->64;
         1:  "You aren't holding ", (the) x1, ".";
         2:  print_ret (The) x1, " ", (JestLubSa) x1, " unimpressed.";
     }
-  Sing:     "Your singing is abominable.";
+  Sing:     "Twój ¶piew jest okropny.";
   Sleep:    "Nie czujesz szczególnego zmêczenia.";
   Smell:    "Nie wyczuwasz niczego specjalnego.";
   Sorry:    "Nie musisz przepraszaæ!";
@@ -1697,7 +1697,7 @@ Array name_buffer->64;
         4:  "Odblokowujesz ", (bie) x1, " za pomoc± ", (dop) second,".";
 
     }
-  VagueGo:  "Musisz sprecyzowaæ kierunek, w którym chcesz siê udaæ.";
+  VagueGo:  "Musisz wskazaæ kierunek, w którym chcesz siê udaæ.";
   Verify: switch (n) {
         1:  "The game file has verified as intact.";
         2:  "The game file did not verify as intact, and may be corrupt.";

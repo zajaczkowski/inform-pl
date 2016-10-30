@@ -92,7 +92,7 @@ Object Drawing_Room "Salon"
         name_mie '¶niegu',
 
         description
-            "Delikatne uderzenia ¶niegu o szybê przypominaj±, ¿e na dworze jest
+            "Delikatne uderzenia p³atków ¶niegu o szybê przypominaj±, ¿e na dworze jest
             bardzo zimno. Tym bardziej cieszysz siê przebywaj±c w tym przytulnym pokoju,
             z kominkiem od którego bije przyjemne ciep³o, miêkkim dywanem
             oraz wygodnym fotelem, na którym a¿ chcia³oby siê skuliæ i zasn±æ.
@@ -103,13 +103,13 @@ Object Drawing_Room "Salon"
             if (player notin Mantelpiece) rfalse;
             Exit,Go:
                 if (noun == d_obj or out_obj)
-                    "Za wysoko! To nie jest najlepszy sposób zej¶cia.";
+                    "Jeste¶ za wysoko! To nie jest najlepszy sposób zej¶cia.";
             Examine,Enter,ThrowAt,ThrownAt,Reflect: ;
             default:
                 if (inp1 ~= 1 && noun ~= 0 && Inside(noun,mantelpiece) == 0)
-                    "Nie mo¿esz dosiêgn±æ ", (dop) noun, " z tego miejsca.";
+                    "Nie dosiêgniesz ", (dop) noun, " z tego miejsca.";
                 if (inp2 ~= 1 && second ~= 0 && Inside(second,mantelpiece) == 0)
-                    "Nie mo¿esz dosiêgn±æ  ", (dop) second, " z tego miejsca.";
+                    "Nie dosiêgniesz  ", (dop) second, " z tego miejsca.";
         ];
 
 Object  red_queen "czerwona królowa"
@@ -195,14 +195,14 @@ Object  hearth "kominek" Drawing_Room
 
 Object  rug "dywan" Drawing_Room
  has    concealed static supporter enterable
-        ! z ustawionym atrybutem general gdy Alicja znajdzie ju¿pod nim figurê królowej
+        ! z ustawionym atrybutem general gdy Alicja znajdzie ju¿ pod nim figurê królowej
 
- with   name     'dywan' 'dywanik' 'indyjski' 'arabski' 'miekki' 'wspanialy',
-        name_dop 'dywanu' 'dywanika' 'indyjskiego' 'arabskiego' 'miekkiego' 'wspanialego',
-        name_cel 'dywanowi' 'dywanikowi' 'indyjskiemu' 'arabskiemu' 'miekkiemu' 'wspanialemu',
-        name_bie 'dywan' 'dywanik' 'indyjski' 'arabski' 'miekki' 'wspanialy',
-        name_nar 'dywanem' 'dywanikiem' 'indyjskim' 'arabskim' 'miekkim' 'wspanialym',
-        name_mie 'dywanie' 'dywaniku' 'indyjskim' 'arabskim' 'miekkim' 'wspanialym',
+ with   name     'dywan' 'dywanik' 'indyjski' 'arabski' 'miêkki' 'wspania³y',
+        name_dop 'dywanu' 'dywanika' 'indyjskiego' 'arabskiego' 'miêkkiego' 'wspania³ego',
+        name_cel 'dywanowi' 'dywanikowi' 'indyjskiemu' 'arabskiemu' 'miêkkiemu' 'wspania³emu',
+        name_bie 'dywan' 'dywanik' 'indyjski' 'arabski' 'miêkki' 'wspania³y',
+        name_nar 'dywanem' 'dywanikiem' 'indyjskim' 'arabskim' 'miêkkim' 'wspania³ym',
+        name_mie 'dywanie' 'dywaniku' 'indyjskim' 'arabskim' 'miêkkim' 'wspania³ym',
 
         desc_dop "dywanu",
         desc_cel "dywanowi",

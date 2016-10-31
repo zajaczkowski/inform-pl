@@ -116,22 +116,34 @@ Scenic  "studnia"
         ];
 
 Scenic  Stream "stream"
-  with  name 'stream' 'water' 'brook' 'river' 'lake' 'small' 'tumbling'
+  with  name 'strumieñ' 'woda' 'potok' 'rzeka' 'jezioro' 'small' 'tumbling'
              'splashing' 'babbling' 'rushing' 'reservoir',
+        name_dop 'strumienia' 'wody' 'potoku' 'rzeki' 'jeziora',
+        name_cel 'strumieniowi' 'wodzie' 'potokowi' 'rzece' 'jezioru',
+        name_bie 'strumieñ' 'wodê' 'potok' 'rzekê' 'jezioro',
+        name_nar 'strumieniem' 'wod±' 'potokiem' 'rzek±' 'jeziorem',
+        name_msc 'strumieniu' 'wodzie' 'potoku' 'rzece' 'jeziorze',
+
+        desc_dop "strumienia",
+        desc_cel "strumieniowi",
+        desc_bie "strumieñ",
+        desc_nar "strumieniem",
+        desc_mie "strumieniu",
+
         found_in At_End_Of_Road In_A_Valley At_Slit_In_Streambed In_Pit
                  In_Cavern_With_Waterfall At_Reservoir Inside_Building,
         before [;
           Drink:
-            "You have taken a drink from the stream.
-             The water tastes strongly of minerals, but is not unpleasant.
-             It is extremely cold.";
+            "Napi³e¶ siê wody ze strumienia.
+            Ma mocny posmak minera³ów, ale jest dobra.
+            Jest niezwykle zimna.";
           Take:
             if (bottle notin player)
-                "You have nothing in which to carry the water.";
+                "Nie masz przy sobie niczego, w czym móg³by¶ przenosiæ wodê.";
             <<Fill bottle>>;
           Insert:
             if (second == bottle) <<Fill bottle>>;
-            "You have nothing in which to carry the water.";
+            "Nie masz przy sobie niczego, w czym móg³by¶ przenosiæ wodê.";
           Receive:
             if (noun == ming_vase) {
                 remove ming_vase;
@@ -145,8 +157,14 @@ Scenic  Stream "stream"
             print_ret (The) noun, " washes away with the stream.";
         ];
 
-Scenic  "road"
-  with  name 'road' 'street' 'path' 'dirt',
+Scenic  "droga"
+  with  name 'droga' 'ulica' '¶cie¿ka' 'szutr',
+        name_dop 'drogi' 'ulicy' '¶cie¿ki' 'szutru',
+        name_cel 'drodze' 'ulicy' '¶cie¿ce' 'szutrowi',
+        name_bie 'drogê' 'ulicê' '¶cie¿kê' 'szutr',
+        name_nar 'drog±' 'ulic±' '¶cie¿k±' 'szutrem',
+        name_msc 'drodze' 'ulicy' '¶cie¿ce' 'szutrze',
+
         description "The road is dirt, not yellow brick.",
         found_in At_End_Of_Road At_Hill_In_Road In_Forest_2;
 

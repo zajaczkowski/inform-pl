@@ -480,10 +480,10 @@ Verb 'w³±cz' 'zapal'
     * bierniknoun                               			-> SwitchOn;
 
 
-Verb 'w³o¿'
+Verb 'w³ó¿'
     * biernikheld                               			-> Wear
-    * biernikmultiheld 'w' bierniknoun              		-> Insert
-    * biernikmultiheld 'do' dopelniacznoun          		-> Insert;
+    * biernikmultiheld 'w' bierniknoun              	-> Insert
+    * biernikmultiheld 'do' dopelniacznoun          	-> Insert;
 
 
 Verb 'wrzuæ'

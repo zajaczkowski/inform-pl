@@ -104,8 +104,12 @@ Aboveground At_End_Of_Road "Na koñcu drogi"
         in_to Inside_Building;
 
 Scenic  "studnia"
-  with  name 'well' 'budynek' 'brick' 'building' 'small' 'wellhouse',
-        name_bie 'budynek',
+  with  name 'studnia' 'ma³y' 'ceglany' 'budynek',
+        name_dop 'studni' 'ma³ego' 'ceglanego' 'budynku',
+        name_cel 'studni' 'ma³emu' 'ceglanemu' 'budynkowi',
+        name_bie 'studniê' 'ma³y' 'ceglany' 'budynek',
+        name_nar 'studni±' 'ma³ym' 'ceglanym' 'budynkiem',
+        name_mie 'studni' 'ma³ym' 'ceglanym' 'budynku',
         description "Ma³y budynek z ceg³y. Wygl±da na studniê.",
         found_in At_End_Of_Road At_Hill_In_Road Inside_Building,
         before [;
@@ -139,11 +143,11 @@ Scenic  Stream "stream"
             Jest niezwykle zimna.";
           Take:
             if (bottle notin player)
-                "Nie masz przy sobie niczego, w czym móg³by¶ przenosiæ wodê.";
+                "Nie masz przy sobie niczego, co da³oby siê nape³niæ wod±.";
             <<Fill bottle>>;
           Insert:
             if (second == bottle) <<Fill bottle>>;
-            "Nie masz przy sobie niczego, w czym móg³by¶ przenosiæ wodê.";
+            "Nie masz przy sobie niczego, co da³oby siê nape³niæ wod±.";
           Receive:
             if (noun == ming_vase) {
                 remove ming_vase;
@@ -184,20 +188,25 @@ Scenic  "forest"
 
 ! ------------------------------------------------------------------------------
 
-Aboveground At_Hill_In_Road "At Hill In Road"
-  with  name 'hill' 'in' 'road',
+Aboveground At_Hill_In_Road "Droga na wzgórzu"
+  with  name 'wzgórze' 'wzniesienie' 'droga',
+        name_dop 'wzgórza' 'wzniesienia' 'drogi',
+        name_cel 'wzgórzu' 'wzniesieniu' 'drodze',
+        name_bie 'wzgórze' 'wzniesienie' 'drogê',
+        name_nar 'wzgórzem' 'wzniesieniem' 'drog±',
+        name_mie 'wzgórzu' 'wzniesieniu' 'drodze',
         description
-            "You have walked up a hill, still in the forest.
-             The road slopes back down the other side of the hill.
-             There is a building in the distance.",
+            "Wszed³e¶ na wzgórze, ale ci±gle pozostajesz w lesie.
+            Po drugiej stronie wzniesienia droga prowadzi w dó³.
+            W oddali widaæ budynek.",
         e_to At_End_Of_Road,
         n_to At_End_Of_Road,
         d_to At_End_Of_Road,
         s_to In_Forest_1;
 
-Scenic  -> "hill"
-  with  name 'hill' 'bump' 'incline',
-        description "It's just a typical hill.";
+Scenic  -> "wzgórze"
+  with  name 'wzgórze' 'wzniesienie' 'hill',
+        description "Typowe wzgórze.";
 
 Scenic  -> "other side of hill"
   with  name 'side' 'other' 'of',
@@ -206,18 +215,18 @@ Scenic  -> "other side of hill"
 
 ! ------------------------------------------------------------------------------
 
-Aboveground Inside_Building "Inside Building"
+Aboveground Inside_Building "W budynku"
   with  name 'inside' 'building' 'well' 'house' 'wellhouse',
         description
-            "You are inside a building, a well house for a large spring.",
+            "Znajdujesz siê w ma³ym budynku, ujêciu wody z du¿ego ¼ród³a.",
         cant_go
             "The stream flows out through a pair of 1 foot diameter sewer pipes.
              The only exit is to the west.",
         before [;
           Enter:
             if (noun == Spring or SewerPipes)
-                "The stream flows out through a pair of 1 foot diameter sewer pipes.
-                 It would be advisable to use the exit.";
+                "Strumieñ wody wyp³ywa przez parê dwunastocalowych rur kanalizacyjnych.
+                 Wskazane by³oby skorzystanie z wyj¶cia.";
           Xyzzy:
             if (In_Debris_Room hasnt visited) rfalse;
             PlayerTo(In_Debris_Room);
@@ -232,9 +241,19 @@ Aboveground Inside_Building "Inside Building"
         in_to "The pipes are too small.";
 
 Scenic  -> Spring "spring"
-  with  name 'spring' 'large',
+  with  name 'du¿e' '¼ród³o' 'ujêcie',
+        name_dop 'du¿ego' '¼ród³a' 'ujêcia',
+        name_cel 'du¿emu' '¼ród³u' 'ujêciu',
+        name_bie 'du¿e' '¼ród³o' 'ujêcie',
+        name_nar 'du¿ym' '¼ród³em' 'ujêciem',
+        name_mie 'du¿ym' '¼ródle' 'ujêciu',
+        desc_dop "du¿ego ¼ród³a",
+        desc_cel "du¿emu ¼ród³u",
+        desc_bie "du¿e ¼ród³o",
+        desc_nar "du¿ym ¼ród³em",
+        desc_mie "du¿ym ¼ródle",
         description
-            "The stream flows out through a pair of 1 foot diameter sewer pipes.";
+            "Strumieñ wody wyp³ywa przez parê dwunastocalowych rur kanalizacyjnych.";
 
 Scenic  -> SewerPipes "pair of 1 foot diameter sewer pipes"
   with  name 'pipes' 'pipe' 'one' 'foot' 'diameter' 'sewer' 'sewer-pipes',
@@ -260,10 +279,20 @@ Object  -> tasty_food "tasty food"
         ],
   has   edible;
 
-Object  -> brass_lantern "brass lantern"
-  with  name 'lamp' 'headlamp' 'headlight' 'lantern' 'light' 'shiny' 'brass',
-        when_off "There is a shiny brass lamp nearby.",
-        when_on "Your lamp is here, gleaming brightly.",
+Object  -> brass_lantern "mosiê¿na lampa"
+  with  name 'lampa' 'latarnia' '¶wiat³o' 'mosiê¿na' 'b³yszcz±ca',
+        name_dop 'lampy' 'latarni' '¶wiat³a' 'mosiê¿nej' 'b³yszcz±cej',
+        name_cel 'lampie' 'latarni' '¶wiat³u' 'mosiê¿nej' 'b³yszcz±cej',
+        name_bie 'lampê' 'latarniê' '¶wiat³o' 'mosiê¿n±' 'b³yszcz±c±',
+        name_nar 'lamp±' 'latarni±' '¶wiat³em' 'mosiê¿n±' 'b³yszcz±c±',
+        name_mie 'lampie' 'latarni' '¶wietle' 'mosiê¿nym' 'b³yszcz±cym',
+        desc_dop "mosiê¿nej lampy",
+        desc_cel "mosiê¿nej lampie",
+        desc_bie "mosiê¿n± lampê",
+        desc_nar "mosiê¿n± lamp±",
+        desc_mie "mosiê¿nej lampie",
+        when_off "W pobli¿u le¿y b³yszcz±ca mosiê¿na lampa.",
+        when_on "Jest tu twoja lampa. Jej blask rozja¶nia otoczenie.",
         daemon [ t;
             if (self hasnt on) {
                 StopDaemon(self);
@@ -303,18 +332,18 @@ Object  -> brass_lantern "brass lantern"
         ],
         before [;
           Examine:
-            print "It is a shiny brass lamp";
-            if (self hasnt on) ". It is not currently lit.";
-            if (self.power_remaining < 30) ", glowing dimly.";
-            ", glowing brightly.";
+            print "B³yszcz±ca mosiê¿na lampa";
+            if (self hasnt on) ". Jest wy³±czona.";
+            if (self.power_remaining < 30) ", ¶wieci s³abo.";
+            ", ¶wieci jasnym mocnym ¶wiat³em.";
           Burn:
             <<SwitchOn self>>;
           Rub:
-            "Rubbing the electric lamp is not particularly rewarding.
-             Anyway, nothing exciting happens.";
+            "Pocieranie elektrycznej lampy nie jest szczególnie satysfakcjonuj±ce.
+             W ka¿dym razie, nic ciekawego siê nie dzieje.";
           SwitchOn:
             if (self.power_remaining <= 0)
-                "Unfortunately, the batteries seem to be dead.";
+                "Niestety, baterie wygl±daj± na zu¿yte.";
           Receive:
             if (noun == old_batteries)
                 "Those batteries are dead; they won't do any good at all.";

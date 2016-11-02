@@ -104,12 +104,17 @@ Aboveground At_End_Of_Road "Na koñcu drogi"
         in_to Inside_Building;
 
 Scenic  "studnia"
-  with  name 'studnia' 'ma³y' 'ceglany' 'budynek',
-        name_dop 'studni' 'ma³ego' 'ceglanego' 'budynku',
-        name_cel 'studni' 'ma³emu' 'ceglanemu' 'budynkowi',
-        name_bie 'studniê' 'ma³y' 'ceglany' 'budynek',
-        name_nar 'studni±' 'ma³ym' 'ceglanym' 'budynkiem',
-        name_mie 'studni' 'ma³ym' 'ceglanym' 'budynku',
+  with  name 'studnia' 'ma³y' 'ceglany' 'budynek' 'dom' 'domek',
+        name_dop 'studni' 'ma³ego' 'ceglanego' 'budynku' 'domu' 'domku',
+        name_cel 'studni' 'ma³emu' 'ceglanemu' 'budynkowi' 'domowi' 'domkowi',
+        name_bie 'studniê' 'ma³y' 'ceglany' 'budynek' 'dom' 'domek',
+        name_nar 'studni±' 'ma³ym' 'ceglanym' 'budynkiem' 'domem' 'domkiem',
+        name_mie 'studni' 'ma³ym' 'ceglanym' 'budynku' 'domu' 'domku',
+        desc_dop "studni",
+        desc_cel "studni",
+        desc_bie "studniê",
+        desc_nar "studni±",
+        desc_mie "studni",
         description "Ma³y budynek z ceg³y. Wygl±da na studniê.",
         found_in At_End_Of_Road At_Hill_In_Road Inside_Building,
         before [;
@@ -119,15 +124,14 @@ Scenic  "studnia"
             <<Teleport Inside_Building>>;
         ];
 
-Scenic  Stream "stream"
-  with  name 'strumieñ' 'woda' 'potok' 'rzeka' 'jezioro' 'small' 'tumbling'
+Scenic  Stream "strumieñ"
+  with  name 'strumieñ' 'woda' 'potok' 'rzeka' 'jezioro' 'ma³y' 'rw±cy'
              'splashing' 'babbling' 'rushing' 'reservoir',
-        name_dop 'strumienia' 'wody' 'potoku' 'rzeki' 'jeziora',
-        name_cel 'strumieniowi' 'wodzie' 'potokowi' 'rzece' 'jezioru',
-        name_bie 'strumieñ' 'wodê' 'potok' 'rzekê' 'jezioro',
-        name_nar 'strumieniem' 'wod±' 'potokiem' 'rzek±' 'jeziorem',
-        name_msc 'strumieniu' 'wodzie' 'potoku' 'rzece' 'jeziorze',
-
+        name_dop 'strumienia' 'wody' 'potoku' 'rzeki' 'jeziora' 'ma³ego' 'rw±cego',
+        name_cel 'strumieniowi' 'wodzie' 'potokowi' 'rzece' 'jezioru' 'ma³emu' 'rw±cemu',
+        name_bie 'strumieñ' 'wodê' 'potok' 'rzekê' 'jezioro' 'ma³y' 'rw±cy',
+        name_nar 'strumieniem' 'wod±' 'potokiem' 'rzek±' 'jeziorem' 'ma³±' 'rw±c±',
+        name_msc 'strumieniu' 'wodzie' 'potoku' 'rzece' 'jeziorze' 'ma³ym' 'rw±cym',
         desc_dop "strumienia",
         desc_cel "strumieniowi",
         desc_bie "strumieñ",
@@ -158,7 +162,7 @@ Scenic  Stream "stream"
             if (noun == bottle) <<Fill bottle>>;
             remove noun;
             if (noun ofclass Treasure) score = score - 5;
-            print_ret (The) noun, " washes away with the stream.";
+            print_ret "Rw±cy strumieñ porywa ", (bie) noun, " i unosi w sin± dal.";
         ];
 
 Scenic  "droga"
@@ -197,7 +201,7 @@ Aboveground At_Hill_In_Road "Droga na wzgórzu"
         name_mie 'wzgórzu' 'wzniesieniu' 'drodze',
         description
             "Wszed³e¶ na wzgórze, ale ci±gle pozostajesz w lesie.
-            Po drugiej stronie wzniesienia droga prowadzi w dó³.
+            Po drugiej stronie droga prowadzi w dó³.
             W oddali widaæ budynek.",
         e_to At_End_Of_Road,
         n_to At_End_Of_Road,
@@ -205,23 +209,47 @@ Aboveground At_Hill_In_Road "Droga na wzgórzu"
         s_to In_Forest_1;
 
 Scenic  -> "wzgórze"
-  with  name 'wzgórze' 'wzniesienie' 'hill',
+  with  name 'wzgórze' 'wzniesienie' 'pagórek',
+        name_dop 'wzgórza' 'wzniesienia' 'pagórka',
+        name_cel 'wzgórzu' 'wzniesieniu' 'pagórkowi',
+        name_bie 'wzgórze' 'wzniesienie' 'pagórek',
+        name_nar 'wzgórzem' 'wzniesieniem' 'pagórkiem',
+        name_mie 'wzgórzu' 'wzniesieniu' 'pagórku',
+        desc_dop "wzgórza",
+        desc_cel "wzgórzu",
+        desc_bie "wzgórze",
+        desc_nar "wzgórzem",
+        desc_mie "wzgórzu",
         description "Typowe wzgórze.";
 
-Scenic  -> "other side of hill"
-  with  name 'side' 'other' 'of',
-        article "the",
-        description "Why not explore it yourself?";
+Scenic  -> "druga strona"
+  with  name 'druga' 'strona',
+        name_dop 'drugiej' 'strony',
+        name_cel 'drug±' 'stron±',
+        name_bie 'drug±' 'stronê',
+        name_nar 'drug±' 'stron±',
+        name_mie 'drugiej' 'stronie',
+        desc_dop "drugiej strony",
+        desc_cel "drugiej stronie",
+        desc_bie "drug± stronê",
+        desc_nar "drug± stron±",
+        desc_mie "drugiej stronie",
+        description "Dlaczego nie pójdziesz i sam tego nie sprawdzisz?";
 
 ! ------------------------------------------------------------------------------
 
 Aboveground Inside_Building "W budynku"
-  with  name 'inside' 'building' 'well' 'house' 'wellhouse',
+  with  name 'wnêtrze' 'budynku' 'budynek' 'studnia',
+        name_dop 'wnêtrza' 'budynku' 'studni',
+        name_cel 'wnêtrzu' 'budynku' 'budynkowi' 'studni',
+        name_bie 'wnêtrze' 'budynku' 'budynek' 'studniê',
+        name_nar 'wnêtrzem' 'budynku' 'budynkiem' 'studni±',
+        name_mie 'wnêtrzu' 'budynku' 'studni',
         description
             "Znajdujesz siê w ma³ym budynku, ujêciu wody z du¿ego ¼ród³a.",
         cant_go
-            "The stream flows out through a pair of 1 foot diameter sewer pipes.
-             The only exit is to the west.",
+            "Strumieñ wody wyp³ywa przez parê dwunastocalowych rur kanalizacyjnych.
+             Jedyne wyj¶cie jest na zachodzie.",
         before [;
           Enter:
             if (noun == Spring or SewerPipes)
@@ -255,17 +283,37 @@ Scenic  -> Spring "spring"
         description
             "Strumieñ wody wyp³ywa przez parê dwunastocalowych rur kanalizacyjnych.";
 
-Scenic  -> SewerPipes "pair of 1 foot diameter sewer pipes"
-  with  name 'pipes' 'pipe' 'one' 'foot' 'diameter' 'sewer' 'sewer-pipes',
-        description "Too small. The only exit is to the west.";
+Scenic  -> SewerPipes "para dwunastocalowych rur kanalizacyjnych"
+  with  name 'para' 'dwunastocalowych' 'rur' 'kanalizacyjnych' 'rura' 'kanalizacyjna' 'rury',
+        name_dop 'pary' 'dwunastocalowych' 'rur' 'kanalizacyjnych' 'rury' 'kanalizacyjnej',
+        name_cel 'parze' 'dwunastocalowych' 'rur' 'kanalizacyjnych' 'rurze' 'kanalizacyjnej' 'rurom',
+        name_bie 'parê' 'dwunastocalowych' 'rur' 'kanalizacyjnych' 'rurê' 'kanalizacyjn±' 'rury',
+        name_nar 'par±' 'dwunastocalowych' 'rur' 'kanalizacyjnych' 'rur±' 'kanalizacyjn±' 'rurami',
+        name_mie 'parze' 'dwunastocalowych' 'rur' 'kanalizacyjnych' 'rurze' 'kanalizacyjnej' 'rurach',
+        desc_dop "pary dwunastocalowych rur kanalizacyjnych",
+        desc_cel "parze dwunastocalowych rur kanalizacyjnych",
+        desc_bie "par± dwunastocalowych rur kanalizacyjnych",
+        desc_nar "par± dwunastocalowych rur kanalizacyjnych",
+        desc_mie "parze dwunastocalowych rur kanalizacyjnych",
+        description "Za ma³a ¶rednica. Jedyne wyj¶cie jest na zachodzie.";
 
-Object  -> set_of_keys "set of keys"
-  with  name 'keys' 'key' 'keyring' 'set' 'of' 'bunch',
-        description "It's just a normal-looking set of keys.",
-        initial "There are some keys on the ground here.",
+Object  -> set_of_keys "pêk kluczy"
+  with  name 'klucze' 'klucz' 'pêk' 'kluczy',
+        name_dop 'kluczy' 'klucza' 'pêku' 'kluczy',
+        name_cel 'kluczom' 'kluczowi' 'pêkowi' 'kluczy',
+        name_bie 'klucze' 'klucz' 'pêk' 'kluczy',
+        name_nar 'kluczami' 'kluczem' 'pêkiem' 'kluczy',
+        name_mie 'kluczach' 'kluczu' 'pêku' 'kluczy',
+        desc_dop "pêku kluczy",
+        desc_cel "pêkowi kluczy",
+        desc_bie "pêk kluczy",
+        desc_nar "pêkiem kluczy",
+        desc_mie "pêku kluczy",
+        description "Najzwyklejszy w ¶wiecie pêk kluczy.",
+        initial "Na ziemi le¿y pêk kluczy.",
         before [;
           Count:
-            "A dozen or so keys.";
+            "Mniej wiêcej tuzin.";
         ];
 
 Object  -> tasty_food "tasty food"
@@ -334,7 +382,7 @@ Object  -> brass_lantern "mosiê¿na lampa"
           Examine:
             print "B³yszcz±ca mosiê¿na lampa";
             if (self hasnt on) ". Jest wy³±czona.";
-            if (self.power_remaining < 30) ", ¶wieci s³abo.";
+            if (self.power_remaining < 30) ", ¶wieci s³abym ¶wiat³em.";
             ", ¶wieci jasnym mocnym ¶wiat³em.";
           Burn:
             <<SwitchOn self>>;
@@ -343,7 +391,7 @@ Object  -> brass_lantern "mosiê¿na lampa"
              W ka¿dym razie, nic ciekawego siê nie dzieje.";
           SwitchOn:
             if (self.power_remaining <= 0)
-                "Niestety, baterie wygl±daj± na zu¿yte.";
+                "Niestety, baterie s± na zu¿yte.";
           Receive:
             if (noun == old_batteries)
                 "Those batteries are dead; they won't do any good at all.";
@@ -3993,8 +4041,8 @@ Extend 'powiedz' first
 
 [ UseSub; "You'll have to be a bit more explicit than that."; ];
 
-Verb 'count'
-    * noun                  -> Count;
+Verb 'policz' 'przelicz' 'zlicz'
+    * bierniknoun           -> Count;
 
 Verb 'kick'
     * noun                  -> Kick;

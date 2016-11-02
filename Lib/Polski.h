@@ -674,7 +674,7 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
     'kup','zakup':                            print "kupiæ";
     'nape³nij':                               print "nape³niæ";
     'napij':                                  print "siê napiæ"; ! szyk przestawny!
-    'obejrzyj','zobacz':                      print "obejrzeæ";
+    'obejrzyj','zobacz', 'ob':                print "obejrzeæ";
     'odblokuj':                               print "odblokowaæ"; ! w znaczeniu 'Unlock'
     'od³ó¿':                                  print "od³o¿yæ";
     'odpowiedz':                              print "odpowiedzieæ";
@@ -721,7 +721,7 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
     'schowaj':                                print "schowaæ";
     'si±d¼', 'usi±d¼':                        print "usi±¶æ";
     's³uchaj', 'pos³uchaj':                   print "pos³uchaæ";
-    'spójrz':                                 print "spojrzeæ";
+    'spójrz', 'sp':                           print "spojrzeæ";
       'popatrz':                              print "popatrzeæ";
     'sprawd¼':                                print "sprawdziæ";
       'skonsultuj':                           print "skonsultowaæ";
@@ -775,7 +775,7 @@ Array LanguageGNAsToArticles --> 0 0 0 1 1 1 0 0 0 1 1 1;
     'zsi±d¼':                                 print "zsi±¶æ";
 
     !   Czasowniki dodatkowe, które nie z± zdefiniowane w podstawowym zestawie
-    'policz':                                 print "policzyæ";   ! pochodzi z advent.inf
+    'policz', 'przelicz', 'zlicz':            print "policzyæ";   ! pochodzi z advent.inf
     'sfotografuj':                            print "sfotografowaæ"; ! pochodzi z ruins.inf
 
     default: rfalse;

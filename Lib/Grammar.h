@@ -386,8 +386,11 @@ Verb 'przetnij' 'krój' 'przekrój' 'tnij'
 
 
 Verb 'przyjrzyj'
-    * 'sie' celowniknoun                        			-> Examine;
+    * 'siê' celowniknoun                        			-> Examine;
 
+Verb 'rozejrzyj'
+    *                                                 -> Look
+    * 'siê'                                           -> Look;
 
 Verb 'rzuæ'
     * biernikmultiheld										-> Drop

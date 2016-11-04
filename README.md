@@ -4,10 +4,6 @@ Polska wersja biblioteki **Inform 6** przeznaczonej do tworzenia przygodowych gi
 
 Poniżej znajduje się opisana krok po kroku procedura instalacji kompilatora i biblioteki, a także kompilacji przykładowej gry.
 
-Skompilowane wersje gier demonstracyjnych można przetestować klikając w poniższe linki:
-- <a href="http://z-ski.pl/alice" target="_blank">Na drugą stronę lustra</a>
-- <a href="http://z-ski.pl/ruins" target="_blank">Ruiny</a>
-
 ####Instalacja kompilatora i biblioteki
 
 - Ściągnij kompilator w wersji 6.x ze strony http://www.inform-fiction.org/software/current.html. Są tam dostępne wersje dla różnych systemów operacyjnych, w tym Windows, OSX oraz Linux.
@@ -25,14 +21,16 @@ Skompilowane wersje gier demonstracyjnych można przetestować klikając w poni�
 
 **inform-631.exe -s +include_path=".\Lib\Base,.\Games" ".\Games\alice.inf"**
 
-- Parametr **s** powoduje wyświetlenie podsumowania po zakończeniu kompilacji. **include_path** mówi kompilatorowi gdzie powinien szukać plików biblioteki.
+- Należy pamiętać, że numer wersji kompilatora może być inny. Parametr **s** powoduje wyświetlenie podsumowania po zakończeniu kompilacji. **include_path** mówi kompilatorowi gdzie powinien szukać plików biblioteki.
 
 - Po zatwierdzeniu klawiszem ENTER, gra zostanie skompilowana oraz wyświetli się podsumowanie.
 
 ####Uruchomienie skompilowanej gry
 
-Skompilowana według powyższych wskazówek gra znajduje się w katalogu głównym *Inform*. Plik w tym konkretnym przypadku nosi nazwę: *alice.z5* i można go uruchomić za pomocą odpowiedniego tzw. *interpretera z-code*. Istnieje wiele takich programów, niestety nie każdy interpreter jest w stanie poradzić sobie z poleceniami zawierajacymi polskie znaki diakrytyczne. Na MacOS X  sprawdza się i w miarę dobrze działa <a target="_blank" href="http://www.logicalshift.co.uk/unix/zoom/">Zoom</a> Najlepszym i w pełni funkcjonalnym interpreterem dla Windows jest bez wątpienia <a target="_blank"  href="http://mirror.ifarchive.org/if-archive/infocom/interpreters/frotz/WindowsFrotzInstaller.exe">Frotz</a>.
+Skompilowana według powyższych wskazówek gra znajduje się w katalogu głównym *Inform*. Plik w tym konkretnym przypadku nosi nazwę: *alice.z5* i można go uruchomić za pomocą odpowiedniego tzw. *interpretera z-code*. 
 
-Gry napisane i skompilowane z wykorzystaniem polskiej biblioteki inform-pl świetnie działaja z napisanym w JavaScript interpreterem <a href="https://github.com/curiousdannii/parchment/" target="_blank">Parchment</a>. Przykład działania można zobaczyc <a href="http://z-ski.pl/alice" target="_blank">tutaj</a> lub <a href="http://z-ski.pl/ruins" target="_blank">tutaj</a>.
+Istnieje wiele takich programów, niestety nie każdy interpreter jest w stanie poradzić sobie z poleceniami zawierajacymi polskie znaki diakrytyczne. Problem nie występuje w systemie Windows, gdzie najlepszym i w pełni funkcjonalnym interpreterem jest <a target="_blank"  href="http://mirror.ifarchive.org/if-archive/infocom/interpreters/frotz/WindowsFrotzInstaller.exe">Frotz</a>.
 
-Istnieją tez interpretery na urządzenia mobilne, niestety nie odczytują one dobrze polskich znaków (Frotz dla iOS ma ten problem). Dlatego w takich przypadkach lepiej jest uruchamiać wersję w przeglądarce internetowej.
+Niestety gry napisane i skompilowane z wykorzystaniem polskiej biblioteki inform-pl NIE DZIAŁAJĄ z napisanym w JavaScript interpreterem <a href="https://github.com/curiousdannii/parchment/" target="_blank">Parchment</a>. Pomimo całości opartej na Unicode, Parchment nie potrafi zrozumieć polskich znaków w linii poleceń. Przyczyna błędu wciąż nie jest znana.
+
+Niestety ten sam problem dotyczy interpreterów dla systemu macOS na urządzenia mobilne. Nie odczytują one dobrze polskich znaków. Najpopularniejszy Frotz dla iOS również ma ten problem.

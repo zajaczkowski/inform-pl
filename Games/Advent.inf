@@ -176,17 +176,15 @@ Scenic  "droga"
         description "The road is dirt, not yellow brick.",
         found_in At_End_Of_Road At_Hill_In_Road In_Forest_2;
 
-Scenic  "forest"
-  with  name 'forest' 'tree' 'trees' 'oak' 'maple' 'grove' 'pine' 'spruce'
-             'birch' 'ash' 'saplings' 'bushes' 'leaves' 'berry' 'berries'
-             'hardwood',
+Scenic  "las"
+  with  name 'las' 'drzewo' 'drzewa' 'gaj' 'gaje' 'd±b' 'dêby' 'klon' 'klony' 'sosna' 'sosny' '¶wierk' '¶wierki' 'brzoza' 'brzozy' 'krzew' 'krzewy' 'jagodowe' 'jagody' 'li¶cie' 'du¿e' 'ma³e',
+        name_dop 'lasu' 'drzewa' 'drzew' 'gaju' 'gajów' 'dêbu' 'dêbów' 'klonu' 'klonów' 'sosny' 'sosen' '¶wierka' '¶wierków' 'brzozy' 'brzóz' 'krzewu' 'krzewów' 'jagodowych' 'jagód' 'li¶ci' 'du¿ych' 'ma³ych',
+        name_cel 'lasowi' 'drzewu' 'drzewom' 'gajowi' 'gajowi' 'dêbowi' 'dêbom' 'klonowi' 'klonom' 'so¶nie' 'sosnom' '¶wierkowi' '¶wierkom' 'brzozie' 'brzozom' 'krzewowi' 'krzewom' 'jagodowym' 'jagodom' 'li¶ciom' 'du¿e' 'ma³e',
+        name_bie 'las' 'drzewo' 'drzewa' 'gaj' 'gaje' 'd±b' 'dêby' 'klon' 'klony' 'sosnê' 'sosny' '¶wierk' '¶wierki' 'brzozê' 'brzozy' 'krzew' 'krzewy' 'jagodowe' 'jagody' 'li¶cie' 'du¿e' 'ma³e',
+        name_nar 'lasem' 'drzewem' 'drzewami' 'gajem' 'gajami' 'dêbem' 'dêbami' 'klonem' 'klonami' 'sosn±' 'sosnami' '¶wierkiem' '¶wierkami' 'brzoz±' 'brzozami' 'krzewem' 'krzewami' 'jagodowymi' 'jagodami' 'li¶ciami' 'du¿ymi' 'ma³ymi',
+        name_mie 'lesie' 'drzewie' 'drzewach' 'gaju' 'gajach' 'dêbie' 'dêbach' 'klonie' 'klonach' 'so¶nie' 'sosnach' '¶wierku' '¶wierkach' 'brzozie' 'brzozach' 'krzewie' 'krzewach' 'jagodowych' 'jagodach' 'li¶ciach' 'du¿ych' 'ma³ych',
         description
-            "The trees of the forest are large hardwood oak and maple,
-             with an occasional grove of pine or spruce.
-             There is quite a bit of undergrowth,
-             largely birch and ash saplings plus nondescript bushes of various sorts.
-             This time of year visibility is quite restricted by all the leaves,
-             but travel is quite easy if you detour around the spruce and berry bushes.",
+            "W lesie dominuj± du¿e dêby i klony, tu i tam uzupe³nione sosnowym lub ¶wierkowym gajem. Poszycie jest do¶æ gêste, z³o¿one g³ównie z ma³ych brzózek, jesionów oraz bli¿ej nieokre¶lonych ró¿nego rodzaju krzewów. O tej porze roku widzialno¶æ mocno ograniczaj± li¶cie, ale przemieszczanie siê jest do¶æ ³atwe, je¶li tylko bêdzie siê omijaæ ma³e ¶wierki i skupiska jagodowych krzewów.",
         found_in At_End_Of_Road At_Hill_In_Road In_A_Valley In_Forest_1 In_Forest_2,
   has   multitude;
 
@@ -474,9 +472,9 @@ Object  oil_in_the_bottle "bottled oil"
 
 ! ------------------------------------------------------------------------------
 
-Aboveground In_Forest_1 "In Forest"
-  with  name 'forest',
-        description "You are in open forest, with a deep valley to one side.",
+Aboveground In_Forest_1 "W lesie"
+  with  name 'las',
+        description "Jeste¶ w g³êbi lasu, po jednej stronie jest g³êboka dolina.",
         e_to In_A_Valley,
         d_to In_A_Valley,
         n_to In_Forest_1,
@@ -486,24 +484,30 @@ Aboveground In_Forest_1 "In Forest"
             if (random(2) == 1) PlayerTo(In_Forest_2, 1);
         ];
 
-Aboveground In_Forest_2 "In Forest"
-  with  description "You are in open forest near both a valley and a road.",
+Aboveground In_Forest_2 "W lesie"
+  with  description "Jeste¶ w g³êbi lasu w pobli¿u doliny i drogi",
         n_to At_End_Of_Road,
         e_to In_A_Valley,
         w_to In_A_Valley,
         d_to In_A_Valley,
         s_to In_Forest_1;
 
-Aboveground In_A_Valley "In A Valley"
-  with  description
-            "You are in a valley in the forest beside a stream tumbling along a rocky bed.",
+Aboveground In_A_Valley "W dolinie"
+  with  name 'dolina',
+        name_dop 'doliny',
+        name_cel 'dolin±',
+        name_bie 'dolinê',
+        name_nar 'dolin±',
+        name_mie 'dolinie',
+        description
+            "Jeste¶ w zalesionej dolinie obok wzburzonego strumienia sp³ywaj±cego po skalistym pod³o¿a.",
         n_to At_End_Of_Road,
         e_to In_Forest_1,
         w_to In_Forest_1,
         u_to In_Forest_1,
         s_to At_Slit_In_Streambed,
         d_to At_Slit_In_Streambed,
-        name 'valley';
+;
 
 Scenic  -> "streambed"
   with  name 'bed' 'streambed' 'rock' 'small' 'rocky' 'bare' 'dry';
@@ -533,7 +537,7 @@ Scenic  -> "2-inch slit"
 
 ! ------------------------------------------------------------------------------
 
-Aboveground Outside_Grate "Outside Grate"
+Aboveground Outside_Grate "Przed krat±"
   with  name 'outside' 'grate',
         description
             "You are in a 20-foot depression floored with bare dirt.
@@ -555,8 +559,14 @@ Scenic  -> "20-foot depression"
   with  name 'depression' 'dirt' 'twenty' 'foot' 'bare' '20-foot',
         description "You're standing in it.";
 
-Object  -> Grate "steel grate"
-  with  name 'grate' 'lock' 'gate' 'grille' 'metal' 'strong' 'steel' 'grating',
+Object  -> Grate "stalowa krata"
+  with  name 'krata' 'zamek' 'brama' 'grille' 'metal' 'strong' 'stalowa' 'grating',
+        name_bie 'kratê' 'zamek' 'bramê',
+        desc_dop "stalowej kraty",
+        desc_cel "stalowej kracie",
+        desc_bie "stalow± kratê",
+        desc_nar "stalow± krat±",
+        desc_mie "stalowej kracie",
         description "It just looks like an ordinary grate mounted in concrete.",
         with_key set_of_keys,
         door_dir [;
@@ -568,12 +578,12 @@ Object  -> Grate "steel grate"
             return Below_The_Grate;
         ],
         describe [;
-            if (self has open) "^The grate stands open.";
-            if (self hasnt locked) "^The grate is unlocked but shut.";
+            if (self has open) "^Krata jest otwarta.";
+            if (self hasnt locked) "^Zamek w kracie jest otwarty, ale krata jest zamkniêta.";
             rtrue;
         ],
         found_in Below_The_Grate Outside_Grate,
-  has   static door openable lockable locked;
+  has   static door openable lockable locked female;
 
 ! ------------------------------------------------------------------------------
 !   Facilis descensus Averno...

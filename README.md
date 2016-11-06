@@ -6,7 +6,7 @@ Poniżej znajduje się opisana krok po kroku procedura instalacji kompilatora i 
 
 ####Instalacja kompilatora i biblioteki
 
-- Ściągnij kompilator w wersji 6.x ze strony http://www.inform-fiction.org/software/current.html. Są tam dostępne wersje dla różnych systemów operacyjnych, w tym Windows, OSX oraz Linux.
+- Ściągnij kompilator w wersji 6.x ze strony http://ifarchive.giga.or.at/indexes/if-archiveXinfocomXcompilersXinform6Xexecutables.html. Są tam dostępne wersje dla różnych systemów operacyjnych, w tym Windows, OSX oraz Linux.
 
 - W wybranym miejscu na dysku załóż katalog *Inform*, który posłuży jako bazowy, a następnie utwórz w nim podkatalogi na źródła oraz bibliotekę, tj. *Games* oraz *Lib*.
 

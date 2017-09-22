@@ -1,10 +1,10 @@
-#inform-pl
+# inform-pl
 
 Polska wersja biblioteki **Inform 6** przeznaczonej do tworzenia przygodowych gier tekstowych nazywanych również **interactive fiction**. Jest to rodzaj programów komputerowych, w których użytkownik posługuje się tekstem do komunikacji z programem i do wydawania poleceń fikcyjnej postaci, usytuowanej w wirtualnym świecie gry.
 
 Poniżej znajduje się opisana krok po kroku procedura instalacji kompilatora i biblioteki, a także kompilacji przykładowej gry.
 
-####Instalacja kompilatora i biblioteki
+#### Instalacja kompilatora i biblioteki
 
 - Ściągnij kompilator w wersji 6.x ze strony http://ifarchive.giga.or.at/indexes/if-archiveXinfocomXcompilersXinform6Xexecutables.html. Są tam dostępne wersje dla różnych systemów operacyjnych, w tym Windows, OSX oraz Linux.
 
@@ -14,7 +14,7 @@ Poniżej znajduje się opisana krok po kroku procedura instalacji kompilatora i 
 
 - Ściągnij najnowszą wersję biblioteki inform-PL, a następnie umieść pliki biblioteki w katalogu *Lib* oraz źródła gier w katalogu *Games*.
 
-####Kompilacja przykładowej gry
+#### Kompilacja przykładowej gry
 
 - Przykład będzie dotyczyć kompilacji gry, której plik źródłowy znajduje się w katalogu *Games*. Tutaj konkretnie będzie to *alice.inf*.
 - Uruchom wiersz polecenia i przejdź do katalogu głównego *Inform*, a następnie wpisz następujące polecenie:
@@ -27,7 +27,7 @@ macOS: **./inform633_macosx -s +include_path="./Lib" "./Games/alice.inf"**
 
 - Po zatwierdzeniu klawiszem ENTER, gra zostanie skompilowana oraz wyświetli się podsumowanie.
 
-####Uruchomienie skompilowanej gry
+#### Uruchomienie skompilowanej gry
 
 Skompilowana według powyższych wskazówek gra znajduje się w katalogu głównym *Inform*. Plik w tym konkretnym przypadku nosi nazwę: *alice.z5* i można go uruchomić za pomocą odpowiedniego tzw. *interpretera z-code*. 
 
@@ -35,4 +35,4 @@ Istnieje wiele takich programów, niestety nie każdy interpreter jest w stanie 
 
 Niestety gry napisane i skompilowane z wykorzystaniem polskiej biblioteki inform-pl NIE DZIAŁAJĄ z napisanym w JavaScript interpreterem <a href="https://github.com/curiousdannii/parchment/" target="_blank">Parchment</a>. Pomimo całości opartej na Unicode, Parchment nie potrafi zrozumieć polskich znaków w linii poleceń. Przyczyna błędu wciąż nie jest znana.
 
-Niestety ten sam problem dotyczy interpreterów dla systemu macOS na urządzenia mobilne. Nie odczytują one dobrze polskich znaków. Najpopularniejszy Frotz dla iOS również ma ten problem.
+Niestety ten sam problem dotyczy interpreterów dla systemu macOS na iOS. Z przyczyn nieznanych nie odczytują one dobrze polskich znaków. Najpopularniejszy Frotz dla iOS również ma ten problem.

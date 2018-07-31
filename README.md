@@ -29,10 +29,4 @@ macOS: **./inform633_macosx -s +include_path="./Lib" "./Games/alice.inf"**
 
 #### Uruchomienie skompilowanej gry
 
-Skompilowana według powyższych wskazówek gra znajduje się w katalogu głównym *Inform*. Plik w tym konkretnym przypadku nosi nazwę: *alice.z5* i można go uruchomić za pomocą odpowiedniego tzw. *interpretera z-code*. 
-
-Istnieje wiele takich programów, niestety nie każdy interpreter jest w stanie poradzić sobie z poleceniami zawierajacymi polskie znaki diakrytyczne. Problem nie występuje w systemie Windows, gdzie najlepszym i w pełni funkcjonalnym interpreterem jest <a target="_blank"  href="http://mirror.ifarchive.org/if-archive/infocom/interpreters/frotz/WindowsFrotzInstaller.exe">Frotz</a>.
-
-Niestety gry napisane i skompilowane z wykorzystaniem polskiej biblioteki inform-pl NIE DZIAŁAJĄ z napisanym w JavaScript interpreterem <a href="https://github.com/curiousdannii/parchment/" target="_blank">Parchment</a>. Pomimo całości opartej na Unicode, Parchment nie potrafi zrozumieć polskich znaków w linii poleceń. Przyczyna błędu wciąż nie jest znana.
-
-Niestety ten sam problem dotyczy interpreterów dla systemu macOS na iOS. Z przyczyn nieznanych nie odczytują one dobrze polskich znaków. Najpopularniejszy Frotz dla iOS również ma ten problem.
+Skompilowana według powyższych wskazówek gra znajduje się w katalogu głównym *Inform*. Plik w tym konkretnym przypadku nosi nazwę: *alice.z5* i można go uruchomić za pomocą odpowiedniego tzw. *interpretera z-code*, np. https://github.com/erkyrath/lectrote
